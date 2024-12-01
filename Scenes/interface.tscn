@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtsk4v2gl60gd"]
+
+[ext_resource type="FontFile" uid="uid://cyx8r4cwg0ge7" path="res://Roboto-Black.ttf" id="1_r8rsk"]
+
+[node name="Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DrawPile" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="DrawPile"]
+offset_left = 21.0
+offset_top = 482.0
+offset_right = 173.0
+offset_bottom = 628.0
+color = Color(0.349667, 0.591099, 0.655044, 1)
+
+[node name="Label" type="Label" parent="DrawPile"]
+offset_left = 80.0
+offset_top = 511.0
+offset_right = 136.0
+offset_bottom = 577.0
+theme_override_fonts/font = ExtResource("1_r8rsk")
+theme_override_font_sizes/font_size = 55
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hand" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Hand"]
+offset_left = 284.0
+offset_top = 477.0
+offset_right = 911.0
+offset_bottom = 623.0
+color = Color(0.339209, 0.623019, 0.40721, 1)
+
+[node name="Label" type="Label" parent="Hand"]
+offset_left = 567.0
+offset_top = 517.0
+offset_right = 623.0
+offset_bottom = 583.0
+theme_override_fonts/font = ExtResource("1_r8rsk")
+theme_override_font_sizes/font_size = 55
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiscardPile" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="DiscardPile"]
+offset_left = 975.0
+offset_top = 488.0
+offset_right = 1122.0
+offset_bottom = 634.0
+color = Color(0.716376, 0.174925, 0.240701, 1)
+
+[node name="Label" type="Label" parent="DiscardPile"]
+offset_left = 1026.0
+offset_top = 531.0
+offset_right = 1082.0
+offset_bottom = 597.0
+theme_override_fonts/font = ExtResource("1_r8rsk")
+theme_override_font_sizes/font_size = 55
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
