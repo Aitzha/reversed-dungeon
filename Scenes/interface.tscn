@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=5 format=3 uid="uid://dtsk4v2gl60gd"]
 
 [ext_resource type="FontFile" uid="uid://cyx8r4cwg0ge7" path="res://Roboto-Black.ttf" id="1_r8rsk"]
+[ext_resource type="Script" path="res://Scripts/Hand.cs" id="2_gh42b"]
+[ext_resource type="PackedScene" uid="uid://bv5m7wuguu7vs" path="res://Scenes/Card.tscn" id="3_gpxr0"]
 
 [sub_resource type="CSharpScript" id="CSharpScript_2ll1s"]
 script/source = "using Godot;
@@ -60,7 +62,10 @@ text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Hand" type="Node" parent="."]
+[node name="Hand" type="Node2D" parent="."]
+position = Vector2(572, 574)
+script = ExtResource("2_gh42b")
+cardScene = ExtResource("3_gpxr0")
 
 [node name="DiscardPile" type="Node" parent="."]
 
