@@ -1,14 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=3 format=3 uid="uid://dtsk4v2gl60gd"]
 
 [ext_resource type="FontFile" uid="uid://cyx8r4cwg0ge7" path="res://Roboto-Black.ttf" id="1_r8rsk"]
 
-[node name="Interface" type="Control"]
+[sub_resource type="CSharpScript" id="CSharpScript_2ll1s"]
+script/source = "using Godot;
+using System;
+
+public partial class Interface : Control
+{
+	[Export] private Label drawPileLabel;
+	[Export] private Label handLabel;
+	[Export] private Label discardPileLabel;
+
+	[Export] private Timer timer;
+	public override void _Ready()
+	{
+		drawPileLabel.Text = \"30\";
+		handLabel.Text = \"0\";
+		discardPileLabel.Text = \"0\";
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+
+	}
+}
+"
+
+[node name="Interface" type="Control" node_paths=PackedStringArray("drawPileLabel", "handLabel", "discardPileLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = SubResource("CSharpScript_2ll1s")
+drawPileLabel = NodePath("DrawPile/Label")
+handLabel = NodePath("")
+discardPileLabel = NodePath("DiscardPile/Label")
 
 [node name="DrawPile" type="Node" parent="."]
 
@@ -31,24 +61,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Hand" type="Node" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="Hand"]
-offset_left = 284.0
-offset_top = 477.0
-offset_right = 911.0
-offset_bottom = 623.0
-color = Color(0.339209, 0.623019, 0.40721, 1)
-
-[node name="Label" type="Label" parent="Hand"]
-offset_left = 567.0
-offset_top = 517.0
-offset_right = 623.0
-offset_bottom = 583.0
-theme_override_fonts/font = ExtResource("1_r8rsk")
-theme_override_font_sizes/font_size = 55
-text = "5"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="DiscardPile" type="Node" parent="."]
 
