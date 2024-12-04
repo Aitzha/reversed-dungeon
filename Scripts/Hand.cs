@@ -2,7 +2,7 @@ using Godot;
 
 namespace DeckbuilderPrototype.Scripts;
 
-public partial class Hand : Node2D
+public partial class Hand : Control
 {
 	[Export] private PackedScene cardScene;
 	
@@ -13,10 +13,11 @@ public partial class Hand : Node2D
 		Position = new Vector2(viewportSize.X / 2, viewportSize.Y * 0.9f);
 		
 		// Create 6 cards and place them in the hand
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 		{
-			StaticBody2D cardInstance = (StaticBody2D)cardScene.Instantiate();
-			cardInstance.Position = new Vector2(150 + i * 120, Position.Y); // Set the initial position
+			Card cardInstance = (Card)cardScene.Instantiate();
+			cardInstance.Position = new Vector2(50 + i * 400, Position.Y); // Set the initial position
+			cardInstance.index = i + 1;
 			AddChild(cardInstance);
 		}
 

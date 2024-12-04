@@ -1,46 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=4 format=3 uid="uid://dtsk4v2gl60gd"]
 
 [ext_resource type="FontFile" uid="uid://cyx8r4cwg0ge7" path="res://Roboto-Black.ttf" id="1_r8rsk"]
 [ext_resource type="Script" path="res://Scripts/Hand.cs" id="2_gh42b"]
 [ext_resource type="PackedScene" uid="uid://bv5m7wuguu7vs" path="res://Scenes/Card.tscn" id="3_gpxr0"]
 
-[sub_resource type="CSharpScript" id="CSharpScript_2ll1s"]
-script/source = "using Godot;
-using System;
-
-public partial class Interface : Control
-{
-	[Export] private Label drawPileLabel;
-	[Export] private Label handLabel;
-	[Export] private Label discardPileLabel;
-
-	[Export] private Timer timer;
-	public override void _Ready()
-	{
-		drawPileLabel.Text = \"30\";
-		handLabel.Text = \"0\";
-		discardPileLabel.Text = \"0\";
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-
-	}
-}
-"
-
-[node name="Interface" type="Control" node_paths=PackedStringArray("drawPileLabel", "handLabel", "discardPileLabel")]
+[node name="Interface" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("CSharpScript_2ll1s")
-drawPileLabel = NodePath("DrawPile/Label")
-handLabel = NodePath("")
-discardPileLabel = NodePath("DiscardPile/Label")
 
 [node name="DrawPile" type="Node" parent="."]
 
@@ -62,8 +32,8 @@ text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Hand" type="Node2D" parent="."]
-position = Vector2(572, 574)
+[node name="Hand" type="Control" parent="."]
+anchors_preset = 0
 script = ExtResource("2_gh42b")
 cardScene = ExtResource("3_gpxr0")
 
