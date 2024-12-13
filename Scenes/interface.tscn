@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=5 format=3 uid="uid://dtsk4v2gl60gd"]
 
 [ext_resource type="FontFile" uid="uid://cyx8r4cwg0ge7" path="res://Roboto-Black.ttf" id="1_r8rsk"]
+[ext_resource type="Script" path="res://Scenes/Interface.cs" id="1_taux4"]
 [ext_resource type="Script" path="res://Scripts/Hand.cs" id="2_gh42b"]
 [ext_resource type="PackedScene" uid="uid://bv5m7wuguu7vs" path="res://Scenes/Card.tscn" id="3_gpxr0"]
 
-[node name="Interface" type="Control"]
+[node name="Interface" type="Control" node_paths=PackedStringArray("_drawLabel", "_discardLabel", "_handControl")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +13,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_taux4")
+_drawLabel = NodePath("DrawPile/Label")
+_discardLabel = NodePath("DiscardPile/Label")
+_cardScene = ExtResource("3_gpxr0")
+_handControl = NodePath("Hand")
 
 [node name="DrawPile" type="Node" parent="."]
 
