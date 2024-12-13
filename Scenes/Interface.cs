@@ -59,6 +59,9 @@ public partial class Interface : Control
 			cardInstance.Position = new Vector2(50 + i * 400, _handControl.Position.Y); // Set the initial position
 			cardInstance.Index = i + 1;
 			_handControl.AddChild(cardInstance);
+			
+			// Add function to the signal
+			cardInstance.CardConsumed += ConsumeCard;
 		}
 	}
 
@@ -66,5 +69,18 @@ public partial class Interface : Control
 	{
 		_drawLabel.Text = _cardsOnDrawPile.ToString();
 		_discardLabel.Text = _cardsOnDiscardPile.ToString();
+	}
+
+	private void ConsumeCard(int index, Card cardInstance)
+	{
+		_cardsOnHand--;
+		_cardsOnDiscardPile++;
+		
+		_handControl.RemoveChild(cardInstance);
+		cardInstance.CardConsumed -= ConsumeCard;
+		cardInstance.QueueFree();
+		
+		UpdateLabels();
+		GD.Print($"Card Removed by Index: {index}");
 	}
 }

@@ -8,7 +8,8 @@ public partial class Card : Area2D
 	private bool _isBeingDragged;
 	public int Index = 0;
 	
-	// Called when the node enters the scene tree for the first time.
+	[Signal] public delegate void CardConsumedEventHandler(int index, Card card);
+	
 	public override void _Ready()
 	{
 		_isBeingDragged = false;
@@ -32,6 +33,9 @@ public partial class Card : Area2D
 				if (_isBeingDragged)
 				{
 					_isBeingDragged = false;
+					float distance = (GlobalPosition - _originalGlobalPos).Length();
+					if (distance > 300.0f)
+						EmitSignal(SignalName.CardConsumed, Index, this);
 					GlobalPosition = _originalGlobalPos;
 					GD.Print("Mouse Released - Stop Dragging");
 				}
@@ -41,9 +45,7 @@ public partial class Card : Area2D
 		// Detect mouse motion
 		if (_isBeingDragged && inputEvent is InputEventMouseMotion mouseMotionEvent)
 		{
-			GD.Print($"Dragging... {mouseMotionEvent.Position}");
-			// You can move the card here if needed
-			GlobalPosition = mouseMotionEvent.GlobalPosition; // Example to make the card follow the mouse
+			GlobalPosition = mouseMotionEvent.GlobalPosition;
 		}
 	}
 }
