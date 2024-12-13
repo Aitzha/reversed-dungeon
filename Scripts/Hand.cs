@@ -17,7 +17,7 @@ public partial class Hand : Control
 		{
 			Card cardInstance = (Card)cardScene.Instantiate();
 			cardInstance.Position = new Vector2(50 + i * 400, Position.Y); // Set the initial position
-			cardInstance.index = i + 1;
+			cardInstance.Index = i + 1;
 			AddChild(cardInstance);
 		}
 

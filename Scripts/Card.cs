@@ -1,72 +1,49 @@
-using System;
 using Godot;
 
 namespace DeckbuilderPrototype.Scripts;
 
 public partial class Card : Area2D
 {
-	private Vector2 originalPosition;
-	private Vector2 originalLPosition;
-	private bool isBeingDragged = false;
-	public int index = 0;
-	
-	[Export] private CollisionShape2D collisionShape2D;
-	private Rect2 areaRect;
-	private bool mouseOver = false;
+	private Vector2 _originalGlobalPos;
+	private bool _isBeingDragged;
+	public int Index = 0;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		originalPosition = GlobalPosition;
-		originalLPosition = Position;
-		areaRect = collisionShape2D.GetShape().GetRect();
-		areaRect.Position += GlobalPosition;
+		_isBeingDragged = false;
+		_originalGlobalPos = GlobalPosition;
+		InputEvent += OnCardClicked;
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	
+	private void OnCardClicked(Node viewport, InputEvent inputEvent, long shapeIdx)
 	{
-		if (isBeingDragged)
+		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.ButtonIndex == MouseButton.Left)
 		{
-			// While dragging, update the position to the mouse position
-			Position = GetGlobalMousePosition() - originalLPosition;
-		}
-	}
-
-	public override void _Input(InputEvent @event)
-	{
-		if (@event is InputEventMouseMotion mouseMotionEvent)
-		{
-			if (areaRect.HasPoint(mouseMotionEvent.Position))
+			if (mouseEvent.Pressed)
 			{
-				mouseOver = true;
-				GD.Print("Mouse over: " + index);
+				// Start dragging
+				_isBeingDragged = true;
+				GD.Print("Mouse Pressed - Start Dragging");
 			}
 			else
 			{
-				mouseOver = false;
+				// End dragging
+				if (_isBeingDragged)
+				{
+					_isBeingDragged = false;
+					GlobalPosition = _originalGlobalPos;
+					GD.Print("Mouse Released - Stop Dragging");
+				}
 			}
 		}
 		
-		// Check if mouse was pressed
-		if (@event is InputEventMouseButton mouseButtonEvent)
+		// Detect mouse motion
+		if (_isBeingDragged && inputEvent is InputEventMouseMotion mouseMotionEvent)
 		{
-			if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
-			{
-				if (mouseButtonEvent.Pressed && mouseOver)
-				{
-					// Start dragging when the left mouse button is pressed
-					isBeingDragged = true;
-					GD.Print("Dragging: " + index);
-				}
-				else
-				{
-					// Stop dragging and reset the card's position
-					isBeingDragged = false;
-					GlobalPosition = originalPosition; // Return to original position
-				}
-			}
+			GD.Print($"Dragging... {mouseMotionEvent.Position}");
+			// You can move the card here if needed
+			GlobalPosition = mouseMotionEvent.GlobalPosition; // Example to make the card follow the mouse
 		}
-		
 	}
 }
