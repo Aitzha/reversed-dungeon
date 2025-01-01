@@ -45,7 +45,7 @@ public partial class Interface : Control
 		foreach (Node child in _handControl.GetChildren())
 		{
 			// Check if the child is the instance of the card type
-			if (child is Card card)
+			if (child is CardInteraction card)
 			{
 				_handControl.RemoveChild(card);
 				child.QueueFree();
@@ -55,13 +55,13 @@ public partial class Interface : Control
 		// Create card and add them to the hand
 		for (int i = 0; i < _cardsOnHand; i++)
 		{
-			Card cardInstance = (Card)_cardScene.Instantiate();
-			cardInstance.Position = new Vector2(50 + i * 400, _handControl.Position.Y); // Set the initial position
-			cardInstance.Index = i + 1;
-			_handControl.AddChild(cardInstance);
+			CardInteraction cardInteractionInstance = (CardInteraction)_cardScene.Instantiate();
+			cardInteractionInstance.Position = new Vector2(50 + i * 400, _handControl.Position.Y); // Set the initial position
+			cardInteractionInstance.Index = i + 1;
+			_handControl.AddChild(cardInteractionInstance);
 			
 			// Add function to the signal
-			cardInstance.CardConsumed += ConsumeCard;
+			cardInteractionInstance.CardConsumed += ConsumeCard;
 		}
 	}
 
@@ -71,14 +71,14 @@ public partial class Interface : Control
 		_discardLabel.Text = _cardsOnDiscardPile.ToString();
 	}
 
-	private void ConsumeCard(int index, Card cardInstance)
+	private void ConsumeCard(int index, CardInteraction cardInteractionInstance)
 	{
 		_cardsOnHand--;
 		_cardsOnDiscardPile++;
 		
-		_handControl.RemoveChild(cardInstance);
-		cardInstance.CardConsumed -= ConsumeCard;
-		cardInstance.QueueFree();
+		_handControl.RemoveChild(cardInteractionInstance);
+		cardInteractionInstance.CardConsumed -= ConsumeCard;
+		cardInteractionInstance.QueueFree();
 		
 		UpdateLabels();
 		GD.Print($"Card Removed by Index: {index}");

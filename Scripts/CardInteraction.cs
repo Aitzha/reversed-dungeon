@@ -2,13 +2,13 @@ using Godot;
 
 namespace DeckbuilderPrototype.Scripts;
 
-public partial class Card : Area2D
+public partial class CardInteraction : Area2D
 {
 	private Vector2 _originalGlobalPos;
 	private bool _isBeingDragged;
 	public int Index = 0;
 	
-	[Signal] public delegate void CardConsumedEventHandler(int index, Card card);
+	[Signal] public delegate void CardConsumedEventHandler(int index, CardInteraction cardInteraction);
 	
 	public override void _Ready()
 	{
