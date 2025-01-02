@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuxibti83soum"
-path="res://.godot/imported/Basex4.png-787414a7b87b07a84cd8d4ffa5d2940c.ctex"
+uid="uid://cja5wjs1ev652"
+path="res://.godot/imported/AttackImage.png-acc0f6b13143b998eace814407319de1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Card Images/Basex4.png"
-dest_files=["res://.godot/imported/Basex4.png-787414a7b87b07a84cd8d4ffa5d2940c.ctex"]
+source_file="res://Sprites/Cards/AttackImage.png"
+dest_files=["res://.godot/imported/AttackImage.png-acc0f6b13143b998eace814407319de1.ctex"]
 
 [params]
 

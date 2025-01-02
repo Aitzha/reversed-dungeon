@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cyx8r4cwg0ge7"
-path="res://.godot/imported/Roboto-Black.ttf-541eabd3e9d800c1669fad7cf4f796fe.fontdata"
+uid="uid://16nxytcclxhr"
+path="res://.godot/imported/PressStart2P-Regular.ttf-fb4d69e3cdc7ab7e2197e3cff0cf50e8.fontdata"
 
 [deps]
 
-source_file="res://Roboto-Black.ttf"
-dest_files=["res://.godot/imported/Roboto-Black.ttf-541eabd3e9d800c1669fad7cf4f796fe.fontdata"]
+source_file="res://Fonts/PressStart2P-Regular.ttf"
+dest_files=["res://.godot/imported/PressStart2P-Regular.ttf-fb4d69e3cdc7ab7e2197e3cff0cf50e8.fontdata"]
 
 [params]
 

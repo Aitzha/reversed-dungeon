@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dtsk4v2gl60gd"]
 
-[ext_resource type="FontFile" uid="uid://cyx8r4cwg0ge7" path="res://Roboto-Black.ttf" id="1_r8rsk"]
 [ext_resource type="Script" path="res://Scripts/Interface.cs" id="1_taux4"]
 [ext_resource type="Script" path="res://Scripts/Hand.cs" id="2_gh42b"]
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="3_7kd56"]
 [ext_resource type="PackedScene" uid="uid://bv5m7wuguu7vs" path="res://Scenes/Card.tscn" id="3_gpxr0"]
 
 [node name="Interface" type="Control" node_paths=PackedStringArray("_drawLabel", "_discardLabel", "_handControl")]
@@ -14,27 +14,27 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_taux4")
-_drawLabel = NodePath("DrawPile/Label")
-_discardLabel = NodePath("DiscardPile/Label")
+_drawLabel = NodePath("DrawPile/DrawPileCount")
+_discardLabel = NodePath("DiscardPile/DiscardPileCount")
 _cardScene = ExtResource("3_gpxr0")
 _handControl = NodePath("Hand")
 
 [node name="DrawPile" type="Node" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="DrawPile"]
-offset_left = 21.0
-offset_top = 482.0
-offset_right = 173.0
-offset_bottom = 628.0
+offset_left = 10.0
+offset_top = 300.0
+offset_right = 60.0
+offset_bottom = 350.0
 color = Color(0.349667, 0.591099, 0.655044, 1)
 
-[node name="Label" type="Label" parent="DrawPile"]
-offset_left = 80.0
-offset_top = 511.0
-offset_right = 136.0
-offset_bottom = 577.0
-theme_override_fonts/font = ExtResource("1_r8rsk")
-theme_override_font_sizes/font_size = 55
+[node name="DrawPileCount" type="Label" parent="DrawPile"]
+offset_left = 10.0
+offset_top = 300.0
+offset_right = 60.0
+offset_bottom = 350.0
+theme_override_fonts/font = ExtResource("3_7kd56")
+theme_override_font_sizes/font_size = 32
 text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -47,19 +47,19 @@ script = ExtResource("2_gh42b")
 [node name="DiscardPile" type="Node" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="DiscardPile"]
-offset_left = 975.0
-offset_top = 488.0
-offset_right = 1122.0
-offset_bottom = 634.0
+offset_left = 580.0
+offset_top = 300.0
+offset_right = 630.0
+offset_bottom = 350.0
 color = Color(0.716376, 0.174925, 0.240701, 1)
 
-[node name="Label" type="Label" parent="DiscardPile"]
-offset_left = 1026.0
-offset_top = 531.0
-offset_right = 1082.0
-offset_bottom = 597.0
-theme_override_fonts/font = ExtResource("1_r8rsk")
-theme_override_font_sizes/font_size = 55
+[node name="DiscardPileCount" type="Label" parent="DiscardPile"]
+offset_left = 580.0
+offset_top = 300.0
+offset_right = 630.0
+offset_bottom = 350.0
+theme_override_fonts/font = ExtResource("3_7kd56")
+theme_override_font_sizes/font_size = 32
 text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bojskrvl7l4k0"]
+
+[ext_resource type="Texture2D" uid="uid://cctsb0sfcn6y2" path="res://Sprites/Background/25.png" id="1_6yuii"]
+[ext_resource type="Texture2D" uid="uid://cnec2fedqvr2b" path="res://Sprites/Characters/49.png" id="2_udvnu"]
+[ext_resource type="PackedScene" uid="uid://dtsk4v2gl60gd" path="res://Scenes/interface.tscn" id="3_d76qx"]
+[ext_resource type="Texture2D" uid="uid://dh362rtivr8uv" path="res://Sprites/Characters/96.png" id="4_yojoy"]
+[ext_resource type="Texture2D" uid="uid://dxtao6xy2ble7" path="res://Sprites/Characters/95.png" id="5_43nil"]
+
+[node name="Battle" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(319, 142)
+texture = ExtResource("1_6yuii")
+
+[node name="Player" type="Sprite2D" parent="."]
+position = Vector2(87, 138)
+scale = Vector2(2, 2)
+texture = ExtResource("2_udvnu")
+
+[node name="Interface" parent="." instance=ExtResource("3_d76qx")]
+
+[node name="Enemy#1" type="Sprite2D" parent="."]
+position = Vector2(528, 188)
+scale = Vector2(2, 2)
+texture = ExtResource("4_yojoy")
+
+[node name="Enemy#2" type="Sprite2D" parent="."]
+position = Vector2(407, 77)
+scale = Vector2(2, 2)
+texture = ExtResource("5_43nil")

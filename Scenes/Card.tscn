@@ -1,35 +1,35 @@
 [gd_scene load_steps=7 format=3 uid="uid://bv5m7wuguu7vs"]
 
-[ext_resource type="Texture2D" uid="uid://u4p38w4serol" path="res://Card Images/Attackx5.png" id="1_ap0wb"]
 [ext_resource type="Script" path="res://Scripts/CardInteraction.cs" id="1_xlpfj"]
-[ext_resource type="Texture2D" uid="uid://cy4vwb0el610u" path="res://Card Images/Basex5.png" id="2_wr3jp"]
-[ext_resource type="Texture2D" uid="uid://csrccbuvsskyd" path="res://Card Images/Costx5.png" id="3_qorch"]
-[ext_resource type="FontFile" uid="uid://cyx8r4cwg0ge7" path="res://Roboto-Black.ttf" id="4_6mg02"]
+[ext_resource type="Texture2D" uid="uid://cja5wjs1ev652" path="res://Sprites/Cards/AttackImage.png" id="2_t6svk"]
+[ext_resource type="Texture2D" uid="uid://cpg2c8fv2xsnu" path="res://Sprites/Cards/CardBase.png" id="3_ykvio"]
+[ext_resource type="Texture2D" uid="uid://dud1m352m8cwf" path="res://Sprites/Cards/CostArea.png" id="4_rw6yr"]
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="5_dx3wh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1s7i"]
-size = Vector2(310, 404)
+size = Vector2(97, 145)
 
 [node name="Card" type="Area2D"]
 script = ExtResource("1_xlpfj")
 
 [node name="Image" type="Sprite2D" parent="."]
-position = Vector2(0, -85)
-texture = ExtResource("1_ap0wb")
+position = Vector2(0, -40)
+texture = ExtResource("2_t6svk")
 
 [node name="Base" type="Sprite2D" parent="."]
-texture = ExtResource("2_wr3jp")
+texture = ExtResource("3_ykvio")
 
 [node name="CostArea" type="Sprite2D" parent="."]
-position = Vector2(140, -187.5)
-texture = ExtResource("3_qorch")
+position = Vector2(-40, -64)
+texture = ExtResource("4_rw6yr")
 
 [node name="Name" type="Label" parent="."]
-offset_left = -135.0
-offset_top = 7.0
-offset_right = 135.0
-offset_bottom = 43.0
-theme_override_fonts/font = ExtResource("4_6mg02")
-theme_override_font_sizes/font_size = 30
+offset_left = -46.0
+offset_top = -12.0
+offset_right = 50.0
+offset_bottom = 4.0
+theme_override_fonts/font = ExtResource("5_dx3wh")
+theme_override_font_sizes/font_size = 8
 text = "Attack"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -37,25 +37,24 @@ vertical_alignment = 1
 [node name="Description" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
 self_modulate = Color(0.898281, 0.880562, 0.875412, 1)
-offset_left = -129.0
-offset_top = 45.0
-offset_right = 135.0
-offset_bottom = 170.0
-theme_override_fonts/font = ExtResource("4_6mg02")
-theme_override_font_sizes/font_size = 20
+offset_left = -44.0
+offset_top = 31.0
+offset_right = 44.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("5_dx3wh")
+theme_override_font_sizes/font_size = 8
 text = "Description"
 horizontal_alignment = 1
 
 [node name="Cost" type="Label" parent="."]
-offset_left = 120.0
-offset_top = -211.5
-offset_right = 160.0
-offset_bottom = -163.5
-theme_override_fonts/font = ExtResource("4_6mg02")
-theme_override_font_sizes/font_size = 40
-text = "5"
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_left = -48.0
+offset_top = -72.0
+offset_right = -32.0
+offset_bottom = -56.0
+theme_override_fonts/font = ExtResource("5_dx3wh")
+theme_override_font_sizes/font_size = 16
+text = "1"
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_p1s7i")
