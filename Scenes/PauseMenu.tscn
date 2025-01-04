@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://2bu28qo0sms1"]
+
+[ext_resource type="FontFile" uid="uid://cnjlk0v462xys" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="1_cpnjs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lj3it"]
+bg_color = Color(0.397442, 0.646412, 0.692578, 1)
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 30.0
+offset_right = 430.0
+offset_bottom = 330.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lj3it")
+
+[node name="Resolutions" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 225.0
+offset_top = 125.0
+offset_right = 415.0
+offset_bottom = 175.0
+theme_override_fonts/font = ExtResource("1_cpnjs")
+theme_override_font_sizes/font_size = 32
+selected = 0
+item_count = 3
+popup/item_0/text = "640x360"
+popup/item_1/text = "1280x720"
+popup/item_1/id = 1
+popup/item_2/text = "1920x1080"
+popup/item_2/id = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 225.0
+offset_top = 50.0
+offset_right = 415.0
+offset_bottom = 100.0
+theme_override_fonts/font = ExtResource("1_cpnjs")
+theme_override_font_sizes/font_size = 32
+text = "Resume"
