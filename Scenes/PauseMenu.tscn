@@ -1,17 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://2bu28qo0sms1"]
+[gd_scene load_steps=4 format=3 uid="uid://2bu28qo0sms1"]
 
 [ext_resource type="FontFile" uid="uid://cnjlk0v462xys" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="1_cpnjs"]
+[ext_resource type="Script" path="res://Scripts/PauseMenuScript.cs" id="1_lo4et"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lj3it"]
 bg_color = Color(0.397442, 0.646412, 0.692578, 1)
 
-[node name="PauseMenu" type="Control"]
+[node name="PauseMenu" type="Control" node_paths=PackedStringArray("ResumeButton")]
+process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_lo4et")
+ResumeButton = NodePath("Resume")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 0
@@ -37,7 +41,7 @@ popup/item_1/id = 1
 popup/item_2/text = "1920x1080"
 popup/item_2/id = 2
 
-[node name="Button" type="Button" parent="."]
+[node name="Resume" type="Button" parent="."]
 layout_mode = 0
 offset_left = 225.0
 offset_top = 50.0
