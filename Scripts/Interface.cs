@@ -1,7 +1,4 @@
-using DeckbuilderPrototype.Scripts;
 using Godot;
-
-namespace DeckbuilderPrototype.Scenes;
 
 public partial class Interface : Control
 {

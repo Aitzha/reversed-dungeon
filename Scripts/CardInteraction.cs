@@ -1,7 +1,5 @@
 using Godot;
 
-namespace DeckbuilderPrototype.Scripts;
-
 public partial class CardInteraction : Area2D
 {
 	private Vector2 _originalGlobalPos;
