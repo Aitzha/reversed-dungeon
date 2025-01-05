@@ -1,5 +1,4 @@
 using Godot;
-using System.Diagnostics;
 
 public partial class CoreGameControl : Node2D
 {
@@ -53,7 +52,6 @@ public partial class CoreGameControl : Node2D
 
 	private void ChangeResolution(long index)
 	{
-		
 		switch (index)
 		{
 			case 0:

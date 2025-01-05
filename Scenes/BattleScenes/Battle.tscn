@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bojskrvl7l4k0"]
 
 [ext_resource type="Texture2D" uid="uid://cctsb0sfcn6y2" path="res://Sprites/Background/25.png" id="1_6yuii"]
-[ext_resource type="PackedScene" uid="uid://dtsk4v2gl60gd" path="res://Scenes/interface.tscn" id="3_d76qx"]
-[ext_resource type="PackedScene" uid="uid://b04d4hf3npyb6" path="res://Scenes/Characters/Player/Player.tscn" id="3_ns250"]
-[ext_resource type="PackedScene" uid="uid://5wjv748brgfr" path="res://Scenes/Characters/Enemies/Enemy#3.tscn" id="4_n21vn"]
-[ext_resource type="PackedScene" uid="uid://bt3qyjevy7rqm" path="res://Scenes/Characters/Enemies/Enemy#2.tscn" id="5_xloox"]
+[ext_resource type="PackedScene" uid="uid://dtsk4v2gl60gd" path="res://Scenes/BattleScenes/BattleInterface/BattleInterface.tscn" id="3_d76qx"]
+[ext_resource type="PackedScene" uid="uid://b04d4hf3npyb6" path="res://Scenes/BattleScenes/Characters/Player/Player.tscn" id="3_ns250"]
+[ext_resource type="PackedScene" uid="uid://5wjv748brgfr" path="res://Scenes/BattleScenes/Characters/Enemies/Enemy#3.tscn" id="4_n21vn"]
+[ext_resource type="PackedScene" uid="uid://bt3qyjevy7rqm" path="res://Scenes/BattleScenes/Characters/Enemies/Enemy#2.tscn" id="5_xloox"]
 
 [node name="Battle" type="Node2D"]
 
