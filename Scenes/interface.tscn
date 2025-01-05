@@ -14,9 +14,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_taux4")
-_cardScene = ExtResource("3_gpxr0")
 _drawLabel = NodePath("DrawPile/DrawPileCount")
 _discardLabel = NodePath("DiscardPile/DiscardPileCount")
+_cardScene = ExtResource("3_gpxr0")
 _handControl = NodePath("Hand")
 
 [node name="DrawPile" type="Node" parent="."]

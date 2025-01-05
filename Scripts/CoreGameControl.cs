@@ -20,15 +20,18 @@ public partial class CoreGameControl : Node2D
 		// Change process mode to "When Paused"
 		_pauseMenu.ProcessMode = ProcessModeEnum.WhenPaused;
 
-		// Add function to the signal
-		_pauseMenuScript.ResumeGame += UnpauseGame;
+		// Add function to the signals
+		if (_pauseMenuScript != null)
+		{
+			_pauseMenuScript.ResumeGame += UnpauseGame;
+			_pauseMenuScript.ResolutionSelected += ChangeResolution;
+		}
 	}
 
 	public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("ui_cancel"))  // e.g. ESC
 		{
-			Debug.Print("UI cancelled");
 			if (GetTree().Paused)
 				UnpauseGame();
 			else
@@ -46,5 +49,25 @@ public partial class CoreGameControl : Node2D
 	{
 		GetTree().Paused = false;
 		_pauseMenu.Visible = false;
+	}
+
+	private void ChangeResolution(long index)
+	{
+		
+		switch (index)
+		{
+			case 0:
+				DisplayServer.WindowSetSize(new Vector2I(640, 360));
+				DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+				break;
+			case 1:
+				DisplayServer.WindowSetSize(new Vector2I(1280, 720));
+				DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+				break;
+			case 2:
+				DisplayServer.WindowSetSize(new Vector2I(1920, 1080));
+				DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
+				break;
+		}
 	}
 }
