@@ -57,16 +57,16 @@ public partial class CoreGameControl : Node2D
 		switch (index)
 		{
 			case 0:
-				DisplayServer.WindowSetSize(new Vector2I(640, 360));
 				DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+				DisplayServer.WindowSetSize(new Vector2I(640, 360));
 				break;
 			case 1:
-				DisplayServer.WindowSetSize(new Vector2I(1280, 720));
 				DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+				DisplayServer.WindowSetSize(new Vector2I(1280, 720));
 				break;
 			case 2:
-				DisplayServer.WindowSetSize(new Vector2I(1920, 1080));
 				DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
+				DisplayServer.WindowSetSize(new Vector2I(1920, 1080));
 				break;
 		}
 	}

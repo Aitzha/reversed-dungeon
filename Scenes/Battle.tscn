@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bojskrvl7l4k0"]
 
 [ext_resource type="Texture2D" uid="uid://cctsb0sfcn6y2" path="res://Sprites/Background/25.png" id="1_6yuii"]
-[ext_resource type="Texture2D" uid="uid://cnec2fedqvr2b" path="res://Sprites/Characters/49.png" id="2_udvnu"]
 [ext_resource type="PackedScene" uid="uid://dtsk4v2gl60gd" path="res://Scenes/interface.tscn" id="3_d76qx"]
-[ext_resource type="Texture2D" uid="uid://dh362rtivr8uv" path="res://Sprites/Characters/96.png" id="4_yojoy"]
-[ext_resource type="Texture2D" uid="uid://dxtao6xy2ble7" path="res://Sprites/Characters/95.png" id="5_43nil"]
+[ext_resource type="PackedScene" uid="uid://b04d4hf3npyb6" path="res://Scenes/Characters/Player/Player.tscn" id="3_ns250"]
+[ext_resource type="PackedScene" uid="uid://5wjv748brgfr" path="res://Scenes/Characters/Enemies/Enemy#3.tscn" id="4_n21vn"]
+[ext_resource type="PackedScene" uid="uid://bt3qyjevy7rqm" path="res://Scenes/Characters/Enemies/Enemy#2.tscn" id="5_xloox"]
 
 [node name="Battle" type="Node2D"]
 
@@ -12,19 +12,13 @@
 position = Vector2(319, 142)
 texture = ExtResource("1_6yuii")
 
-[node name="Player" type="Sprite2D" parent="."]
-position = Vector2(87, 138)
-scale = Vector2(2, 2)
-texture = ExtResource("2_udvnu")
-
 [node name="Interface" parent="." instance=ExtResource("3_d76qx")]
 
-[node name="Enemy#1" type="Sprite2D" parent="."]
-position = Vector2(528, 188)
-scale = Vector2(2, 2)
-texture = ExtResource("4_yojoy")
+[node name="Player" parent="." instance=ExtResource("3_ns250")]
+position = Vector2(116, 133)
 
-[node name="Enemy#2" type="Sprite2D" parent="."]
-position = Vector2(407, 77)
-scale = Vector2(2, 2)
-texture = ExtResource("5_43nil")
+[node name="Enemy#3" parent="." instance=ExtResource("4_n21vn")]
+position = Vector2(535, 226)
+
+[node name="Enemy#2" parent="." instance=ExtResource("5_xloox")]
+position = Vector2(458, 99)
