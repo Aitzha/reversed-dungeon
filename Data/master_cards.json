@@ -1,0 +1,47 @@
+{
+  "attack": {
+	"name": "Attack",
+	"description": "Deals n damage",
+	"tier": 1,
+	"progression_value": 0,
+	"effects": [
+	  {
+		"target": "enemy",
+		"target_type": "single",
+		"effect_type": "attack",
+		"amount": 5,
+		"length": 1
+	  }
+	]
+  },
+  "guard": {
+	"name": "Guard",
+	"description": "Gives n shield",
+	"tier": 1,
+	"progression_value": 0,
+	"effects": [
+	  {
+		"target": "player",
+		"target_type": "single",
+		"effect_type": "guard",
+		"amount": 5,
+		"length": 1
+	  }
+	]
+  },
+  "heal": {
+	"name": "Heal",
+	"description": "Heals n health",
+	"tier": 1,
+	"progression_value": 0,
+	"effects": [
+	  {
+		"target": "player",
+		"target_type": "single",
+		"effect_type": "heal",
+		"amount": 3,
+		"length": 1
+	  }
+	]
+  }
+}

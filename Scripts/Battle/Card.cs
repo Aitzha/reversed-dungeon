@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Godot;
 
 public partial class Card : Area2D
 {
-	public CardStats CardStats { get; set; }
+	public CardData CardData { get; set; }
 	
 	private Vector2 _originalGlobalPos;
 	private bool _isBeingDragged;
@@ -78,53 +79,62 @@ public partial class Card : Area2D
 	}
 }
 
-public class CardStats
+public class CardData
 {
-	public int Id;
-	public String Name;
-	public String Description;
-	public int Tier;
-	public int ProgressionValue;
-	public List<Effect> Effects;
-
-	public CardStats()
-	{
-		Id = 0;
-		Name = "";
-		Description = "";
-		Tier = 0;
-		ProgressionValue = 0;
-		Effects = new List<Effect>();
-	}
+	public string Id { get; set; } = "";
 	
-	public CardStats(int id, String name, String description, int tier, List<Effect> effects)
-	{
-		
-	}
+	[JsonPropertyName("name")]
+	public string Name { get; set; }
+
+	[JsonPropertyName("description")]
+	public string Description { get; set; }
+	
+	[JsonPropertyName("tier")] 
+	public int Tier { get; set; } = 0;
+
+	[JsonPropertyName("progression_value")]
+	public int ProgressionValue { get; set; } = 0;
+	
+	[JsonPropertyName("effects")]
+	public List<Effect> Effects { get; set; } = new();
 }
 
 public class Effect
 {
-	public Target Target;
-	public TargetType TargetType;
-	public EffectType EffectType;
-	public int Amount;
-	public int Length;
+	[JsonPropertyName("target")]
+	[JsonConverter(typeof(JsonStringEnumConverter))]
+	public Target Target { get; set; }
 
+	[JsonPropertyName("target_type")]
+	[JsonConverter(typeof(JsonStringEnumConverter))]
+	public TargetType TargetType { get; set; }
+	
+	[JsonPropertyName("effect_type")]
+	[JsonConverter(typeof(JsonStringEnumConverter))]
+	public EffectType EffectType { get; set; }
+
+	[JsonPropertyName("amount")]
+	public int Amount { get; set; }
+
+	[JsonPropertyName("length")]
+	public int Length { get; set; }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Target
 {
-	Player, 
+	Player,
 	Enemy
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TargetType
 {
 	Single,
 	Multi
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum EffectType
 {
 	Heal,

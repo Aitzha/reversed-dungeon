@@ -42,9 +42,9 @@ public partial class BattleManager : Control
 		// Just random number I chose
 		for (int i = 0; i < 10; i++)
 		{
-			CardStats cardStats = new CardStats();
+			CardData cardData = new CardData();
 			Card card = (Card)_cardScene.Instantiate();
-			card.CardStats = cardStats;
+			card.CardData = cardData;
 			AddChild(card);
 			card.HideCard();
 			card.CardConsumed += ConsumeCard;
