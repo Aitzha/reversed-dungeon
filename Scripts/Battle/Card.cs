@@ -6,6 +6,10 @@ using Godot;
 
 public partial class Card : Area2D
 {
+	[Export] public Sprite2D image;
+	[Export] public Label cardName;
+	[Export] public Label cardDescription;
+	
 	public CardData CardData { get; set; }
 	
 	private Vector2 _originalGlobalPos;
@@ -13,9 +17,17 @@ public partial class Card : Area2D
 	private Node2D _enteredBody;
 	
 	[Signal] public delegate void CardConsumedEventHandler(Card card);
+
+	public void Setup()
+	{
+		image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/" + CardData.Id + ".png");
+		cardName.Text = CardData.Name;
+		cardDescription.Text = CardData.Description;
+	}
 	
 	public override void _Ready()
 	{
+		Setup();
 		_isBeingDragged = false;
 		InputEvent += OnCardClicked;
 		BodyEntered += OnBodyEnter;

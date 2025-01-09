@@ -8,6 +8,7 @@ public partial class BattleManager : Control
 	[Export] private Label drawLabel;
 	[Export] private Label _discardLabel;
 	[Export] private PackedScene _cardScene;
+	public List<CardData> playerCards = new List<CardData>();
 	
 	private Vector2 _handPosition;
 
@@ -39,10 +40,8 @@ public partial class BattleManager : Control
 
 	private void LoadCards()
 	{
-		// Just random number I chose
-		for (int i = 0; i < 10; i++)
+		foreach (CardData cardData in playerCards)
 		{
-			CardData cardData = new CardData();
 			Card card = (Card)_cardScene.Instantiate();
 			card.CardData = cardData;
 			AddChild(card);

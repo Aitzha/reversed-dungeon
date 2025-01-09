@@ -9,6 +9,7 @@ using Godot;
 public partial class CoreGameManager : Node2D
 {
 	[Export] public PackedScene PauseMenuScene;
+	[Export] public PackedScene BattleScene;
 	private Control _pauseMenu;
 	private PauseMenuScript _pauseMenuScript;
 	
@@ -40,7 +41,7 @@ public partial class CoreGameManager : Node2D
 		String filePath = ProjectSettings.GlobalizePath("res://Data/master_cards.json");
 		Debug.Print(filePath);
 		MasterCards = JsonConverter.DeserializeCardData(filePath);
-		Debug.Print("Master Cards Loaded " + MasterCards.Count);
+		Debug.Print("Master Cards Loaded: " + MasterCards.Count);
 		
 		// TODO: Load Player cards (Replace with actual player cards load later)
 		foreach (CardData card in MasterCards.Values)
@@ -48,7 +49,13 @@ public partial class CoreGameManager : Node2D
 			PlayerCards.Add(card);
 		}
 		
-		Debug.Print("Player Cards Loaded " + PlayerCards.Count);
+		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
+
+		var battleScene = BattleScene.Instantiate();
+		Control interfaceControl = battleScene.GetNode<Control>("Interface");
+		BattleManager battleManager = interfaceControl as BattleManager;
+		battleManager.playerCards = PlayerCards;
+		AddChild(battleScene);
 	}
 
 	public override void _Input(InputEvent @event)
