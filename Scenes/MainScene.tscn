@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://dhbswuwwpcryg"]
 
-[ext_resource type="Script" path="res://Scripts/CoreGameManager.cs" id="1_75rhj"]
 [ext_resource type="PackedScene" uid="uid://2bu28qo0sms1" path="res://Scenes/UI/PauseMenu.tscn" id="1_ceskx"]
+[ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_i7nsb"]
 [ext_resource type="PackedScene" uid="uid://bojskrvl7l4k0" path="res://Scenes/BattleScenes/Battle.tscn" id="1_vqu1v"]
 
 [node name="MainScene" type="Node2D"]
 process_mode = 3
-script = ExtResource("1_75rhj")
+script = ExtResource("1_i7nsb")
 PauseMenuScene = ExtResource("1_ceskx")
 BattleScene = ExtResource("1_vqu1v")

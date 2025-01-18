@@ -6,10 +6,11 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
 
-public partial class CoreGameManager : Node2D
+public partial class GameManager : Node2D
 {
 	[Export] public PackedScene PauseMenuScene;
 	[Export] public PackedScene BattleScene;
+	
 	private Control _pauseMenu;
 	private PauseMenuScript _pauseMenuScript;
 	
@@ -53,8 +54,8 @@ public partial class CoreGameManager : Node2D
 
 		var battleScene = BattleScene.Instantiate();
 		Control interfaceControl = battleScene.GetNode<Control>("Interface");
-		BattleManager battleManager = interfaceControl as BattleManager;
-		battleManager.playerCards = PlayerCards;
+		BattleInterface battleInterface = interfaceControl as BattleInterface;
+		battleInterface.playerCards = PlayerCards;
 		AddChild(battleScene);
 	}
 
