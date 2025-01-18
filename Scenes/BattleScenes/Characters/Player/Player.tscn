@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b04d4hf3npyb6"]
+[gd_scene load_steps=4 format=3 uid="uid://b04d4hf3npyb6"]
 
 [ext_resource type="Texture2D" uid="uid://cnec2fedqvr2b" path="res://Sprites/Characters/49.png" id="1_k717n"]
+[ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_t1wp2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6f1cd"]
 size = Vector2(91, 166)
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_t1wp2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, 1)

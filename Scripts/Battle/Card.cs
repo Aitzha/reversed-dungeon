@@ -93,7 +93,8 @@ public partial class Card : Area2D
 
 public class CardData
 {
-	public string Id { get; set; } = "";
+	[JsonPropertyName("id")]
+	public string Id { get; set; }
 	
 	[JsonPropertyName("name")]
 	public string Name { get; set; }
@@ -107,49 +108,74 @@ public class CardData
 	[JsonPropertyName("progression_value")]
 	public int ProgressionValue { get; set; } = 0;
 	
-	[JsonPropertyName("effects")]
-	public List<Effect> Effects { get; set; } = new();
+	public List<BaseEffect> Effects { get; set; } = new();
 }
 
-public class Effect
+public abstract class BaseEffect : IEffect
 {
-	[JsonPropertyName("target")]
-	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public Target Target { get; set; }
-
-	[JsonPropertyName("target_type")]
-	[JsonConverter(typeof(JsonStringEnumConverter))]
+	public bool IsExpired { get; set; }
+	public int Duration { get; set; }
 	public TargetType TargetType { get; set; }
-	
-	[JsonPropertyName("effect_type")]
-	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public EffectType EffectType { get; set; }
+	public void Activate(string caster, string target)
+	{
+		throw new NotImplementedException();
+	}
 
-	[JsonPropertyName("amount")]
-	public int Amount { get; set; }
-
-	[JsonPropertyName("length")]
-	public int Length { get; set; }
-}
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum Target
-{
-	Player,
-	Enemy
+	public void Tick(string target)
+	{
+		throw new NotImplementedException();
+	}
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TargetType
 {
-	Single,
-	Multi
+	Player,
+	Enemy,
+	EnemyGroup
 }
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum EffectType
+public interface IEffect
 {
-	Heal,
+	bool IsExpired { get; set; }
+	int Duration { get; set; }
+	TargetType TargetType { get; set; }
+	void Activate(String caster, String target);
+	void Tick(String target); 
+}
+
+public class InstantEffect : BaseEffect
+{
+	public InstantEffectType type { get; set; }
+}
+
+public class ContinuousEffect : BaseEffect
+{
+	public ContinuousEffectType type { get; set; }
+}
+
+public class BuffDebuffEffect : BaseEffect
+{
+	public BuffDebuffEffectType type { get; set; }
+}
+
+public enum InstantEffectType
+{
+	Attack,
 	Guard,
-	Attack
+	Heal
+}
+
+public enum ContinuousEffectType
+{
+	Attack,
+	Guard,
+	Heal
+}
+
+public enum BuffDebuffEffectType
+{
+	Attack,
+	Guard,
+	Heal
 }
