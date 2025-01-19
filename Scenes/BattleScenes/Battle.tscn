@@ -7,8 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://5wjv748brgfr" path="res://Scenes/BattleScenes/Characters/Enemies/Enemy#3.tscn" id="4_n21vn"]
 [ext_resource type="PackedScene" uid="uid://bt3qyjevy7rqm" path="res://Scenes/BattleScenes/Characters/Enemies/Enemy#2.tscn" id="5_xloox"]
 
-[node name="Battle" type="Node2D"]
+[node name="Battle" type="Node2D" node_paths=PackedStringArray("BattleInterface")]
 script = ExtResource("1_hl268")
+BattleInterface = NodePath("Interface")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(319, 142)

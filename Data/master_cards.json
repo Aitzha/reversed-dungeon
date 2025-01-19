@@ -1,47 +1,46 @@
-{
-  "attack": {
-	"name": "Attack",
-	"description": "Deals n damage",
+[
+  {
+	"id": "slash",
+	"name": "Slash",
+	"descriptionTemplate": "Deal {DamageAmount} damage instantly",
 	"tier": 1,
-	"progression_value": 0,
+	"progress": 0,
 	"effects": [
 	  {
-		"target": "enemy",
-		"target_type": "single",
-		"effect_type": "attack",
-		"amount": 5,
-		"length": 1
+		"effectType": "InstantEffect",
+		"subType": "Attack",
+		"amount": 6
 	  }
 	]
   },
-  "guard": {
-	"name": "Guard",
-	"description": "Gives n shield",
+  {
+	"id": "poison_dart",
+	"name": "Poison Dart",
+	"descriptionTemplate": "Apply {Duration} turns of poison",
 	"tier": 1,
-	"progression_value": 0,
+	"progress": 0,
 	"effects": [
 	  {
-		"target": "player",
-		"target_type": "single",
-		"effect_type": "guard",
-		"amount": 5,
-		"length": 1
-	  }
-	]
-  },
-  "heal": {
-	"name": "Heal",
-	"description": "Heals n health",
-	"tier": 1,
-	"progression_value": 0,
-	"effects": [
-	  {
-		"target": "player",
-		"target_type": "single",
-		"effect_type": "heal",
+		"effectType": "ContinuousEffect",
+		"subType": "Poison",
 		"amount": 3,
-		"length": 1
+		"duration": 2
+	  }
+	]
+  },
+  {
+	"id": "battle_cry",
+	"name": "Battle Cry",
+	"descriptionTemplate": "Gain {Amount} Attack for {Duration} turns",
+	"tier": 1,
+	"progress": 0,
+	"effects": [
+	  {
+		"effectType": "BuffDebuffEffect",
+		"subType": "AttackBuff",
+		"amount": 2,
+		"duration": 2
 	  }
 	]
   }
-}
+]

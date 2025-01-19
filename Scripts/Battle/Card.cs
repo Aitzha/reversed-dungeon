@@ -93,19 +93,10 @@ public partial class Card : Area2D
 
 public class CardData
 {
-	[JsonPropertyName("id")]
 	public string Id { get; set; }
-	
-	[JsonPropertyName("name")]
 	public string Name { get; set; }
-
-	[JsonPropertyName("description")]
 	public string Description { get; set; }
-	
-	[JsonPropertyName("tier")] 
 	public int Tier { get; set; } = 0;
-
-	[JsonPropertyName("progression_value")]
 	public int ProgressionValue { get; set; } = 0;
 	
 	public List<BaseEffect> Effects { get; set; } = new();
@@ -113,21 +104,14 @@ public class CardData
 
 public abstract class BaseEffect : IEffect
 {
+	public string EffectType { get; set; }
 	public bool IsExpired { get; set; }
 	public int Duration { get; set; }
 	public TargetType TargetType { get; set; }
-	public void Activate(string caster, string target)
-	{
-		throw new NotImplementedException();
-	}
-
-	public void Tick(string target)
-	{
-		throw new NotImplementedException();
-	}
+	public abstract void Activate(Entity caster, Entity target);
+	public abstract void Tick(Entity target);
 }
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TargetType
 {
 	Player,
@@ -140,42 +124,93 @@ public interface IEffect
 	bool IsExpired { get; set; }
 	int Duration { get; set; }
 	TargetType TargetType { get; set; }
-	void Activate(String caster, String target);
-	void Tick(String target); 
 }
 
 public class InstantEffect : BaseEffect
 {
-	public InstantEffectType type { get; set; }
+	public InstantEffectSubType SubType { get; set; }
+	public int Amount { get; set; }
+
+	public InstantEffect()
+	{
+		this.EffectType = "InstantEffect";
+	}
+
+	public override void Activate(Entity caster, Entity target)
+	{
+		// Attack, Guard, Heal logic ...
+		IsExpired = true;
+	}
+
+	public override void Tick(Entity target)
+	{
+		// Typically nothing here for an instant effect
+	}
 }
 
 public class ContinuousEffect : BaseEffect
 {
-	public ContinuousEffectType type { get; set; }
+	public ContinuousEffectSubType SubType { get; set; }
+	public int Amount { get; set; }
+
+	public ContinuousEffect()
+	{
+		this.EffectType = "ContinuousEffect";
+	}
+
+	public override void Activate(Entity caster, Entity target)
+	{
+		// If you need an initial effect
+	}
+
+	public override void Tick(Entity target)
+	{
+		// Poison/Bleed damage, etc.
+		// Decrement Duration, set IsExpired if done
+	}
 }
 
 public class BuffDebuffEffect : BaseEffect
 {
-	public BuffDebuffEffectType type { get; set; }
+	public BuffDebuffEffectSubType SubType { get; set; }
+	public int Amount { get; set; }
+
+	public BuffDebuffEffect()
+	{
+		this.EffectType = "BuffDebuffEffect";
+	}
+
+	public override void Activate(Entity caster, Entity target)
+	{
+		// Immediately apply buff/debuff
+	}
+
+	public override void Tick(Entity target)
+	{
+		// If it has a duration, decrement & revert if expired
+	}
 }
 
-public enum InstantEffectType
+public enum InstantEffectSubType
 {
 	Attack,
 	Guard,
 	Heal
 }
 
-public enum ContinuousEffectType
+public enum ContinuousEffectSubType
 {
-	Attack,
-	Guard,
-	Heal
+	Poison,
+	Bleed,
+	Paralyze,
+	Regeneration
 }
 
-public enum BuffDebuffEffectType
+public enum BuffDebuffEffectSubType
 {
-	Attack,
-	Guard,
-	Heal
+	AttackBuff,
+	AttackDebuff,
+	GuardBuff,
+	GuardDebuff,
+	CardCostDecrease
 }
