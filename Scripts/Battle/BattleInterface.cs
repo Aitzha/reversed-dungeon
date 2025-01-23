@@ -8,6 +8,8 @@ public partial class BattleInterface : Control
 	[Export] private Label drawLabel;
 	[Export] private Label _discardLabel;
 	[Export] private PackedScene _cardScene;
+	[Export] private int _cardWidth;
+	[Export] private int _cardHeight;
 	public List<CardData> playerCards = new List<CardData>();
 	
 	private Vector2 _handPosition;
@@ -71,12 +73,16 @@ public partial class BattleInterface : Control
 			Debug.Print("Draw pile is empty");
 			return;
 		}
+
+		int cardCount = Math.Min(2, _drawPile.Count);
+		int xDist = (int)(_cardWidth * 0.7);
+		int xStartPos = (int)((cardCount - 1)  / 2.0 * xDist);
 		
-		for (int i = 0; i < Math.Min(2, _drawPile.Count); i++)
+		for (int i = 0; i < cardCount; i++)
 		{
 			Card card = _drawPile.Dequeue();
 			_handPile.Add(card);
-			card.Position = new Vector2(_handPosition.X - 50 + i * 100, _handPosition.Y + 100);
+			card.Position = new Vector2(_handPosition.X - xStartPos + xDist * i, _handPosition.Y * 2 - (_cardHeight / 10));
 			card.ShowCard();
 		}
 	}

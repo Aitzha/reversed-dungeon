@@ -16,6 +16,8 @@ script = ExtResource("1_xchf7")
 drawLabel = NodePath("DrawPile/DrawPileCount")
 _discardLabel = NodePath("DiscardPile/DiscardPileCount")
 _cardScene = ExtResource("2_yv712")
+_cardWidth = 96
+_cardHeight = 144
 
 [node name="DrawPile" type="Node" parent="."]
 
