@@ -1,18 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://bt3qyjevy7rqm"]
+[gd_scene load_steps=5 format=3 uid="uid://bt3qyjevy7rqm"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_s3y3e"]
-[ext_resource type="Texture2D" uid="uid://dxtao6xy2ble7" path="res://Sprites/Characters/95.png" id="1_sq4wu"]
+[ext_resource type="Texture2D" uid="uid://b51vafhwjabs5" path="res://Sprites/Characters/enemy#2_glow.png" id="2_ex3my"]
+[ext_resource type="Texture2D" uid="uid://dh362rtivr8uv" path="res://Sprites/Characters/enemy#2.png" id="3_dnb10"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
-size = Vector2(207, 148)
+size = Vector2(97, 64)
 
 [node name="Enemy#2" type="CharacterBody2D"]
 script = ExtResource("1_s3y3e")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("1_sq4wu")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -2)
+position = Vector2(-9.5, 0)
 shape = SubResource("RectangleShape2D_p1ljr")
+
+[node name="Glow" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_ex3my")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_dnb10")

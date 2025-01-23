@@ -20,6 +20,26 @@ public partial class GameManager : Node2D
 	
 	public override void _Ready()
 	{
+		// Load master cards
+		String filePath = ProjectSettings.GlobalizePath("res://Data/master_cards.json");
+		Debug.Print(filePath);
+		// MasterCards = JsonConverter.DeserializeCardData(filePath);
+		Debug.Print("Master Cards Loaded: " + MasterCards.Count);
+		
+		// TODO: Load Player cards (Replace with actual player cards load later)
+		PlayerCards = CardLoader.LoadCards(filePath);
+		// foreach (CardData card in MasterCards.Values)
+		// {
+		// 	PlayerCards.Add(card);
+		// }
+		
+		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
+
+		
+		BattleManager battleScene = (BattleManager) BattleScene.Instantiate();
+		battleScene.Setup(PlayerCards, loadPlayerTeam(), loadEnemyTeam());
+		AddChild(battleScene);
+		
 		// Instance the pause menu, script and add to Main
 		_pauseMenu = (Control)PauseMenuScene.Instantiate();
 		_pauseMenuScript = _pauseMenu as PauseMenuScript;
@@ -37,27 +57,6 @@ public partial class GameManager : Node2D
 			_pauseMenuScript.ResumeGame += UnpauseGame;
 			_pauseMenuScript.ResolutionSelected += ChangeResolution;
 		}
-		
-		// Load master cards
-		String filePath = ProjectSettings.GlobalizePath("res://Data/master_cards.json");
-		Debug.Print(filePath);
-		// MasterCards = JsonConverter.DeserializeCardData(filePath);
-		Debug.Print("Master Cards Loaded: " + MasterCards.Count);
-		
-		// TODO: Load Player cards (Replace with actual player cards load later)
-		PlayerCards = CardLoader.LoadCards(filePath);
-		// foreach (CardData card in MasterCards.Values)
-		// {
-		// 	PlayerCards.Add(card);
-		// }
-		
-		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
-
-		var battleScene = BattleScene.Instantiate();
-		Control interfaceControl = battleScene.GetNode<Control>("Interface");
-		BattleInterface battleInterface = interfaceControl as BattleInterface;
-		battleInterface.playerCards = PlayerCards;
-		AddChild(battleScene);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -100,6 +99,28 @@ public partial class GameManager : Node2D
 				DisplayServer.WindowSetSize(new Vector2I(1920, 1080));
 				break;
 		}
+	}
+
+	private List<Entity> loadPlayerTeam()
+	{
+		List<Entity> playerTeam = new List<Entity>();
+		
+		Entity player = new Entity("Player", 20);
+		playerTeam.Add(player);
+		return playerTeam;
+	}
+
+	private List<Entity> loadEnemyTeam()
+	{
+		List<Entity> enemyTeam = new List<Entity>();
+
+		Entity enemy1 = new Entity("Enemy#1", 20);
+		Entity enemy2 = new Entity("Enemy#2", 20);
+		Entity enemy3 = new Entity("Enemy#3", 20);
+		enemyTeam.Add(enemy1);
+		enemyTeam.Add(enemy2);
+		enemyTeam.Add(enemy3);
+		return enemyTeam;
 	}
 }
 
@@ -188,11 +209,6 @@ public static class CardLoader
 		var cards = JsonSerializer.Deserialize<List<CardData>>(json, options);
 		return cards;
 	}
-}
-
-public class CardDatabase
-{
-	public List<CardData> Cards { get; set; }
 }
 
 

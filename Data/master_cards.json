@@ -1,7 +1,7 @@
 [
   {
-	"id": "slash",
-	"name": "Slash",
+	"id": "meteor_punch",
+	"name": "Meteor Punch",
 	"descriptionTemplate": "Deal {DamageAmount} damage instantly",
 	"tier": 1,
 	"progress": 0,
@@ -14,23 +14,23 @@
 	]
   },
   {
-	"id": "poison_dart",
-	"name": "Poison Dart",
+	"id": "claw_slash",
+	"name": "Claw Slash",
 	"descriptionTemplate": "Apply {Duration} turns of poison",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
 	  {
 		"effectType": "ContinuousEffect",
-		"subType": "Poison",
+		"subType": "Bleed",
 		"amount": 3,
 		"duration": 2
 	  }
 	]
   },
   {
-	"id": "battle_cry",
-	"name": "Battle Cry",
+	"id": "rage",
+	"name": "Rage",
 	"descriptionTemplate": "Gain {Amount} Attack for {Duration} turns",
 	"tier": 1,
 	"progress": 0,

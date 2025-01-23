@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh362rtivr8uv"
-path="res://.godot/imported/96.png-c2325f9e92a53391b5f873e6e2818a60.ctex"
+uid="uid://8sh8qdr5ekss"
+path="res://.godot/imported/claw_slash.png-a117d314501fe155302260ff35681870.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Characters/96.png"
-dest_files=["res://.godot/imported/96.png-c2325f9e92a53391b5f873e6e2818a60.ctex"]
+source_file="res://Sprites/Cards/claw_slash.png"
+dest_files=["res://.godot/imported/claw_slash.png-a117d314501fe155302260ff35681870.ctex"]
 
 [params]
 
