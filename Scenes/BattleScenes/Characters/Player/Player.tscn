@@ -7,14 +7,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6f1cd"]
 size = Vector2(44, 82)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("Glow")]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_t1wp2")
+Glow = NodePath("Glow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(1.5, 1.5)
 shape = SubResource("RectangleShape2D_6f1cd")
 
 [node name="Glow" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_coyi1")
 

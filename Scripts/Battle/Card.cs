@@ -31,6 +31,7 @@ public partial class Card : Area2D
 		_isBeingDragged = false;
 		InputEvent += OnCardClicked;
 		BodyEntered += OnBodyEnter;
+		BodyExited += OnBodyExited;
 	}
 
 	public void ShowCard()
@@ -44,7 +45,8 @@ public partial class Card : Area2D
 	{
 		Visible = false;
 		DisableMode = DisableModeEnum.KeepActive;
-		_originalGlobalPos = new Vector2(-100, -100);
+		_originalGlobalPos = new Vector2(-200, -200);
+		Position = _originalGlobalPos;
 	}
 	
 	private void OnCardClicked(Node viewport, InputEvent inputEvent, long shapeIdx)
@@ -82,12 +84,24 @@ public partial class Card : Area2D
 
 	private void OnBodyEnter(Node2D body)
 	{
-		_enteredBody = body;
+		Debug.Print("Entered body: " + body.Name);
+		Entity entity = body as Entity;
+		if (entity != null)
+		{
+			entity.ToggleGlow();
+			_enteredBody = body;
+		}
 	}
 
 	private void OnBodyExited(Node2D body)
 	{
-		_enteredBody = null;
+		Debug.Print("Exited body: " + body.Name);
+		Entity entity = _enteredBody as Entity;
+		if (entity != null)
+		{
+			entity.ToggleGlow();
+			_enteredBody = null;
+		}
 	}
 }
 

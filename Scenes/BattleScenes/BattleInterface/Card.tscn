@@ -11,6 +11,8 @@
 size = Vector2(97, 145)
 
 [node name="Card" type="Area2D" node_paths=PackedStringArray("image", "cardName", "cardDescription")]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_xlpfj")
 image = NodePath("Image")
 cardName = NodePath("Name")

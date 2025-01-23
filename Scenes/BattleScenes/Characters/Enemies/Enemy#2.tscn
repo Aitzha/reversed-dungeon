@@ -7,8 +7,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
 size = Vector2(97, 64)
 
-[node name="Enemy#2" type="CharacterBody2D"]
+[node name="Enemy#2" type="CharacterBody2D" node_paths=PackedStringArray("Glow")]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_s3y3e")
+Glow = NodePath("Glow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-9.5, 0)

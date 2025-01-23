@@ -1,9 +1,11 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class Entity : Node2D
 {
+    [Export] public Sprite2D Glow;
     public string EntityName;
     public int Health;
     public int MaxHealth;
@@ -43,5 +45,11 @@ public partial class Entity : Node2D
     public void ApplyEffect(BaseEffect effect, Entity caster)
     {
         
+    }
+
+    public void ToggleGlow()
+    {
+        Glow.Visible = !Glow.Visible;
+        Debug.Print("Glow Visible: " + Glow.Visible);
     }
 }
