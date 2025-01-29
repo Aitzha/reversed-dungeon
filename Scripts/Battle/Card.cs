@@ -1,108 +1,65 @@
-using System;
+using Godot;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
-using Godot;
 
-public partial class Card : Area2D
+public partial class Card : Control
 {
 	[Export] public Sprite2D image;
 	[Export] public Label cardName;
 	[Export] public Label cardDescription;
 	
-	public CardData CardData { get; set; }
+	public CardData cardData { get; set; }
+
+	private CardHolder cardHolder;
+	private Node2D cardVisualCopy;
 	
-	private Vector2 _originalGlobalPos;
-	private bool _isBeingDragged;
-	private Node2D _enteredBody;
-	
-	[Signal] public delegate void CardConsumedEventHandler(Card card);
+    public override void _Ready()
+    {
+	    image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/" + cardData.Id + ".png");
+	    cardName.Text = cardData.Name;
+	    cardDescription.Text = cardData.Description;
+	    
+        MouseEntered += OnMouseEnter;
+        MouseExited += OnMouseExit;
 
-	public void Setup()
-	{
-		image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/" + CardData.Id + ".png");
-		cardName.Text = CardData.Name;
-		cardDescription.Text = CardData.Description;
-	}
-	
-	public override void _Ready()
-	{
-		Setup();
-		_isBeingDragged = false;
-		InputEvent += OnCardClicked;
-		BodyEntered += OnBodyEnter;
-		BodyExited += OnBodyExited;
-	}
+        cardHolder = (CardHolder) GetParent().GetParent().GetNode<Area2D>("CardHolder");
+        cardVisualCopy = (Node2D) GetNode<Node2D>("CardVisual").Duplicate();
+    }
+    
+    private void OnMouseEnter()
+    {
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("Select");
+    }
+    
+    private void OnMouseExit()
+    {
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("Deselect");
+    }
 
-	public void ShowCard()
-	{
-		Visible = true;
-		DisableMode = DisableModeEnum.Remove;
-		_originalGlobalPos = GlobalPosition;
-	}
+    public override void _GuiInput(InputEvent @event)
+    {
+	    if (@event is InputEventMouseButton eventMouseButton)
+	    {
+		    if (eventMouseButton.Pressed)
+		    {
+			    cardHolder.AddChild(cardVisualCopy);
+			    cardVisualCopy.GlobalPosition = cardHolder.GlobalPosition + new Vector2(-Globals.cardWidth / 2, -Globals.cardHeight / 2);
+			    cardHolder.Activate();
+			    GetNode<Node2D>("CardVisual").Hide();
+		    }
+		    else
+		    {
+			    if (cardHolder.overTarget)
+			    {
+				    Debug.Print("Card was consumed");
+			    }
+			    cardHolder.RemoveChild(cardVisualCopy);
+			    cardHolder.Deactivate();
+			    GetNode<Node2D>("CardVisual").Show();
+		    }
 
-	public void HideCard()
-	{
-		Visible = false;
-		DisableMode = DisableModeEnum.KeepActive;
-		_originalGlobalPos = new Vector2(-200, -200);
-		Position = _originalGlobalPos;
-	}
-	
-	private void OnCardClicked(Node viewport, InputEvent inputEvent, long shapeIdx)
-	{
-		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.ButtonIndex == MouseButton.Left)
-		{
-			if (mouseEvent.Pressed)
-			{
-				// Start dragging
-				_isBeingDragged = true;
-			}
-			else
-			{
-				// End dragging
-				if (_isBeingDragged)
-				{
-					_isBeingDragged = false;
-					if (_enteredBody != null)
-					{
-						EmitSignal(SignalName.CardConsumed, this);
-						Debug.Print("Card consumed by: " + _enteredBody.Name);
-					}
-						
-					GlobalPosition = _originalGlobalPos;
-				}
-			}
-		}
-		
-		// Detect mouse motion
-		if (_isBeingDragged && inputEvent is InputEventMouseMotion mouseMotionEvent)
-		{
-			GlobalPosition = mouseMotionEvent.GlobalPosition;
-		}
-	}
-
-	private void OnBodyEnter(Node2D body)
-	{
-		Debug.Print("Entered body: " + body.Name);
-		Entity entity = body as Entity;
-		if (entity != null)
-		{
-			entity.ToggleGlow();
-			_enteredBody = body;
-		}
-	}
-
-	private void OnBodyExited(Node2D body)
-	{
-		Debug.Print("Exited body: " + body.Name);
-		Entity entity = _enteredBody as Entity;
-		if (entity != null)
-		{
-			entity.ToggleGlow();
-			_enteredBody = null;
-		}
-	}
+	    }
+    }
 }
 
 public class CardData

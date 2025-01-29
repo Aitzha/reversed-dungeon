@@ -50,6 +50,6 @@ public partial class Entity : Node2D
     public void ToggleGlow()
     {
         Glow.Visible = !Glow.Visible;
-        Debug.Print("Glow Visible: " + Glow.Visible);
+        // Debug.Print("Glow Visible: " + Glow.Visible);
     }
 }

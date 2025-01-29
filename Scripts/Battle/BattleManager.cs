@@ -23,7 +23,7 @@ public partial class BattleManager : Node
 
     public void Setup(List<CardData> playerCards, List<Entity> playerTeam, List<Entity> enemyTeam)
     {
-        BattleInterface.Setup(playerCards);
+        BattleInterface.playerCards = playerCards;
         this.playerTeam = playerTeam;
         this.enemyTeam = enemyTeam;
     }

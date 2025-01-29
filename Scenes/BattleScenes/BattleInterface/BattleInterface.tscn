@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=6 format=3 uid="uid://dtsk4v2gl60gd"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/BattleInterface.cs" id="1_xchf7"]
-[ext_resource type="PackedScene" uid="uid://bv5m7wuguu7vs" path="res://Scenes/BattleScenes/BattleInterface/Card.tscn" id="2_yv712"]
+[ext_resource type="PackedScene" uid="uid://b1ipsvab0ffmy" path="res://Scenes/BattleScenes/BattleInterface/Card.tscn" id="2_yv712"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="3_an37h"]
+[ext_resource type="Script" path="res://Scripts/Battle/CardHolder.cs" id="4_hgb5d"]
 
-[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "_discardLabel")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_opdgp"]
+radius = 41.0488
+
+[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "discardLabel", "hand")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,10 +18,9 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_xchf7")
 drawLabel = NodePath("DrawPile/DrawPileCount")
-_discardLabel = NodePath("DiscardPile/DiscardPileCount")
-_cardScene = ExtResource("2_yv712")
-_cardWidth = 96
-_cardHeight = 144
+discardLabel = NodePath("DiscardPile/DiscardPileCount")
+cardScene = ExtResource("2_yv712")
+hand = NodePath("Hand")
 
 [node name="DrawPile" type="Node" parent="."]
 
@@ -58,3 +61,21 @@ theme_override_font_sizes/font_size = 32
 text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Hand" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 260.0
+offset_right = 480.0
+offset_bottom = 404.0
+theme_override_constants/separation = -20
+alignment = 1
+
+[node name="CardHolder" type="Area2D" parent="."]
+modulate = Color(1, 1, 1, 0.482353)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("4_hgb5d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CardHolder"]
+shape = SubResource("CircleShape2D_opdgp")
