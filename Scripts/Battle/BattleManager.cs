@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class BattleManager : Node
 {
@@ -11,14 +12,14 @@ public partial class BattleManager : Node
     
     private List<Vector2> playerTeamPositions = new List<Vector2>
     {
-        new Vector2(110, 230)
+        new Vector2(110, 220)
     };
 
     private List<Vector2> enemyTeamPositions = new List<Vector2>
     {
-        new Vector2(450, 235),
-        new Vector2(560, 270),
-        new Vector2(360, 220),
+        new Vector2(465, 205),
+        new Vector2(570, 270),
+        new Vector2(360, 140),
     };
 
     public void Setup(List<CardData> playerCards, List<EntityData> playerTeamData, List<EntityData> enemyTeamData)

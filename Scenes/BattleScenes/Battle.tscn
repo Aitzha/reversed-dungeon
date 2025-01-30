@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bojskrvl7l4k0"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/BattleManager.cs" id="1_hl268"]
-[ext_resource type="Texture2D" uid="uid://ufejh62xdwqb" path="res://Sprites/Background/cegqlbo71df61.png" id="2_t1vfu"]
+[ext_resource type="Texture2D" uid="uid://w0x3hujnaafh" path="res://Sprites/Background/Cave-Horizontal-RPG-Battle-Backgrounds3.jpg" id="2_iabmh"]
 [ext_resource type="PackedScene" uid="uid://dtsk4v2gl60gd" path="res://Scenes/BattleScenes/BattleInterface/BattleInterface.tscn" id="3_d76qx"]
 
 [node name="Battle" type="Node2D" node_paths=PackedStringArray("battleInterface")]
@@ -10,8 +10,8 @@ battleInterface = NodePath("Interface")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(320, 180)
-scale = Vector2(0.333, 0.333)
-texture = ExtResource("2_t1vfu")
+scale = Vector2(0.365, 0.365)
+texture = ExtResource("2_iabmh")
 
 [node name="Interface" parent="." instance=ExtResource("3_d76qx")]
 z_index = 1

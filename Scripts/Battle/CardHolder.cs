@@ -35,7 +35,6 @@ public partial class CardHolder : Area2D
 
     private void OnBodyEntered(Node2D body)
     {
-        Debug.Print("Entered body: " + body.Name);
         Entity entity = body as Entity;
         if (entity != null)
         {
@@ -51,7 +50,6 @@ public partial class CardHolder : Area2D
 
     private void OnBodyExited(Node2D body)
     {
-        Debug.Print("Exited body: " + body.Name);
         Entity entity = body as Entity;
         if (entity != null)
         {

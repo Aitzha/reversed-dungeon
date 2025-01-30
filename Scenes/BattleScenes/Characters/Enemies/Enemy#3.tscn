@@ -24,20 +24,22 @@ glowSprite = NodePath("Glow")
 entityUI = NodePath("EntityUI")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 7.5)
+position = Vector2(-3, -50)
 shape = SubResource("RectangleShape2D_p1ljr")
 
 [node name="Glow" type="Sprite2D" parent="."]
 visible = false
+position = Vector2(0, -55)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_6yrbn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -55)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_650o4")
 
 [node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel")]
-position = Vector2(-40, 60)
+position = Vector2(-40, 5)
 script = ExtResource("4_lyg6u")
 healthBar = NodePath("Health/HealthBar")
 healthLabel = NodePath("Health/HealthLabel")

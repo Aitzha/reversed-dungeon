@@ -22,6 +22,7 @@ public partial class BattleInterface : Control
 		LoadCards();
 		UpdateLabels();
 		endTurnButton.Pressed += BattleEventBus.instance.OnEndTurn;
+		endTurnButton.Pressed += OnEndTurn;
 	}
 	
 	public override void _Process(double delta)
@@ -46,10 +47,7 @@ public partial class BattleInterface : Control
 
 	private void RefreshCardsOnHand()
 	{
-		foreach (Card card in handPile)
-			discardPile.Enqueue(card);
-		
-		handPile.Clear();
+		OnEndTurn();
 		
 		if (drawPile.Count <= 0)
 		{
@@ -80,5 +78,16 @@ public partial class BattleInterface : Control
 		// oldCard.HideCard();
 		//
 		// UpdateLabels();
+	}
+
+	private void OnEndTurn()
+	{
+		foreach (Card card in handPile)
+		{
+			discardPile.Enqueue(card);
+			hand.RemoveChild(card);
+		}
+		
+		handPile.Clear();
 	}
 }

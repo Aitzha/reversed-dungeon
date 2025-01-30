@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/Characters/guard_icon.png" id="5_ab60m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
-size = Vector2(97, 64)
+size = Vector2(102, 66)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_irpae"]
 bg_color = Color(0.0521015, 0.0675027, 0.109463, 1)
@@ -24,20 +24,22 @@ glowSprite = NodePath("Glow")
 entityUI = NodePath("EntityUI")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-9.5, 0)
+position = Vector2(-7, -37)
 shape = SubResource("RectangleShape2D_p1ljr")
 
 [node name="Glow" type="Sprite2D" parent="."]
 visible = false
+position = Vector2(0, -37)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_ex3my")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -37)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_dnb10")
 
 [node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel")]
-position = Vector2(-40, 65)
+position = Vector2(-40, 6)
 script = ExtResource("4_n3qm0")
 healthBar = NodePath("Health/HealthBar")
 healthLabel = NodePath("Health/HealthLabel")
