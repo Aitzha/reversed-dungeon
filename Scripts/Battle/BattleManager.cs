@@ -37,6 +37,8 @@ public partial class BattleManager : Node
             playerTeam.Add(player);
         }
         
+        BattleEventBus.player = playerTeam[0];
+        
         for (int i = 0; i < enemyTeamData.Count; i++) 
         {
             PackedScene packedEnemyScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Enemies/" + enemyTeamData[i].entityName + ".tscn");

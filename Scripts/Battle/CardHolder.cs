@@ -4,9 +4,8 @@ using Godot;
 
 public partial class CardHolder : Area2D
 {
-    public bool overTarget = false;
+    public Entity currentTarget = null;
     private List<Entity> targetList = new List<Entity>();
-    private Entity currentTarget = null;
     
     public override void _Ready()
     {
@@ -41,7 +40,6 @@ public partial class CardHolder : Area2D
             targetList.Add(entity);
             if (currentTarget == null)
             {
-                overTarget = true;
                 entity.ToggleGlow();
                 currentTarget = entity;
             }
@@ -64,7 +62,6 @@ public partial class CardHolder : Area2D
                 }
                 else
                 {
-                    overTarget = false;
                     currentTarget = null;
                 }
             }

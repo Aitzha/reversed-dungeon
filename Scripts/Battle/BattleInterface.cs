@@ -40,6 +40,7 @@ public partial class BattleInterface : Control
 		{
 			Card card = (Card)cardScene.Instantiate();
 			card.cardData = cardData;
+			card.CardConsumed += OnCardConsumed;
 			
 			drawPile.Enqueue(card);
 		}
@@ -71,13 +72,12 @@ public partial class BattleInterface : Control
 		discardLabel.Text = discardPile.Count.ToString();
 	}
 
-	private void ConsumeCard(Card card)
+	private void OnCardConsumed(Card card)
 	{
-		// _handPile.Remove(oldCard);
-		// _discardPile.Enqueue(oldCard);
-		// oldCard.HideCard();
-		//
-		// UpdateLabels();
+		discardPile.Enqueue(card);
+		hand.RemoveChild(card);
+		
+		UpdateLabels();
 	}
 
 	private void OnEndTurn()

@@ -5,9 +5,11 @@ using System.Diagnostics;
 
 public partial class Card : Control
 {
-	[Export] public Sprite2D image;
-	[Export] public Label cardName;
-	[Export] public Label cardDescription;
+	[Export] private Sprite2D image;
+	[Export] private Label cardName;
+	[Export] private Label cardDescription;
+	
+	[Signal] public delegate void CardConsumedEventHandler(Card card);
 	
 	public CardData cardData { get; set; }
 
@@ -26,16 +28,6 @@ public partial class Card : Control
         cardHolder = (CardHolder) GetParent().GetParent().GetNode<Area2D>("CardHolder");
         cardVisualCopy = (Node2D) GetNode<Node2D>("CardVisual").Duplicate();
     }
-    
-    private void OnMouseEnter()
-    {
-        GetNode<AnimationPlayer>("AnimationPlayer").Play("Select");
-    }
-    
-    private void OnMouseExit()
-    {
-        GetNode<AnimationPlayer>("AnimationPlayer").Play("Deselect");
-    }
 
     public override void _GuiInput(InputEvent @event)
     {
@@ -50,16 +42,31 @@ public partial class Card : Control
 		    }
 		    else
 		    {
-			    if (cardHolder.overTarget)
-			    {
-				    Debug.Print("Card was consumed");
-			    }
 			    cardHolder.RemoveChild(cardVisualCopy);
 			    cardHolder.Deactivate();
-			    GetNode<Node2D>("CardVisual").Show();
+			    
+			    if (cardHolder.currentTarget != null)
+			    {
+				    cardHolder.currentTarget.ApplyEffects(this, BattleEventBus.player);
+				    EmitSignal(SignalName.CardConsumed, this);
+			    }
+			    else
+			    {
+				    GetNode<Node2D>("CardVisual").Show();
+			    }
 		    }
 
 	    }
+    }
+    
+    private void OnMouseEnter()
+    {
+	    GetNode<AnimationPlayer>("AnimationPlayer").Play("Select");
+    }
+    
+    private void OnMouseExit()
+    {
+	    GetNode<AnimationPlayer>("AnimationPlayer").Play("Deselect");
     }
 }
 

@@ -48,6 +48,29 @@ public partial class Entity : Node2D
         
         entityUI.UpdateUI(entityData);
     }
+    
+    public void ApplyEffects(Card card, Entity caster)
+    {
+        foreach (BaseEffect effect in card.cardData.Effects)
+        {
+            if (effect is InstantEffect instantEffect)
+            {
+                instantEffect.Activate(caster, this);
+            } 
+        
+            if (effect is ContinuousEffect continuousEffect)
+            {
+            
+            } 
+        
+            if (effect is BuffDebuffEffect buffDebuffEffect)
+            {
+            
+            }
+        }
+        
+        entityUI.UpdateUI(entityData);
+    }
 
     public void ToggleGlow()
     {

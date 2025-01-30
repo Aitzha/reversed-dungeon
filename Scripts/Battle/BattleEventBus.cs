@@ -5,6 +5,7 @@ using System.Diagnostics;
 public partial class BattleEventBus : Node
 {
     public static BattleEventBus instance;
+    public static Entity player;
     
     [Signal]
     public delegate void EndTurnEventHandler();
