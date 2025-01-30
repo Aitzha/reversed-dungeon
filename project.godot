@@ -18,6 +18,7 @@ config/icon="res://Sprites/icon.svg"
 [autoload]
 
 Globals="*res://Scripts/Globals.cs"
+BattleEventBus="*res://Scripts/Battle/BattleEventBus.cs"
 
 [display]
 

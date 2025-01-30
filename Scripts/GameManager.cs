@@ -101,22 +101,22 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	private List<Entity> loadPlayerTeam()
+	private List<EntityData> loadPlayerTeam()
 	{
-		List<Entity> playerTeam = new List<Entity>();
+		List<EntityData> playerTeam = new List<EntityData>();
 		
-		Entity player = new Entity("Player", 20);
+		EntityData player = new EntityData("Player", 20);
 		playerTeam.Add(player);
 		return playerTeam;
 	}
 
-	private List<Entity> loadEnemyTeam()
+	private List<EntityData> loadEnemyTeam()
 	{
-		List<Entity> enemyTeam = new List<Entity>();
+		List<EntityData> enemyTeam = new List<EntityData>();
 
-		Entity enemy1 = new Entity("Enemy#1", 20);
-		Entity enemy2 = new Entity("Enemy#2", 20);
-		Entity enemy3 = new Entity("Enemy#3", 20);
+		EntityData enemy1 = new EntityData("Enemy#1", 20);
+		EntityData enemy2 = new EntityData("Enemy#2", 20);
+		EntityData enemy3 = new EntityData("Enemy#3", 20);
 		enemyTeam.Add(enemy1);
 		enemyTeam.Add(enemy2);
 		enemyTeam.Add(enemy3);

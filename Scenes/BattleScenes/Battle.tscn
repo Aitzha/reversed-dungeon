@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://ufejh62xdwqb" path="res://Sprites/Background/cegqlbo71df61.png" id="2_t1vfu"]
 [ext_resource type="PackedScene" uid="uid://dtsk4v2gl60gd" path="res://Scenes/BattleScenes/BattleInterface/BattleInterface.tscn" id="3_d76qx"]
 
-[node name="Battle" type="Node2D" node_paths=PackedStringArray("BattleInterface")]
+[node name="Battle" type="Node2D" node_paths=PackedStringArray("battleInterface")]
 script = ExtResource("1_hl268")
-BattleInterface = NodePath("Interface")
+battleInterface = NodePath("Interface")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(320, 180)

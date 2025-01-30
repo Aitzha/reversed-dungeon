@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -104,13 +105,30 @@ public class InstantEffect : BaseEffect
 
 	public InstantEffect()
 	{
-		this.EffectType = "InstantEffect";
+		EffectType = "InstantEffect";
+	}
+
+	public InstantEffect(InstantEffectSubType subType, int amount)
+	{
+		EffectType = "InstantEffect";
+		SubType = subType;
+		Amount = amount;
 	}
 
 	public override void Activate(Entity caster, Entity target)
 	{
-		// Attack, Guard, Heal logic ...
-		IsExpired = true;
+		switch (SubType)
+		{
+			case InstantEffectSubType.Attack:
+				target.entityData.health -= Amount;
+				break;
+			case InstantEffectSubType.Guard:
+				target.entityData.guard += Amount;
+				break;
+			case InstantEffectSubType.Heal:
+				target.entityData.health += Math.Min(target.entityData.health + Amount, target.entityData.maxHealth);
+				break;
+		}
 	}
 
 	public override void Tick(Entity target)

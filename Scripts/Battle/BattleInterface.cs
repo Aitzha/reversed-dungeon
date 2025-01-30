@@ -9,6 +9,7 @@ public partial class BattleInterface : Control
 	[Export] private Label discardLabel;
 	[Export] private PackedScene cardScene;
 	[Export] private HBoxContainer hand;
+	[Export] private Button endTurnButton;
 
 	public List<CardData> playerCards {get; set;}
 
@@ -20,6 +21,7 @@ public partial class BattleInterface : Control
 	{
 		LoadCards();
 		UpdateLabels();
+		endTurnButton.Pressed += BattleEventBus.instance.OnEndTurn;
 	}
 	
 	public override void _Process(double delta)

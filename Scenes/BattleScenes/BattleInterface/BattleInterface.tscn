@@ -1,14 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=7 format=3 uid="uid://dtsk4v2gl60gd"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/BattleInterface.cs" id="1_xchf7"]
 [ext_resource type="PackedScene" uid="uid://b1ipsvab0ffmy" path="res://Scenes/BattleScenes/BattleInterface/Card.tscn" id="2_yv712"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="3_an37h"]
 [ext_resource type="Script" path="res://Scripts/Battle/CardHolder.cs" id="4_hgb5d"]
+[ext_resource type="FontFile" uid="uid://cnjlk0v462xys" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="5_jjhfe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_opdgp"]
 radius = 41.0488
 
-[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "discardLabel", "hand")]
+[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "discardLabel", "hand", "endTurnButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,6 +22,7 @@ drawLabel = NodePath("DrawPile/DrawPileCount")
 discardLabel = NodePath("DiscardPile/DiscardPileCount")
 cardScene = ExtResource("2_yv712")
 hand = NodePath("Hand")
+endTurnButton = NodePath("Button")
 
 [node name="DrawPile" type="Node" parent="."]
 
@@ -72,6 +74,7 @@ theme_override_constants/separation = -20
 alignment = 1
 
 [node name="CardHolder" type="Area2D" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.482353)
 collision_layer = 2
 collision_mask = 2
@@ -79,3 +82,16 @@ script = ExtResource("4_hgb5d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CardHolder"]
 shape = SubResource("CircleShape2D_opdgp")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.066
+anchor_bottom = 0.098
+offset_left = 470.0
+offset_top = 10.0
+offset_right = 587.76
+offset_bottom = 24.72
+theme_override_fonts/font = ExtResource("5_jjhfe")
+theme_override_font_sizes/font_size = 32
+text = "End turn"

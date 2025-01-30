@@ -1,11 +1,11 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 public partial class BattleManager : Node
 {
-    [Export] public BattleInterface BattleInterface;
+    [Export] public BattleInterface battleInterface;
 
+    private bool playerTurn = true;
     private List<Entity> playerTeam = new List<Entity>();
     private List<Entity> enemyTeam = new List<Entity>();
     
@@ -21,45 +21,63 @@ public partial class BattleManager : Node
         new Vector2(360, 220),
     };
 
-    public void Setup(List<CardData> playerCards, List<Entity> playerTeam, List<Entity> enemyTeam)
+    public void Setup(List<CardData> playerCards, List<EntityData> playerTeamData, List<EntityData> enemyTeamData)
     {
-        BattleInterface.playerCards = playerCards;
-        this.playerTeam = playerTeam;
-        this.enemyTeam = enemyTeam;
+        battleInterface.playerCards = playerCards;
+        
+        for (int i = 0; i < playerTeamData.Count; i++) 
+        {
+            PackedScene packedPlayerScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Player/" + playerTeamData[i].entityName + ".tscn");
+
+            Entity player = (Entity)packedPlayerScene.Instantiate();
+            player.entityData = playerTeamData[i];
+            
+            player.Position = playerTeamPositions[i];
+            playerTeam.Add(player);
+        }
+        
+        for (int i = 0; i < enemyTeamData.Count; i++) 
+        {
+            PackedScene packedEnemyScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Enemies/" + enemyTeamData[i].entityName + ".tscn");
+
+            Entity enemy = (Entity)packedEnemyScene.Instantiate();
+            enemy.entityData = enemyTeamData[i];
+
+            enemy.Position = enemyTeamPositions[i];
+            enemyTeam.Add(enemy);
+        }
     }
 
     public override void _Ready()
     {
         LoadEntities();
+        BattleEventBus.instance.EndTurn += EndPlayerTurn;
     }
 
     private void LoadEntities()
     {
-        int playerCount = 0;
-        foreach (Entity player in playerTeam) 
+        foreach (Entity player in playerTeam)
+            AddChild(player);
+        
+        foreach (Entity enemy in enemyTeam)
+            AddChild(enemy);
+    }
+
+    private void EnemyTeamPerformAction()
+    {
+        Entity player = playerTeam[0];
+        
+        InstantEffect instantEffect = new InstantEffect(InstantEffectSubType.Attack, 1);
+        foreach (Entity enemy in enemyTeam)
         {
-            PackedScene packedPlayerScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Player/" + player.EntityName + ".tscn");
-
-            var e = (Entity)packedPlayerScene.Instantiate();
-            e.CopyOriginal(player);
-            AddChild(e);
-            
-            e.Position = playerTeamPositions[playerCount];
-            e.Position = playerTeamPositions[playerCount];
-            playerCount++;
+            player.ApplyEffect(instantEffect, enemy);
         }
+    }
 
-        int enemyCount = 0;
-        foreach (Entity enemy in enemyTeam) 
-        {
-            PackedScene packedEnemyScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Enemies/" + enemy.EntityName + ".tscn");
-
-            var e = (Entity)packedEnemyScene.Instantiate();
-            e.CopyOriginal(enemy);
-            AddChild(e);
-
-            e.Position = enemyTeamPositions[enemyCount];
-            enemyCount++;
-        }
+    private void EndPlayerTurn()
+    {
+        playerTurn = false;
+        EnemyTeamPerformAction();
+        playerTurn = true;
     }
 }
