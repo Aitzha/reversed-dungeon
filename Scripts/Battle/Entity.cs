@@ -7,6 +7,7 @@ public partial class Entity : Node2D
     [Export] private EntityUI entityUI;
     
     public EntityData entityData;
+    public bool isAlly = false;
 
     public override void _Ready()
     {
@@ -27,6 +28,7 @@ public partial class Entity : Node2D
             entityData.appliedEffects.Remove(effect);
         
         entityUI.UpdateUI(entityData);
+        BattleManager.instance.DestroyEntity(this);
     }
 
     public void ApplyEffect(BaseEffect effect, Entity caster)
@@ -47,29 +49,15 @@ public partial class Entity : Node2D
         }
         
         entityUI.UpdateUI(entityData);
+        BattleManager.instance.DestroyEntity(this);
     }
     
     public void ApplyEffects(Card card, Entity caster)
     {
         foreach (BaseEffect effect in card.cardData.Effects)
         {
-            if (effect is InstantEffect instantEffect)
-            {
-                instantEffect.Activate(caster, this);
-            } 
-        
-            if (effect is ContinuousEffect continuousEffect)
-            {
-            
-            } 
-        
-            if (effect is BuffDebuffEffect buffDebuffEffect)
-            {
-            
-            }
+            ApplyEffect(effect, caster);
         }
-        
-        entityUI.UpdateUI(entityData);
     }
 
     public void ToggleGlow()

@@ -41,6 +41,7 @@ public partial class BattleManager : Node
             playerTeamMember.entityData = playerTeamData[i];
             
             playerTeamMember.Position = playerTeamPositions[i];
+            playerTeamMember.isAlly = true;
             playerTeam.Add(playerTeamMember);
         }
         
@@ -54,6 +55,7 @@ public partial class BattleManager : Node
             enemyTeamMember.entityData = enemyTeamData[i];
 
             enemyTeamMember.Position = enemyTeamPositions[i];
+            enemyTeamMember.isAlly = false;
             enemyTeam.Add(enemyTeamMember);
         }
     }
@@ -73,6 +75,26 @@ public partial class BattleManager : Node
         battleInterface.FillHand();
     }
 
+    public void DestroyEntity(Entity entity)
+    {
+        if (entity.entityData.health > 0)
+            return;
+        
+        if (entity.isAlly)
+        {
+            playerTeam.Remove(entity);
+            RemoveChild(entity);
+            
+            if (entity == player)
+                Debug.Print("You are dead!");
+        }
+        else
+        {
+            enemyTeam.Remove(entity);
+            RemoveChild(entity);
+        }
+    }
+
     private void LoadEntities()
     {
         foreach (Entity player in playerTeam)
@@ -87,6 +109,9 @@ public partial class BattleManager : Node
         InstantEffect instantEffect = new InstantEffect(InstantEffectSubType.Attack, 1);
         foreach (Entity enemy in enemyTeam)
         {
+            if (player.entityData.health <= 0)
+                return;
+            
             player.ApplyEffect(instantEffect, enemy);
         }
     }
