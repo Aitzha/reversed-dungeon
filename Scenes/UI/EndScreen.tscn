@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://ck7uno6uy51w1"]
+
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="1_m2i42"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2ygq"]
+bg_color = Color(0.0267636, 1.9881e-05, 0.129621, 1)
+
+[node name="EndScreen" type="CenterContainer"]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 320.0
+offset_top = 180.0
+offset_right = 320.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(640, 360)
+layout_direction = 3
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d2ygq")
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_m2i42")
+theme_override_font_sizes/font_size = 64
+text = "Text"
+horizontal_alignment = 1
+vertical_alignment = 1

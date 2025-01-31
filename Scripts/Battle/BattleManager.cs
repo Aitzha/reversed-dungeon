@@ -5,6 +5,7 @@ using System.Diagnostics;
 public partial class BattleManager : Node
 {
     [Export] private BattleInterface battleInterface;
+    [Export] private PackedScene endScreen;
     
     public static BattleManager instance;
     public int playerMana = 1;
@@ -84,14 +85,25 @@ public partial class BattleManager : Node
         {
             playerTeam.Remove(entity);
             RemoveChild(entity);
-            
+
             if (entity == player)
-                Debug.Print("You are dead!");
+            {
+                Node endScreenInstance = endScreen.Instantiate();
+                endScreenInstance.GetNode<Label>("Text").Text = "You Lose";
+                AddChild(endScreenInstance);
+            }
         }
         else
         {
             enemyTeam.Remove(entity);
             RemoveChild(entity);
+
+            if (enemyTeam.Count == 0)
+            {
+                Node endScreenInstance = endScreen.Instantiate();
+                endScreenInstance.GetNode<Label>("Text").Text = "You Win!";
+                AddChild(endScreenInstance);
+            }
         }
     }
 
