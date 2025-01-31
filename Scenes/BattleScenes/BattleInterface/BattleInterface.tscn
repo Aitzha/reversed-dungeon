@@ -1,15 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=8 format=3 uid="uid://dtsk4v2gl60gd"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/BattleInterface.cs" id="1_xchf7"]
 [ext_resource type="PackedScene" uid="uid://b1ipsvab0ffmy" path="res://Scenes/BattleScenes/BattleInterface/Card.tscn" id="2_yv712"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="3_an37h"]
 [ext_resource type="Script" path="res://Scripts/Battle/CardHolder.cs" id="4_hgb5d"]
 [ext_resource type="FontFile" uid="uid://cnjlk0v462xys" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="5_jjhfe"]
+[ext_resource type="Texture2D" uid="uid://bnemtvmhnvu4w" path="res://Sprites/UI/mana_pool.png" id="6_ygar7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_opdgp"]
 radius = 41.0488
 
-[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "discardLabel", "hand", "endTurnButton")]
+[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "discardLabel", "hand", "endTurnButton", "manaLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +24,7 @@ discardLabel = NodePath("DiscardPile/DiscardPileCount")
 cardScene = ExtResource("2_yv712")
 hand = NodePath("Hand")
 endTurnButton = NodePath("Button")
+manaLabel = NodePath("ManaPool/ManaAmount")
 
 [node name="DrawPile" type="Node" parent="."]
 
@@ -95,3 +97,24 @@ focus_mode = 0
 theme_override_fonts/font = ExtResource("5_jjhfe")
 theme_override_font_sizes/font_size = 32
 text = "End turn"
+
+[node name="ManaPool" type="BoxContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 58.0
+offset_bottom = 58.0
+alignment = 1
+
+[node name="Icon" type="Sprite2D" parent="ManaPool"]
+position = Vector2(24, 24)
+texture = ExtResource("6_ygar7")
+
+[node name="ManaAmount" type="Label" parent="ManaPool"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_an37h")
+theme_override_font_sizes/font_size = 16
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1

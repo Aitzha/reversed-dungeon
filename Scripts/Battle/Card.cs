@@ -8,8 +8,9 @@ public partial class Card : Control
 	[Export] private Sprite2D image;
 	[Export] private Label cardName;
 	[Export] private Label cardDescription;
+	[Export] private Label cardCost;
 	
-	[Signal] public delegate void CardConsumedEventHandler(Card card);
+	[Signal] public delegate void CardConsumedEventHandler(Card card, Entity target);
 	
 	public CardData cardData { get; set; }
 
@@ -21,6 +22,7 @@ public partial class Card : Control
 	    image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/" + cardData.Id + ".png");
 	    cardName.Text = cardData.Name;
 	    cardDescription.Text = cardData.Description;
+	    cardCost.Text = cardData.Cost.ToString();
 	    
         MouseEntered += OnMouseEnter;
         MouseExited += OnMouseExit;
@@ -36,7 +38,7 @@ public partial class Card : Control
 		    if (eventMouseButton.Pressed)
 		    {
 			    cardHolder.AddChild(cardVisualCopy);
-			    cardVisualCopy.GlobalPosition = cardHolder.GlobalPosition + new Vector2(-Globals.cardWidth / 2, -Globals.cardHeight / 2);
+			    cardVisualCopy.GlobalPosition = cardHolder.GlobalPosition + new Vector2(-GameSettings.cardWidth / 2, -GameSettings.cardHeight / 2);
 			    cardHolder.Activate();
 			    GetNode<Node2D>("CardVisual").Hide();
 		    }
@@ -44,15 +46,11 @@ public partial class Card : Control
 		    {
 			    cardHolder.RemoveChild(cardVisualCopy);
 			    cardHolder.Deactivate();
+			    GetNode<Node2D>("CardVisual").Show();
 			    
 			    if (cardHolder.currentTarget != null)
 			    {
-				    cardHolder.currentTarget.ApplyEffects(this, BattleEventBus.player);
-				    EmitSignal(SignalName.CardConsumed, this);
-			    }
-			    else
-			    {
-				    GetNode<Node2D>("CardVisual").Show();
+				    EmitSignal(SignalName.CardConsumed, this, cardHolder.currentTarget);
 			    }
 		    }
 
@@ -75,6 +73,7 @@ public class CardData
 	public string Id { get; set; }
 	public string Name { get; set; }
 	public string Description { get; set; }
+	public int Cost { get; set; } = 1;
 	public int Tier { get; set; } = 0;
 	public int ProgressionValue { get; set; } = 0;
 	

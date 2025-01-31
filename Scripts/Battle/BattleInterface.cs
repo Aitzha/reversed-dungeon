@@ -10,28 +10,41 @@ public partial class BattleInterface : Control
 	[Export] private PackedScene cardScene;
 	[Export] private HBoxContainer hand;
 	[Export] private Button endTurnButton;
+	[Export] private Label manaLabel;
 
 	public List<CardData> playerCards {get; set;}
 
 	private Queue<Card> drawPile = new Queue<Card>();
 	private List<Card> handPile = new List<Card>();
 	private Queue<Card> discardPile = new Queue<Card>();
+	private BattleManager battleManager;
 	
 	public override void _Ready()
 	{
+		battleManager = BattleManager.instance;
 		LoadCards();
 		UpdateLabels();
-		endTurnButton.Pressed += BattleEventBus.instance.OnEndTurn;
 		endTurnButton.Pressed += OnEndTurn;
 	}
 	
-	public override void _Process(double delta)
+	public void FillHand()
 	{
-		if (Input.IsActionJustPressed("jump"))
+		if (drawPile.Count < battleManager.playerHandCapacity)
 		{
-			RefreshCardsOnHand();
-			UpdateLabels();
+			while (discardPile.Count > 0)
+				drawPile.Enqueue(discardPile.Dequeue());
+			
+			discardPile.Clear();
 		}
+		
+		for (int i = 0; i < battleManager.playerHandCapacity; i++)
+		{
+			Card card = drawPile.Dequeue();
+			handPile.Add(card);
+			hand.AddChild(card);
+		}
+		
+		UpdateLabels();
 	}
 
 	private void LoadCards()
@@ -46,34 +59,25 @@ public partial class BattleInterface : Control
 		}
 	}
 
-	private void RefreshCardsOnHand()
-	{
-		OnEndTurn();
-		
-		if (drawPile.Count <= 0)
-		{
-			Debug.Print("Draw pile is empty");
-			return;
-		}
-
-		int cardCount = Math.Min(2, drawPile.Count);
-		
-		for (int i = 0; i < cardCount; i++)
-		{
-			Card card = drawPile.Dequeue();
-			handPile.Add(card);
-			hand.AddChild(card);
-		}
-	}
-
 	private void UpdateLabels()
 	{
 		drawLabel.Text = drawPile.Count.ToString();
 		discardLabel.Text = discardPile.Count.ToString();
+		manaLabel.Text = battleManager.playerMana.ToString();
 	}
 
-	private void OnCardConsumed(Card card)
+	private void OnCardConsumed(Card card, Entity target)
 	{
+		if (card.cardData.Cost > battleManager.playerMana)
+		{
+			Debug.Print("Can't consume this card");
+			return;
+		}
+		
+		battleManager.playerMana -= card.cardData.Cost;
+		target.ApplyEffects(card, battleManager.player);
+		
+		handPile.Remove(card);
 		discardPile.Enqueue(card);
 		hand.RemoveChild(card);
 		
@@ -89,5 +93,6 @@ public partial class BattleInterface : Control
 		}
 		
 		handPile.Clear();
+		battleManager.EndPlayerTurn();
 	}
 }

@@ -40,6 +40,7 @@ public partial class GameManager : Node2D
 		battleScene.Setup(PlayerCards, loadPlayerTeam(), loadEnemyTeam());
 		AddChild(battleScene);
 		
+		
 		// Instance the pause menu, script and add to Main
 		_pauseMenu = (Control)PauseMenuScene.Instantiate();
 		_pauseMenuScript = _pauseMenu as PauseMenuScript;

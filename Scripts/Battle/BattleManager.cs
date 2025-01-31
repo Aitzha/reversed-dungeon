@@ -4,7 +4,13 @@ using System.Diagnostics;
 
 public partial class BattleManager : Node
 {
-    [Export] public BattleInterface battleInterface;
+    [Export] private BattleInterface battleInterface;
+    
+    public static BattleManager instance;
+    public int playerMana = 1;
+    public int playerHandCapacity = 2;
+    public int playerManaCapacity = 1;
+    public Entity player;
 
     private bool playerTurn = true;
     private List<Entity> playerTeam = new List<Entity>();
@@ -24,37 +30,47 @@ public partial class BattleManager : Node
 
     public void Setup(List<CardData> playerCards, List<EntityData> playerTeamData, List<EntityData> enemyTeamData)
     {
+        instance = this;
         battleInterface.playerCards = playerCards;
         
         for (int i = 0; i < playerTeamData.Count; i++) 
         {
             PackedScene packedPlayerScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Player/" + playerTeamData[i].entityName + ".tscn");
 
-            Entity player = (Entity)packedPlayerScene.Instantiate();
-            player.entityData = playerTeamData[i];
+            Entity playerTeamMember = (Entity)packedPlayerScene.Instantiate();
+            playerTeamMember.entityData = playerTeamData[i];
             
-            player.Position = playerTeamPositions[i];
-            playerTeam.Add(player);
+            playerTeamMember.Position = playerTeamPositions[i];
+            playerTeam.Add(playerTeamMember);
         }
         
-        BattleEventBus.player = playerTeam[0];
+        player = playerTeam[0];
         
         for (int i = 0; i < enemyTeamData.Count; i++) 
         {
             PackedScene packedEnemyScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Enemies/" + enemyTeamData[i].entityName + ".tscn");
 
-            Entity enemy = (Entity)packedEnemyScene.Instantiate();
-            enemy.entityData = enemyTeamData[i];
+            Entity enemyTeamMember = (Entity)packedEnemyScene.Instantiate();
+            enemyTeamMember.entityData = enemyTeamData[i];
 
-            enemy.Position = enemyTeamPositions[i];
-            enemyTeam.Add(enemy);
+            enemyTeamMember.Position = enemyTeamPositions[i];
+            enemyTeam.Add(enemyTeamMember);
         }
     }
 
     public override void _Ready()
     {
         LoadEntities();
-        BattleEventBus.instance.EndTurn += EndPlayerTurn;
+        battleInterface.FillHand();
+    }
+    
+    public void EndPlayerTurn()
+    {
+        playerTurn = false;
+        EnemyTeamPerformAction();
+        playerTurn = true;
+        playerMana = playerManaCapacity;
+        battleInterface.FillHand();
     }
 
     private void LoadEntities()
@@ -68,19 +84,10 @@ public partial class BattleManager : Node
 
     private void EnemyTeamPerformAction()
     {
-        Entity player = playerTeam[0];
-        
         InstantEffect instantEffect = new InstantEffect(InstantEffectSubType.Attack, 1);
         foreach (Entity enemy in enemyTeam)
         {
             player.ApplyEffect(instantEffect, enemy);
         }
-    }
-
-    private void EndPlayerTurn()
-    {
-        playerTurn = false;
-        EnemyTeamPerformAction();
-        playerTurn = true;
     }
 }

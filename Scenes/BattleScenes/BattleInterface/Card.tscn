@@ -61,7 +61,7 @@ _data = {
 "Select": SubResource("Animation_4el0v")
 }
 
-[node name="Card" type="Control" node_paths=PackedStringArray("image", "cardName", "cardDescription")]
+[node name="Card" type="Control" node_paths=PackedStringArray("image", "cardName", "cardDescription", "cardCost")]
 custom_minimum_size = Vector2(96, 144)
 layout_mode = 3
 anchors_preset = 0
@@ -71,6 +71,7 @@ script = ExtResource("1_l7upv")
 image = NodePath("CardVisual/Image")
 cardName = NodePath("CardVisual/Name")
 cardDescription = NodePath("CardVisual/Description")
+cardCost = NodePath("CardVisual/Cost")
 
 [node name="CardVisual" type="Node2D" parent="."]
 
