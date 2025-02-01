@@ -8,6 +8,7 @@ bg_color = Color(0.397442, 0.646412, 0.692578, 1)
 
 [node name="PauseMenu" type="Control" node_paths=PackedStringArray("ResumeButton", "ResolutionButton")]
 process_mode = 2
+z_index = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

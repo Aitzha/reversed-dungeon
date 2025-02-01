@@ -2,6 +2,7 @@ using System;
 using Godot;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 public partial class Card : Control
 {
@@ -21,7 +22,7 @@ public partial class Card : Control
     {
 	    image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/" + cardData.Id + ".png");
 	    cardName.Text = cardData.Name;
-	    cardDescription.Text = cardData.Description;
+	    cardDescription.Text = cardData.GetDescription();
 	    cardCost.Text = cardData.Cost.ToString();
 	    
         MouseEntered += OnMouseEnter;
@@ -72,18 +73,35 @@ public class CardData
 {
 	public string Id { get; set; }
 	public string Name { get; set; }
-	public string Description { get; set; }
+	public string DescriptionTemplate { get; set; }
 	public int Cost { get; set; } = 1;
 	public int Tier { get; set; } = 0;
 	public int ProgressionValue { get; set; } = 0;
 	
 	public List<BaseEffect> Effects { get; set; } = new();
+
+	public string GetDescription()
+	{
+		return Regex.Replace(DescriptionTemplate, @"\{(\w+)_(\d+)\}", match =>
+		{
+			string key = match.Groups[1].Value;
+			int effectIndex = int.Parse(match.Groups[2].Value);
+			
+			BaseEffect effect = Effects[effectIndex];
+			if (key == "amount") return effect.Amount.ToString();
+			if (key == "duration") return effect.Duration.ToString();
+
+			// Return placeholder if no match found
+			return match.Value;
+		});
+	}
 }
 
 public abstract class BaseEffect : IEffect
 {
 	public string EffectType { get; set; }
 	public bool IsExpired { get; set; }
+	public int Amount { get; set; }
 	public int Duration { get; set; }
 	public TargetType TargetType { get; set; }
 	public abstract void Activate(Entity caster, Entity target);
@@ -107,7 +125,6 @@ public interface IEffect
 public class InstantEffect : BaseEffect
 {
 	public InstantEffectSubType SubType { get; set; }
-	public int Amount { get; set; }
 
 	public InstantEffect()
 	{
@@ -146,7 +163,6 @@ public class InstantEffect : BaseEffect
 public class ContinuousEffect : BaseEffect
 {
 	public ContinuousEffectSubType SubType { get; set; }
-	public int Amount { get; set; }
 
 	public ContinuousEffect()
 	{
@@ -168,7 +184,6 @@ public class ContinuousEffect : BaseEffect
 public class BuffDebuffEffect : BaseEffect
 {
 	public BuffDebuffEffectSubType SubType { get; set; }
-	public int Amount { get; set; }
 
 	public BuffDebuffEffect()
 	{

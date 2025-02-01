@@ -2,7 +2,7 @@
   {
 	"id": "meteor_punch",
 	"name": "Meteor Punch",
-	"descriptionTemplate": "Deal {DamageAmount} damage instantly",
+	"descriptionTemplate": "Deal {amount_0} damage instantly",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
@@ -16,7 +16,7 @@
   {
 	"id": "claw_slash",
 	"name": "Claw Slash",
-	"descriptionTemplate": "Apply {Duration} turns of poison",
+	"descriptionTemplate": "Apply poison for {duration_0} turns that deals {amount_0} damage per turn",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
@@ -31,7 +31,7 @@
   {
 	"id": "rage",
 	"name": "Rage",
-	"descriptionTemplate": "Gain {Amount} Attack for {Duration} turns",
+	"descriptionTemplate": "Gain {amount_0} Attack for {duration_0} turns",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
