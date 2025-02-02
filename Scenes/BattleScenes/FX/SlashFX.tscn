@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cqwhgg27pswal" path="res://Sprites/VFX/slash_animation.png" id="1_cqxm2"]
 [ext_resource type="Script" path="res://Scripts/Battle/DigitalEffect.cs" id="1_g5klq"]
-[ext_resource type="AudioStream" uid="uid://bw1sx4k1ev4ee" path="res://Sound/580307__colorscrimsontears__slash-rpg.wav" id="2_p78wj"]
+[ext_resource type="AudioStream" uid="uid://bw1sx4k1ev4ee" path="res://Sound/slash-rpg.wav" id="2_p78wj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qkb04"]
 atlas = ExtResource("1_cqxm2")

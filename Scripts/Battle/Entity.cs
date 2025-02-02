@@ -60,6 +60,13 @@ public partial class Entity : Node2D
             slashInstance.Play(this);
             Shake();
         }
+        else
+        {
+            // this is temp
+            PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/HealFX.tscn");
+            DigitalEffect healInstance = (DigitalEffect)healPackedScene.Instantiate();
+            healInstance.PlayParticles(this);
+        }
     }
     
     public void ApplyEffects(Card card, Entity caster)
