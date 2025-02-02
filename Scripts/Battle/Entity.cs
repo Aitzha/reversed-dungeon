@@ -33,6 +33,8 @@ public partial class Entity : Node2D
 
     public void ApplyEffect(BaseEffect effect, Entity caster)
     {
+        int previousHealth = entityData.health;
+        
         if (effect is InstantEffect instantEffect)
         {
             instantEffect.Activate(caster, this);
@@ -50,6 +52,13 @@ public partial class Entity : Node2D
         
         entityUI.UpdateUI(entityData);
         BattleManager.instance.DestroyEntity(this);
+
+        if (previousHealth > entityData.health)
+        {
+            PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/SlashFX.tscn");
+            DigitalEffect slashInstance = (DigitalEffect)slashPackedScene.Instantiate();
+            slashInstance.Play(this);
+        }
     }
     
     public void ApplyEffects(Card card, Entity caster)
