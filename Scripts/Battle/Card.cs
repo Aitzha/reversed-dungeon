@@ -61,11 +61,13 @@ public partial class Card : Control
     private void OnMouseEnter()
     {
 	    GetNode<AnimationPlayer>("AnimationPlayer").Play("Select");
+	    ZIndex = 10;
     }
     
     private void OnMouseExit()
     {
 	    GetNode<AnimationPlayer>("AnimationPlayer").Play("Deselect");
+	    ZIndex = 0;
     }
 }
 
