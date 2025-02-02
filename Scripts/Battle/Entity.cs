@@ -58,6 +58,7 @@ public partial class Entity : Node2D
             PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/SlashFX.tscn");
             DigitalEffect slashInstance = (DigitalEffect)slashPackedScene.Instantiate();
             slashInstance.Play(this);
+            Shake();
         }
     }
     
@@ -72,6 +73,23 @@ public partial class Entity : Node2D
     public void ToggleGlow()
     {
         glowSprite.Visible = !glowSprite.Visible;
+    }
+
+    private async void Shake()
+    {
+        // length of effect in seconds
+        double length = 0.2;
+        double period = length / 6;
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (i % 2 == 0)
+                Position += new Vector2(5, 0);
+            if (i % 2 == 1)
+                Position += new Vector2(-5, 0);
+            
+            await ToSignal(GetTree().CreateTimer(period), "timeout");
+        }
     }
 }
 

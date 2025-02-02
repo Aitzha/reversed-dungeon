@@ -90,7 +90,7 @@ audioEffect = NodePath("AudioStreamPlayer2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 10
-position = Vector2(0, -40)
+position = Vector2(0, -50)
 sprite_frames = SubResource("SpriteFrames_itrfo")
 animation = &"Slash Animation"
 
