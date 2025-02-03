@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://det4r7ibqlt8u"
-path="res://.godot/imported/meteor_punch.png-a22f99600913be9a20857ee761df46fd.ctex"
+uid="uid://8sh8qdr5ekss"
+path="res://.godot/imported/claw_slash.png-d8347687a0fc5a0361c248de09196d31.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/meteor_punch.png"
-dest_files=["res://.godot/imported/meteor_punch.png-a22f99600913be9a20857ee761df46fd.ctex"]
+source_file="res://Sprites/Cards/Effects/claw_slash.png"
+dest_files=["res://.godot/imported/claw_slash.png-d8347687a0fc5a0361c248de09196d31.ctex"]
 
 [params]
 

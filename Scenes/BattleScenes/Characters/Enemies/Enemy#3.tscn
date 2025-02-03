@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://5wjv748brgfr"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_pkv1l"]
+[ext_resource type="Script" path="res://Scripts/Battle/Entity/Entity.cs" id="1_pkv1l"]
 [ext_resource type="Texture2D" uid="uid://swwh011v2tgg" path="res://Sprites/Characters/enemy#3_glow.png" id="2_6yrbn"]
 [ext_resource type="Texture2D" uid="uid://die8c8iu4x5ps" path="res://Sprites/Characters/enemy#3.png" id="3_650o4"]
-[ext_resource type="Script" path="res://Scripts/Battle/EntityUI.cs" id="4_lyg6u"]
+[ext_resource type="Script" path="res://Scripts/Battle/Interface/EntityUI.cs" id="4_lyg6u"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_s4tru"]
-[ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/Characters/guard_icon.png" id="5_ib0w8"]
+[ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/guard_icon.png" id="5_ib0w8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
 size = Vector2(48, 99)

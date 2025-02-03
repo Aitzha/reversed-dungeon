@@ -20,7 +20,7 @@ public partial class Card : Control
 	
     public override void _Ready()
     {
-	    image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/" + cardData.Id + ".png");
+	    image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/Effects/" + cardData.Id + ".png");
 	    cardName.Text = cardData.Name;
 	    cardDescription.Text = cardData.GetDescription();
 	    cardCost.Text = cardData.Cost.ToString();

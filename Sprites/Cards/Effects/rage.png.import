@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpg2c8fv2xsnu"
-path="res://.godot/imported/CardBase.png-9a2f298f79d83bb6c977d9883a002e0d.ctex"
+uid="uid://cb0xrp1fgt37h"
+path="res://.godot/imported/rage.png-72f9d6fa0c39d741437a223807322c79.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/CardBase.png"
-dest_files=["res://.godot/imported/CardBase.png-9a2f298f79d83bb6c977d9883a002e0d.ctex"]
+source_file="res://Sprites/Cards/Effects/rage.png"
+dest_files=["res://.godot/imported/rage.png-72f9d6fa0c39d741437a223807322c79.ctex"]
 
 [params]
 

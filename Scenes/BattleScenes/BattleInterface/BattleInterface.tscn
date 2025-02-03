@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtsk4v2gl60gd"]
+[gd_scene load_steps=9 format=3 uid="uid://dtsk4v2gl60gd"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/BattleInterface.cs" id="1_xchf7"]
+[ext_resource type="Script" path="res://Scripts/Battle/Interface/BattleInterface.cs" id="1_xchf7"]
 [ext_resource type="PackedScene" uid="uid://b1ipsvab0ffmy" path="res://Scenes/BattleScenes/BattleInterface/Card.tscn" id="2_yv712"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="3_an37h"]
-[ext_resource type="Script" path="res://Scripts/Battle/CardHolder.cs" id="4_hgb5d"]
-[ext_resource type="FontFile" uid="uid://cnjlk0v462xys" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="5_jjhfe"]
+[ext_resource type="Script" path="res://Scripts/Battle/Interface/CardHolder.cs" id="4_hgb5d"]
+[ext_resource type="Texture2D" uid="uid://btho5t5mea7dc" path="res://Sprites/UI/discard_pile.png" id="5_aynih"]
 [ext_resource type="Texture2D" uid="uid://bnemtvmhnvu4w" path="res://Sprites/UI/mana_pool.png" id="6_ygar7"]
+[ext_resource type="Texture2D" uid="uid://c6ju5oauxu71q" path="res://Sprites/UI/draw_pile.png" id="7_ty10j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_opdgp"]
 radius = 41.0488
@@ -26,43 +27,49 @@ hand = NodePath("Hand")
 endTurnButton = NodePath("Button")
 manaLabel = NodePath("ManaPool/ManaAmount")
 
-[node name="DrawPile" type="Node" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="DrawPile"]
+[node name="DrawPile" type="CenterContainer" parent="."]
+layout_mode = 0
 offset_left = 10.0
-offset_top = 300.0
-offset_right = 60.0
+offset_top = 278.0
+offset_right = 58.0
 offset_bottom = 350.0
-color = Color(0.349667, 0.591099, 0.655044, 1)
+
+[node name="Icon" type="Control" parent="DrawPile"]
+custom_minimum_size = Vector2(48, 72)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="DrawPile/Icon"]
+position = Vector2(24, 36)
+texture = ExtResource("7_ty10j")
 
 [node name="DrawPileCount" type="Label" parent="DrawPile"]
-offset_left = 10.0
-offset_top = 300.0
-offset_right = 60.0
-offset_bottom = 350.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_an37h")
-theme_override_font_sizes/font_size = 32
-text = "5"
+theme_override_font_sizes/font_size = 16
+text = "36"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DiscardPile" type="Node" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="DiscardPile"]
-offset_left = 580.0
-offset_top = 300.0
+[node name="DiscardPile" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_left = 582.0
+offset_top = 278.0
 offset_right = 630.0
 offset_bottom = 350.0
-color = Color(0.716376, 0.174925, 0.240701, 1)
+
+[node name="Icon" type="Control" parent="DiscardPile"]
+custom_minimum_size = Vector2(48, 72)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="DiscardPile/Icon"]
+position = Vector2(24, 36)
+texture = ExtResource("5_aynih")
 
 [node name="DiscardPileCount" type="Label" parent="DiscardPile"]
-offset_left = 580.0
-offset_top = 300.0
-offset_right = 630.0
-offset_bottom = 350.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_an37h")
-theme_override_font_sizes/font_size = 32
-text = "5"
+theme_override_font_sizes/font_size = 16
+text = "36"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -89,13 +96,13 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.066
 anchor_bottom = 0.098
-offset_left = 470.0
+offset_left = 480.0
 offset_top = 10.0
 offset_right = 587.76
-offset_bottom = 24.72
+offset_bottom = 14.72
 focus_mode = 0
-theme_override_fonts/font = ExtResource("5_jjhfe")
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("3_an37h")
+theme_override_font_sizes/font_size = 16
 text = "End turn"
 
 [node name="ManaPool" type="BoxContainer" parent="."]

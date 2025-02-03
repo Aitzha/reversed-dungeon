@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://b1ipsvab0ffmy"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/Card.cs" id="1_l7upv"]
-[ext_resource type="Texture2D" uid="uid://cpg2c8fv2xsnu" path="res://Sprites/Cards/CardBase.png" id="3_ykvio"]
-[ext_resource type="Texture2D" uid="uid://dud1m352m8cwf" path="res://Sprites/Cards/CostArea.png" id="4_rw6yr"]
+[ext_resource type="Script" path="res://Scripts/Battle/Interface/Card.cs" id="1_l7upv"]
+[ext_resource type="Texture2D" uid="uid://cpg2c8fv2xsnu" path="res://Sprites/Cards/Base/CardBase.png" id="3_ykvio"]
+[ext_resource type="Texture2D" uid="uid://dud1m352m8cwf" path="res://Sprites/Cards/Base/CostArea.png" id="4_rw6yr"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="5_dx3wh"]
 [ext_resource type="FontFile" uid="uid://q6nr5vyo0t6q" path="res://Fonts/Minecraftia-Regular.ttf" id="5_n55k4"]
 

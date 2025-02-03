@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://2bu28qo0sms1"]
 
-[ext_resource type="Script" path="res://Scripts/PauseMenuScript.cs" id="1_lo4et"]
+[ext_resource type="Script" path="res://Scripts/UI/PauseMenuScript.cs" id="1_lo4et"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="2_mbct6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lj3it"]

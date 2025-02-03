@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb0xrp1fgt37h"
-path="res://.godot/imported/rage.png-f776940f7ade5a3589a8eff2511677d8.ctex"
+uid="uid://bmx85asq1odjx"
+path="res://.godot/imported/guard_icon.png-f1bba52f34daa9bc87908917adb05532.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/rage.png"
-dest_files=["res://.godot/imported/rage.png-f776940f7ade5a3589a8eff2511677d8.ctex"]
+source_file="res://Sprites/UI/guard_icon.png"
+dest_files=["res://.godot/imported/guard_icon.png-f1bba52f34daa9bc87908917adb05532.ctex"]
 
 [params]
 

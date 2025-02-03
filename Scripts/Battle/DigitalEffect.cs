@@ -35,7 +35,6 @@ public partial class DigitalEffect : Node2D
             AnimatedSprite2D particle = (AnimatedSprite2D) visualEffect.Duplicate();
             AddChild(particle);
             particle.GlobalPosition = target.GetGlobalPosition() + new Vector2(rand.RandiRange(-50, 50), rand.RandiRange(-100, 0));
-            Debug.Print(particle.GlobalPosition.ToString());
             particle.Play();
             await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         }

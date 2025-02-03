@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhhkxlixht16q"
-path="res://.godot/imported/guard.png-30a212ae1728d7ccaec6a943728657f6.ctex"
+uid="uid://det4r7ibqlt8u"
+path="res://.godot/imported/meteor_punch.png-2c8ab30159261d266ec006d2ab2b4bf7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/guard.png"
-dest_files=["res://.godot/imported/guard.png-30a212ae1728d7ccaec6a943728657f6.ctex"]
+source_file="res://Sprites/Cards/Effects/meteor_punch.png"
+dest_files=["res://.godot/imported/meteor_punch.png-2c8ab30159261d266ec006d2ab2b4bf7.ctex"]
 
 [params]
 
