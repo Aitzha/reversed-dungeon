@@ -9,7 +9,7 @@ public partial class BattleManager : Node
     
     public static BattleManager instance;
     public int playerMana = 1;
-    public int playerHandCapacity = 2;
+    public int playerHandCapacity = 3;
     public int playerManaCapacity = 1;
     public Entity player;
 

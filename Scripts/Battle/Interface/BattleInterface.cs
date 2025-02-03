@@ -85,10 +85,12 @@ public partial class BattleInterface : Control
 
 	private void OnEndTurn()
 	{
-		for (int i = 0; i < handPile.Count; i++)
+		int count = handPile.Count;
+		for (int i = 0; i < count; i++)
 		{
-			discardPile.Enqueue(handPile[0]);
-			RemoveCardFromHand(handPile[0]);
+			Card card = handPile[0];
+			discardPile.Enqueue(card);
+			RemoveCardFromHand(card);
 		}
 		
 		battleManager.EndPlayerTurn();

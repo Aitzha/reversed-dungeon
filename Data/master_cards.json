@@ -2,7 +2,7 @@
   {
 	"id": "meteor_punch",
 	"name": "Meteor Punch",
-	"descriptionTemplate": "Deal {amount_0} damage instantly",
+	"descriptionTemplate": "Deals {amount_0} damage instantly",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
@@ -16,7 +16,7 @@
   {
 	"id": "claw_slash",
 	"name": "Claw Slash",
-	"descriptionTemplate": "Apply poison for {duration_0} turns that deals {amount_0} damage per turn",
+	"descriptionTemplate": "Apply bleed for {duration_0} turns that deal {amount_0} damage per turn",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
@@ -31,13 +31,71 @@
   {
 	"id": "rage",
 	"name": "Rage",
-	"descriptionTemplate": "Gain {amount_0} Attack for {duration_0} turns",
+	"descriptionTemplate": "Gains {amount_0} Attack power for {duration_0} turns",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
 	  {
 		"effectType": "BuffDebuffEffect",
 		"subType": "AttackBuff",
+		"amount": 2,
+		"duration": 2
+	  }
+	]
+  },
+  {
+	"id": "fear",
+	"name": "Fear",
+	"descriptionTemplate": "Lose {amount_0} Attack power for {duration_0} turns",
+	"tier": 1,
+	"progress": 0,
+	"effects": [
+	  {
+		"effectType": "BuffDebuffEffect",
+		"subType": "AttackDebuff",
+		"amount": 2,
+		"duration": 2
+	  }
+	]
+  },
+  {
+	"id": "heal",
+	"name": "Heal",
+	"descriptionTemplate": "Restores {amount_0} HP",
+	"tier": 1,
+	"progress": 0,
+	"effects": [
+	  {
+		"effectType": "InstantEffect",
+		"subType": "Heal",
+		"amount": 2
+	  }
+	]
+  },
+  {
+	"id": "guard",
+	"name": "Guard",
+	"descriptionTemplate": "Adds {amount_0} guard",
+	"tier": 1,
+	"progress": 0,
+	"effects": [
+	  {
+		"effectType": "InstantEffect",
+		"subType": "Guard",
+		"amount": 5
+	  }
+	]
+  },
+  {
+	"id": "heal",
+	"name": "Regeneration",
+	"descriptionTemplate": "Restores {amount_0} HP per turn for {duration_0} turns",
+	"tier": 1,
+	"progress": 0,
+	"effects": [
+	  {
+		"effectType": "ContinuousEffect",
+		"subType": "Regeneration",
 		"amount": 2,
 		"duration": 2
 	  }
