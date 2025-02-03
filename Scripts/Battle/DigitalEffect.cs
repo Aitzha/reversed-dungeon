@@ -14,33 +14,33 @@ public partial class DigitalEffect : Node2D
         audioEffect.Play();
     }
 
-    public async void Play(Entity target)
+    public async void Play(Node parent, Vector2 globalPosition)
     {
-        target.AddChild(this);
-        GlobalPosition = target.GetGlobalPosition();
+        parent.AddChild(this);
+        GlobalPosition = globalPosition;
         visualEffect.Play();
         audioEffect.Play();
         await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
-        target.RemoveChild(this);
+        parent.RemoveChild(this);
         QueueFree();
     }
 
-    public async void PlayParticles(Entity target)
+    public async void PlayParticles(Node parent, Vector2 globalPosition)
     {
-        target.AddChild(this);
+        parent.AddChild(this);
         audioEffect.Play();
 
         for (int i = 0; i < 5; i++)
         {
             AnimatedSprite2D particle = (AnimatedSprite2D) visualEffect.Duplicate();
             AddChild(particle);
-            particle.GlobalPosition = target.GetGlobalPosition() + new Vector2(rand.RandiRange(-50, 50), rand.RandiRange(-100, 0));
+            particle.GlobalPosition = globalPosition + new Vector2(rand.RandiRange(-50, 50), rand.RandiRange(-100, 0));
             particle.Play();
             await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         }
         
         await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
-        target.RemoveChild(this);
+        parent.RemoveChild(this);
         QueueFree();
     }
 }

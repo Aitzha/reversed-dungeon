@@ -17,3 +17,5 @@ texture = ExtResource("2_iabmh")
 
 [node name="Interface" parent="." instance=ExtResource("3_d76qx")]
 z_index = 1
+
+[node name="FXStorage" type="Node" parent="."]

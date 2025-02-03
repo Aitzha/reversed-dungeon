@@ -50,14 +50,12 @@ public partial class Entity : Node2D
             
         }
         
-        entityUI.UpdateUI(entityData);
-        BattleManager.instance.DestroyEntity(this);
-
         if (previousHealth > entityData.health)
         {
             PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/SlashFX.tscn");
             DigitalEffect slashInstance = (DigitalEffect)slashPackedScene.Instantiate();
-            slashInstance.Play(this);
+            Node node = GetParent().GetNode<Node>("FXStorage");
+            slashInstance.Play(node, GlobalPosition);
             Shake();
         }
         else
@@ -65,8 +63,13 @@ public partial class Entity : Node2D
             // this is temp
             PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/HealFX.tscn");
             DigitalEffect healInstance = (DigitalEffect)healPackedScene.Instantiate();
-            healInstance.PlayParticles(this);
+            Node node = GetParent().GetNode<Node>("FXStorage");
+            healInstance.PlayParticles(node, GlobalPosition);
         }
+        
+        entityUI.UpdateUI(entityData);
+        if (entityData.health <= 0)
+            BattleManager.instance.DestroyEntity(this);
     }
     
     public void ApplyEffects(Card card, Entity caster)
