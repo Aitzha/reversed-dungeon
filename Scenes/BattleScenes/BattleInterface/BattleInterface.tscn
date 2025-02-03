@@ -11,7 +11,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_opdgp"]
 radius = 41.0488
 
-[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "discardLabel", "hand", "endTurnButton", "manaLabel")]
+[node name="Interface" type="Control" node_paths=PackedStringArray("drawLabel", "discardLabel", "endTurnButton", "manaLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,6 @@ script = ExtResource("1_xchf7")
 drawLabel = NodePath("DrawPile/DrawPileCount")
 discardLabel = NodePath("DiscardPile/DiscardPileCount")
 cardScene = ExtResource("2_yv712")
-hand = NodePath("Hand")
 endTurnButton = NodePath("Button")
 manaLabel = NodePath("ManaPool/ManaAmount")
 
@@ -72,15 +71,6 @@ theme_override_font_sizes/font_size = 16
 text = "36"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Hand" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 280.0
-offset_right = 480.0
-offset_bottom = 424.0
-theme_override_constants/separation = -20
-alignment = 1
 
 [node name="CardHolder" type="Area2D" parent="."]
 modulate = Color(1, 1, 1, 0.482353)

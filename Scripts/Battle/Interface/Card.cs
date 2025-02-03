@@ -28,7 +28,7 @@ public partial class Card : Control
         MouseEntered += OnMouseEnter;
         MouseExited += OnMouseExit;
 
-        cardHolder = (CardHolder) GetParent().GetParent().GetNode<Area2D>("CardHolder");
+        cardHolder = (CardHolder) GetParent().GetNode<Area2D>("CardHolder");
         cardVisualCopy = (Node2D) GetNode<Node2D>("CardVisual").Duplicate();
     }
 

@@ -8,7 +8,6 @@ public partial class BattleInterface : Control
 	[Export] private Label drawLabel;
 	[Export] private Label discardLabel;
 	[Export] private PackedScene cardScene;
-	[Export] private HBoxContainer hand;
 	[Export] private Button endTurnButton;
 	[Export] private Label manaLabel;
 
@@ -18,6 +17,7 @@ public partial class BattleInterface : Control
 	private List<Card> handPile = new List<Card>();
 	private Queue<Card> discardPile = new Queue<Card>();
 	private BattleManager battleManager;
+	private Vector2 handPosition;
 	
 	public override void _Ready()
 	{
@@ -25,6 +25,7 @@ public partial class BattleInterface : Control
 		LoadCards();
 		UpdateLabels();
 		endTurnButton.Pressed += OnEndTurn;
+		handPosition = new Vector2(GameSettings.windowWidth / 2, GameSettings.windowHeight - GameSettings.cardHeight / 2);
 	}
 	
 	public void FillHand()
@@ -40,8 +41,7 @@ public partial class BattleInterface : Control
 		for (int i = 0; i < battleManager.playerHandCapacity; i++)
 		{
 			Card card = drawPile.Dequeue();
-			handPile.Add(card);
-			hand.AddChild(card);
+			AddCardToHand(card);
 		}
 		
 		UpdateLabels();
@@ -77,22 +77,46 @@ public partial class BattleInterface : Control
 		battleManager.playerMana -= card.cardData.Cost;
 		target.ApplyEffects(card, battleManager.player);
 		
-		handPile.Remove(card);
+		RemoveCardFromHand(card);
 		discardPile.Enqueue(card);
-		hand.RemoveChild(card);
 		
 		UpdateLabels();
 	}
 
 	private void OnEndTurn()
 	{
-		foreach (Card card in handPile)
+		for (int i = 0; i < handPile.Count; i++)
 		{
-			discardPile.Enqueue(card);
-			hand.RemoveChild(card);
+			discardPile.Enqueue(handPile[0]);
+			RemoveCardFromHand(handPile[0]);
 		}
 		
-		handPile.Clear();
 		battleManager.EndPlayerTurn();
+	}
+
+	private void AddCardToHand(Card card)
+	{
+		handPile.Add(card);
+		AddChild(card);
+		
+		int startPos = (int)(-GameSettings.cardWidth * handPile.Count / 2 * 0.9);
+		int spacing = (int)(GameSettings.cardWidth * 0.9);
+		for (int i = 0; i < handPile.Count; i++)
+		{
+			handPile[i].Position = handPosition + new Vector2(startPos + i * spacing, 0);
+		}
+	}
+
+	private void RemoveCardFromHand(Card card)
+	{
+		handPile.Remove(card);
+		RemoveChild(card);
+		
+		int startPos = (int)(-GameSettings.cardWidth * handPile.Count / 2 * 0.9);
+		int spacing = (int)(GameSettings.cardWidth * 0.9);
+		for (int i = 0; i < handPile.Count; i++)
+		{
+			handPile[i].Position = handPosition + new Vector2(startPos + i * spacing, 0);
+		}
 	}
 }

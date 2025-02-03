@@ -85,6 +85,7 @@ public partial class BattleManager : Node
         {
             playerTeam.Remove(entity);
             RemoveChild(entity);
+            entity.QueueFree();
 
             if (entity == player)
             {
@@ -97,6 +98,7 @@ public partial class BattleManager : Node
         {
             enemyTeam.Remove(entity);
             RemoveChild(entity);
+            entity.QueueFree();
 
             if (enemyTeam.Count == 0)
             {
