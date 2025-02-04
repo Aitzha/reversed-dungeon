@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
+using FileAccess = Godot.FileAccess;
 
 public partial class GameManager : Node2D
 {
@@ -19,10 +20,8 @@ public partial class GameManager : Node2D
 	
 	public override void _Ready()
 	{
-		// Load master cards
-		String filePath = ProjectSettings.GlobalizePath("res://Data/master_cards.json");
-		
-		PlayerCards = CardLoader.LoadCards(filePath);
+		// Load master card
+		PlayerCards = CardLoader.LoadCards();
 		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
 
 		
@@ -117,9 +116,9 @@ public partial class GameManager : Node2D
 
 public static class CardLoader
 {
-	public static List<CardData> LoadCards(string filePath)
+	public static List<CardData> LoadCards()
 	{
-		string json = File.ReadAllText(filePath);
+		string json = FileAccess.GetFileAsString("res://Data/master_cards.json");
 
 		List<CardData> cards = JsonSerializer.Deserialize<List<CardData>>(json);
 		return cards;
