@@ -16,10 +16,14 @@ public partial class Entity : Node2D
 
     public void ProcessAppliedEffects()
     {
+        entityData.guard = 0;
+        
         List<BaseEffect> expiredEffects = new List<BaseEffect>();
-
+        
         foreach (BaseEffect effect in entityData.appliedEffects)
         {
+            effect.Tick(this);
+            
             if (effect.IsExpired)
                 expiredEffects.Add(effect);
         }
@@ -28,11 +32,13 @@ public partial class Entity : Node2D
             entityData.appliedEffects.Remove(effect);
         
         entityUI.UpdateUI(entityData);
-        BattleManager.instance.DestroyEntity(this);
+        if (entityData.health <= 0)
+            BattleManager.instance.DestroyEntity(this);
     }
 
     public void ApplyEffect(BaseEffect effect, Entity caster)
     {
+        
         int previousHealth = entityData.health;
         
         if (effect is InstantEffect instantEffect)
@@ -40,14 +46,15 @@ public partial class Entity : Node2D
             instantEffect.Activate(caster, this);
         } 
         
-        if (effect is ContinuousEffect continuousEffect)
+        if (effect is ContinuousEffect)
         {
-            
-        } 
-        
+            entityData.appliedEffects.Add(effect);
+        }
+
         if (effect is BuffDebuffEffect buffDebuffEffect)
         {
-            
+            entityData.appliedEffects.Add(buffDebuffEffect);
+            buffDebuffEffect.Tick(this);
         }
         
         if (previousHealth > entityData.health)
@@ -58,9 +65,8 @@ public partial class Entity : Node2D
             slashInstance.Play(node, GlobalPosition);
             Shake();
         }
-        else
+        else if (previousHealth < entityData.health)
         {
-            // this is temp
             PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/HealFX.tscn");
             DigitalEffect healInstance = (DigitalEffect)healPackedScene.Instantiate();
             Node node = GetParent().GetNode<Node>("FXStorage");

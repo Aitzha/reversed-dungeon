@@ -8,9 +8,9 @@ public partial class BattleManager : Node
     [Export] private PackedScene endScreen;
     
     public static BattleManager instance;
-    public int playerMana = 1;
+    public int playerMana = 2;
     public int playerHandCapacity = 3;
-    public int playerManaCapacity = 1;
+    public int playerManaCapacity = 2;
     public Entity player;
 
     private bool playerTurn = true;
@@ -71,7 +71,9 @@ public partial class BattleManager : Node
     {
         playerTurn = false;
         EnemyTeamPerformAction();
+        
         playerTurn = true;
+        player.ProcessAppliedEffects();
         playerMana = playerManaCapacity;
         battleInterface.FillHand();
     }
@@ -123,6 +125,7 @@ public partial class BattleManager : Node
         InstantEffect instantEffect = new InstantEffect(InstantEffectSubType.Attack, 1);
         foreach (Entity enemy in enemyTeam)
         {
+            enemy.ProcessAppliedEffects();
             if (player.entityData.health <= 0)
                 return;
             

@@ -145,13 +145,16 @@ public class InstantEffect : BaseEffect
 		switch (SubType)
 		{
 			case InstantEffectSubType.Attack:
-				target.entityData.health -= Amount;
+				int casterAttack = Math.Max(0, Amount + caster.entityData.attackPower);
+				int damageOnGuard = Math.Min(target.entityData.guard, casterAttack);
+				target.entityData.guard -= damageOnGuard;
+				target.entityData.health -= (casterAttack - damageOnGuard);
 				break;
 			case InstantEffectSubType.Guard:
 				target.entityData.guard += Amount;
 				break;
 			case InstantEffectSubType.Heal:
-				target.entityData.health += Math.Min(target.entityData.health + Amount, target.entityData.maxHealth);
+				target.entityData.health = Math.Min(target.entityData.health + Amount, target.entityData.maxHealth);
 				break;
 		}
 	}
@@ -168,7 +171,7 @@ public class ContinuousEffect : BaseEffect
 
 	public ContinuousEffect()
 	{
-		this.EffectType = "ContinuousEffect";
+		EffectType = "ContinuousEffect";
 	}
 
 	public override void Activate(Entity caster, Entity target)
@@ -178,8 +181,16 @@ public class ContinuousEffect : BaseEffect
 
 	public override void Tick(Entity target)
 	{
-		// Poison/Bleed damage, etc.
-		// Decrement Duration, set IsExpired if done
+		switch (SubType)
+		{
+			case ContinuousEffectSubType.Bleed:
+				target.entityData.health -= Amount;
+				Duration--;
+				break;
+		}
+		
+		if (Duration <= 0)
+			IsExpired = true;
 	}
 }
 
@@ -199,7 +210,17 @@ public class BuffDebuffEffect : BaseEffect
 
 	public override void Tick(Entity target)
 	{
-		// If it has a duration, decrement & revert if expired
+		switch (SubType)
+		{
+			case BuffDebuffEffectSubType.AttackBuff:
+				target.entityData.attackPower += Amount;
+				Duration--;
+				break;
+			case BuffDebuffEffectSubType.AttackDebuff:
+				target.entityData.attackPower -= Amount;
+				Duration--;
+				break;
+		}
 	}
 }
 

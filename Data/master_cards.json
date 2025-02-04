@@ -23,7 +23,7 @@
 	  {
 		"effectType": "ContinuousEffect",
 		"subType": "Bleed",
-		"amount": 3,
+		"amount": 1,
 		"duration": 2
 	  }
 	]
@@ -75,7 +75,7 @@
   {
 	"id": "guard",
 	"name": "Guard",
-	"descriptionTemplate": "Adds {amount_0} guard",
+	"descriptionTemplate": "Adds {amount_0} guard that resets next turn",
 	"tier": 1,
 	"progress": 0,
 	"effects": [
