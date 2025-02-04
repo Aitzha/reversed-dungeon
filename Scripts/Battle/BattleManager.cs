@@ -42,7 +42,7 @@ public partial class BattleManager : Node
             playerTeamMember.entityData = playerTeamData[i];
             
             playerTeamMember.Position = playerTeamPositions[i];
-            playerTeamMember.isAlly = true;
+            playerTeamMember.isPlayerAlly = true;
             playerTeam.Add(playerTeamMember);
         }
         
@@ -56,7 +56,7 @@ public partial class BattleManager : Node
             enemyTeamMember.entityData = enemyTeamData[i];
 
             enemyTeamMember.Position = enemyTeamPositions[i];
-            enemyTeamMember.isAlly = false;
+            enemyTeamMember.isPlayerAlly = false;
             enemyTeam.Add(enemyTeamMember);
         }
     }
@@ -69,11 +69,13 @@ public partial class BattleManager : Node
     
     public void EndPlayerTurn()
     {
+        player.FinishTurn();
+        
         playerTurn = false;
         EnemyTeamPerformAction();
         
         playerTurn = true;
-        player.ProcessAppliedEffects();
+        player.StartTurn();
         playerMana = playerManaCapacity;
         battleInterface.FillHand();
     }
@@ -83,7 +85,7 @@ public partial class BattleManager : Node
         if (entity.entityData.health > 0)
             return;
         
-        if (entity.isAlly)
+        if (entity.isPlayerAlly)
         {
             playerTeam.Remove(entity);
             RemoveChild(entity);
@@ -122,14 +124,17 @@ public partial class BattleManager : Node
 
     private void EnemyTeamPerformAction()
     {
-        InstantEffect instantEffect = new InstantEffect(InstantEffectSubType.Attack, 1);
+        Effect effect = new Effect(EffectType.Attack, EffectSubtype.None, FirstTriggerTiming.Immediate, DurationReductionTiming.OnEffectApply, 1, 1);
         foreach (Entity enemy in enemyTeam)
         {
-            enemy.ProcessAppliedEffects();
+            enemy.StartTurn();
             if (player.entityData.health <= 0)
                 return;
             
-            player.ApplyEffect(instantEffect, enemy);
+            player.ApplyEffect(effect, enemy);
         }
+        
+        foreach (Entity enemy in enemyTeam)
+            enemy.FinishTurn();
     }
 }

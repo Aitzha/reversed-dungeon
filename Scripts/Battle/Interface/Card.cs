@@ -2,6 +2,7 @@ using System;
 using Godot;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 public partial class Card : Control
@@ -20,10 +21,10 @@ public partial class Card : Control
 	
     public override void _Ready()
     {
-	    image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/Effects/" + cardData.Id + ".png");
-	    cardName.Text = cardData.Name;
+	    image.Texture = GD.Load<Texture2D>("res://Sprites/Cards/Effects/" + cardData.id + ".png");
+	    cardName.Text = cardData.name;
 	    cardDescription.Text = cardData.GetDescription();
-	    cardCost.Text = cardData.Cost.ToString();
+	    cardCost.Text = cardData.cost.ToString();
 	    
         MouseEntered += OnMouseEnter;
         MouseExited += OnMouseExit;
@@ -51,6 +52,13 @@ public partial class Card : Control
 			    
 			    if (cardHolder.currentTarget != null)
 			    {
+				    // Cancel consumption if invalid target
+				    if (cardHolder.currentTarget.isPlayerAlly && cardData.targetFaction == TargetFaction.Enemy)
+					    return;
+				    
+				    if (!cardHolder.currentTarget.isPlayerAlly && cardData.targetFaction != TargetFaction.Enemy)
+					    return;
+				    
 				    EmitSignal(SignalName.CardConsumed, this, cardHolder.currentTarget);
 			    }
 		    }
@@ -73,25 +81,27 @@ public partial class Card : Control
 
 public class CardData
 {
-	public string Id { get; set; }
-	public string Name { get; set; }
-	public string DescriptionTemplate { get; set; }
-	public int Cost { get; set; } = 1;
-	public int Tier { get; set; } = 0;
-	public int ProgressionValue { get; set; } = 0;
-	
-	public List<BaseEffect> Effects { get; set; } = new();
+	public string id { get; set; }
+	public string name { get; set; }
+	public string descriptionTemplate { get; set; }
+	public int cost { get; set; } = 1;
+	public int tier { get; set; } = 0;
+	public int progress { get; set; } = 0;
+	public TargetType targetType { get; set; }
+	public TargetFaction targetFaction { get; set; }
+	[JsonPropertyName("effects")]
+	public List<Effect> Effects { get; set; } = new();
 
 	public string GetDescription()
 	{
-		return Regex.Replace(DescriptionTemplate, @"\{(\w+)_(\d+)\}", match =>
+		return Regex.Replace(descriptionTemplate, @"\{(\w+)_(\d+)\}", match =>
 		{
 			string key = match.Groups[1].Value;
 			int effectIndex = int.Parse(match.Groups[2].Value);
 			
-			BaseEffect effect = Effects[effectIndex];
-			if (key == "amount") return effect.Amount.ToString();
-			if (key == "duration") return effect.Duration.ToString();
+			Effect effect = Effects[effectIndex];
+			if (key == "amount") return effect.amount.ToString();
+			if (key == "duration") return effect.amount.ToString();
 
 			// Return placeholder if no match found
 			return match.Value;
@@ -99,151 +109,131 @@ public class CardData
 	}
 }
 
-public abstract class BaseEffect : IEffect
+public class Effect 
 {
-	public string EffectType { get; set; }
-	public bool IsExpired { get; set; }
-	public int Amount { get; set; }
-	public int Duration { get; set; }
-	public TargetType TargetType { get; set; }
-	public abstract void Activate(Entity caster, Entity target);
-	public abstract void Tick(Entity target);
-}
+	public EffectType type { get; set; }
+	public EffectSubtype subtype { get; set; }
+	public FirstTriggerTiming firstTriggerTiming { get; set; }
+	public DurationReductionTiming durationReductionTiming { get; set; }
+	public int duration { get; set; } = 1;
+	public int amount { get; set; }
+	public Entity target;
+	public Entity caster;
 
-public enum TargetType
-{
-	Player,
-	Enemy,
-	EnemyGroup
-}
+	public Effect() {}
 
-public interface IEffect
-{
-	bool IsExpired { get; set; }
-	int Duration { get; set; }
-	TargetType TargetType { get; set; }
-}
-
-public class InstantEffect : BaseEffect
-{
-	public InstantEffectSubType SubType { get; set; }
-
-	public InstantEffect()
+	public Effect(EffectType type, EffectSubtype subtype, FirstTriggerTiming firstTriggerTiming, 
+		DurationReductionTiming durationReductionTiming, int duration, int amount)
 	{
-		EffectType = "InstantEffect";
+		this.type = type;
+		this.subtype = subtype;
+		this.firstTriggerTiming = firstTriggerTiming;
+		this.durationReductionTiming = durationReductionTiming;
+		this.duration = duration;
+		this.amount = amount;
 	}
-
-	public InstantEffect(InstantEffectSubType subType, int amount)
+	
+	public Effect(EffectType type, EffectSubtype subtype, FirstTriggerTiming firstTriggerTiming, 
+		DurationReductionTiming durationReductionTiming, int duration, int amount, Entity target, Entity caster)
 	{
-		EffectType = "InstantEffect";
-		SubType = subType;
-		Amount = amount;
+		this.type = type;
+		this.subtype = subtype;
+		this.firstTriggerTiming = firstTriggerTiming;
+		this.durationReductionTiming = durationReductionTiming;
+		this.amount = amount;
+		this.duration = duration;
+		this.target = target;
+		this.caster = caster;
 	}
-
-	public override void Activate(Entity caster, Entity target)
+	
+	public void ApplyEffect()
 	{
-		switch (SubType)
+		switch (type)
 		{
-			case InstantEffectSubType.Attack:
-				int casterAttack = Math.Max(0, Amount + caster.entityData.attackPower);
-				int damageOnGuard = Math.Min(target.entityData.guard, casterAttack);
-				target.entityData.guard -= damageOnGuard;
-				target.entityData.health -= (casterAttack - damageOnGuard);
+			case EffectType.Attack:
+				if (subtype is EffectSubtype.None)
+				{
+					int casterAttack = Math.Max(0, amount + caster.entityData.attackPower);
+					int damageOnGuard = Math.Min(target.entityData.guard, casterAttack);
+					target.entityData.guard -= damageOnGuard;
+					target.entityData.health -= (casterAttack - damageOnGuard);
+				}
+
+				if (subtype is EffectSubtype.Bleed or EffectSubtype.Poison)
+					target.entityData.health -= amount;
+				
 				break;
-			case InstantEffectSubType.Guard:
-				target.entityData.guard += Amount;
+			case EffectType.Guard:
+				target.entityData.guard += amount;
 				break;
-			case InstantEffectSubType.Heal:
-				target.entityData.health = Math.Min(target.entityData.health + Amount, target.entityData.maxHealth);
+			case EffectType.Heal:
+				target.entityData.health += amount;
 				break;
-		}
-	}
-
-	public override void Tick(Entity target)
-	{
-		// Typically nothing here for an instant effect
-	}
-}
-
-public class ContinuousEffect : BaseEffect
-{
-	public ContinuousEffectSubType SubType { get; set; }
-
-	public ContinuousEffect()
-	{
-		EffectType = "ContinuousEffect";
-	}
-
-	public override void Activate(Entity caster, Entity target)
-	{
-		// If you need an initial effect
-	}
-
-	public override void Tick(Entity target)
-	{
-		switch (SubType)
-		{
-			case ContinuousEffectSubType.Bleed:
-				target.entityData.health -= Amount;
-				Duration--;
+			case EffectType.StatusEffect:
+				if (subtype is EffectSubtype.AttackBuff)
+					target.entityData.attackPower += amount;
+				if (subtype is EffectSubtype.AttackDebuff)
+					target.entityData.attackPower -= amount;
+				if (subtype is EffectSubtype.Paralyze)
+					target.entityData.isParalyzed = true;
 				break;
 		}
 		
-		if (Duration <= 0)
-			IsExpired = true;
+		if (durationReductionTiming == DurationReductionTiming.OnEffectApply)
+			duration--;
+	}
+
+	public Effect Clone(Entity target, Entity caster)
+	{
+		return new Effect(type, subtype, firstTriggerTiming, durationReductionTiming, duration, amount, target, caster);
 	}
 }
 
-public class BuffDebuffEffect : BaseEffect
-{
-	public BuffDebuffEffectSubType SubType { get; set; }
-
-	public BuffDebuffEffect()
-	{
-		this.EffectType = "BuffDebuffEffect";
-	}
-
-	public override void Activate(Entity caster, Entity target)
-	{
-		// Immediately apply buff/debuff
-	}
-
-	public override void Tick(Entity target)
-	{
-		switch (SubType)
-		{
-			case BuffDebuffEffectSubType.AttackBuff:
-				target.entityData.attackPower += Amount;
-				Duration--;
-				break;
-			case BuffDebuffEffectSubType.AttackDebuff:
-				target.entityData.attackPower -= Amount;
-				Duration--;
-				break;
-		}
-	}
-}
-
-public enum InstantEffectSubType
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum EffectType
 {
 	Attack,
 	Guard,
-	Heal
+	Heal, 
+	StatusEffect
 }
 
-public enum ContinuousEffectSubType
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum EffectSubtype
 {
-	Poison,
+	None,
 	Bleed,
-	Paralyze,
-	Regeneration
-}
-
-public enum BuffDebuffEffectSubType
-{
+	Poison,
 	AttackBuff,
 	AttackDebuff,
-	GuardBuff,
-	GuardDebuff,
-	CardCostDecrease
+	Paralyze
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum TargetType
+{
+	Single,
+	Group
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum TargetFaction
+{
+	Self,
+	Ally,
+	Enemy
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum FirstTriggerTiming
+{
+	Immediate,
+	NextTurnStart
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum DurationReductionTiming
+{
+	OnEffectApply,
+	OnTurnEnd
 }

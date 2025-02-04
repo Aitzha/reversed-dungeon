@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class Entity : Node2D
 {
@@ -7,28 +8,29 @@ public partial class Entity : Node2D
     [Export] private EntityUI entityUI;
     
     public EntityData entityData;
-    public bool isAlly = false;
+    public bool isPlayerAlly = false;
 
     public override void _Ready()
     {
         entityUI.UpdateUI(entityData);
     }
 
-    public void ProcessAppliedEffects()
+    public void StartTurn()
     {
         entityData.guard = 0;
+        entityData.attackPower = 0;
         
-        List<BaseEffect> expiredEffects = new List<BaseEffect>();
+        List<Effect> expiredEffects = new List<Effect>();
         
-        foreach (BaseEffect effect in entityData.appliedEffects)
+        foreach (Effect effect in entityData.appliedEffects)
         {
-            effect.Tick(this);
+            effect.ApplyEffect();
             
-            if (effect.IsExpired)
+            if (effect.duration <= 0)
                 expiredEffects.Add(effect);
         }
 
-        foreach (BaseEffect effect in expiredEffects)
+        foreach (Effect effect in expiredEffects)
             entityData.appliedEffects.Remove(effect);
         
         entityUI.UpdateUI(entityData);
@@ -36,25 +38,46 @@ public partial class Entity : Node2D
             BattleManager.instance.DestroyEntity(this);
     }
 
-    public void ApplyEffect(BaseEffect effect, Entity caster)
+    public void FinishTurn()
     {
+        List<Effect> expiredEffects = new List<Effect>();
         
+        foreach (Effect effect in entityData.appliedEffects)
+        {
+            if (effect.durationReductionTiming == DurationReductionTiming.OnTurnEnd)
+                effect.duration--;
+            
+            if (effect.duration <= 0)
+                expiredEffects.Add(effect);
+        }
+        
+        foreach (Effect effect in expiredEffects)
+            entityData.appliedEffects.Remove(effect);
+    }
+
+    public void ApplyEffect(Effect effect, Entity caster)
+    {
+        Effect effectCopy = effect.Clone(this, caster);
+        
+        Debug.Print(effectCopy.type.ToString());
+        Debug.Print(effectCopy.subtype.ToString());
+        Debug.Print(effectCopy.amount.ToString());
+        Debug.Print(effectCopy.duration.ToString());
+        
+        if (effectCopy.firstTriggerTiming == FirstTriggerTiming.Immediate)
+            effectCopy.ApplyEffect();
+        
+        if (effectCopy.duration > 0)
+            entityData.appliedEffects.Add(effectCopy);
+    }
+    
+    public void ApplyEffects(Card card, Entity caster)
+    {
         int previousHealth = entityData.health;
         
-        if (effect is InstantEffect instantEffect)
+        foreach (Effect effect in card.cardData.Effects)
         {
-            instantEffect.Activate(caster, this);
-        } 
-        
-        if (effect is ContinuousEffect)
-        {
-            entityData.appliedEffects.Add(effect);
-        }
-
-        if (effect is BuffDebuffEffect buffDebuffEffect)
-        {
-            entityData.appliedEffects.Add(buffDebuffEffect);
-            buffDebuffEffect.Tick(this);
+            ApplyEffect(effect, caster);
         }
         
         if (previousHealth > entityData.health)
@@ -76,14 +99,6 @@ public partial class Entity : Node2D
         entityUI.UpdateUI(entityData);
         if (entityData.health <= 0)
             BattleManager.instance.DestroyEntity(this);
-    }
-    
-    public void ApplyEffects(Card card, Entity caster)
-    {
-        foreach (BaseEffect effect in card.cardData.Effects)
-        {
-            ApplyEffect(effect, caster);
-        }
     }
 
     public void ToggleGlow()
@@ -117,7 +132,7 @@ public class EntityData
     public int guard { get; set; }
     public int attackPower { get; set; }
     public bool isParalyzed { get; set; }
-    public List<BaseEffect> appliedEffects { get; set; }
+    public List<Effect> appliedEffects { get; set; }
     
     public EntityData(string entityName, int maxHealth)
     {
@@ -127,7 +142,7 @@ public class EntityData
         guard = 0;
         attackPower = 0;
         isParalyzed = false;
-        appliedEffects = new List<BaseEffect>();
+        appliedEffects = new List<Effect>();
     }
 
     public EntityData() {}

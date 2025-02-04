@@ -5,10 +5,14 @@
 	"descriptionTemplate": "Deals {amount_0} damage instantly",
 	"tier": 1,
 	"progress": 0,
+	"targetType": "Single",
+	"targetFaction": "Enemy",
 	"effects": [
 	  {
-		"effectType": "InstantEffect",
-		"subType": "Attack",
+		"type": "Attack",
+		"subtype": "None",
+		"firstTriggerTiming": "Immediate",
+		"durationReductionTiming": "OnEffectApply",
 		"amount": 7
 	  }
 	]
@@ -19,10 +23,14 @@
 	"descriptionTemplate": "Apply bleed for {duration_0} turns that deal {amount_0} damage per turn",
 	"tier": 1,
 	"progress": 0,
+	"targetType": "Single",
+	"targetFaction": "Enemy",
 	"effects": [
 	  {
-		"effectType": "ContinuousEffect",
-		"subType": "Bleed",
+		"type": "Attack",
+		"subtype": "Bleed",
+		"firstTriggerTiming": "NextTurnStart",
+		"durationReductionTiming": "OnEffectApply",
 		"amount": 1,
 		"duration": 2
 	  }
@@ -34,11 +42,15 @@
 	"descriptionTemplate": "Gains {amount_0} Attack power for {duration_0} turns",
 	"tier": 1,
 	"progress": 0,
+	"targetType": "Single",
+	"targetFaction": "Self",
 	"effects": [
 	  {
-		"effectType": "BuffDebuffEffect",
-		"subType": "AttackBuff",
-		"amount": 2,
+		"type": "StatusEffect",
+		"subtype": "AttackBuff",
+		"firstTriggerTiming": "Immediate",
+		"durationReductionTiming": "OnTurnEnd",
+		"amount": 1,
 		"duration": 2
 	  }
 	]
@@ -49,11 +61,15 @@
 	"descriptionTemplate": "Lose {amount_0} Attack power for {duration_0} turns",
 	"tier": 1,
 	"progress": 0,
+	"targetType": "Single",
+	"targetFaction": "Enemy",
 	"effects": [
 	  {
-		"effectType": "BuffDebuffEffect",
-		"subType": "AttackDebuff",
-		"amount": 2,
+		"type": "StatusEffect",
+		"subtype": "AttackDebuff",
+		"firstTriggerTiming": "NextTurnStart",
+		"durationReductionTiming": "OnTurnEnd",
+		"amount": 1,
 		"duration": 2
 	  }
 	]
@@ -64,24 +80,32 @@
 	"descriptionTemplate": "Restores {amount_0} HP",
 	"tier": 1,
 	"progress": 0,
+	"targetType": "Single",
+	"targetFaction": "Self",
 	"effects": [
 	  {
-		"effectType": "InstantEffect",
-		"subType": "Heal",
-		"amount": 2
+		"type": "Heal",
+		"subtype": "None",
+		"firstTriggerTiming": "Immediate",
+		"durationReductionTiming": "OnEffectApply",
+		"amount": 3
 	  }
 	]
   },
   {
 	"id": "guard",
 	"name": "Guard",
-	"descriptionTemplate": "Adds {amount_0} guard that resets next turn",
+	"descriptionTemplate": "Adds {amount_0} guard",
 	"tier": 1,
 	"progress": 0,
+	"targetType": "Single",
+	"targetFaction": "Self",
 	"effects": [
 	  {
-		"effectType": "InstantEffect",
-		"subType": "Guard",
+		"type": "Guard",
+		"subtype": "None",
+		"firstTriggerTiming": "Immediate",
+		"durationReductionTiming": "OnEffectApply",
 		"amount": 5
 	  }
 	]
@@ -92,11 +116,15 @@
 	"descriptionTemplate": "Restores {amount_0} HP per turn for {duration_0} turns",
 	"tier": 1,
 	"progress": 0,
+	"targetType": "Single",
+	"targetFaction": "Self",
 	"effects": [
 	  {
-		"effectType": "ContinuousEffect",
-		"subType": "Regeneration",
-		"amount": 2,
+		"type": "Heal",
+		"subtype": "None",
+		"firstTriggerTiming": "NextTurnStart",
+		"durationReductionTiming": "OnEffectApply",
+		"amount": 1,
 		"duration": 2
 	  }
 	]

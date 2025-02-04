@@ -68,13 +68,13 @@ public partial class BattleInterface : Control
 
 	private void OnCardConsumed(Card card, Entity target)
 	{
-		if (card.cardData.Cost > battleManager.playerMana)
+		if (card.cardData.cost > battleManager.playerMana)
 		{
 			Debug.Print("Can't consume this card");
 			return;
 		}
 		
-		battleManager.playerMana -= card.cardData.Cost;
+		battleManager.playerMana -= card.cardData.cost;
 		target.ApplyEffects(card, battleManager.player);
 		
 		RemoveCardFromHand(card);
