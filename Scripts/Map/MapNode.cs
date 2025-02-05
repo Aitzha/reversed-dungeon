@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class MapNode : Control
 {
@@ -8,7 +9,9 @@ public partial class MapNode : Control
     public int row;
     public int col;
     public NodeType type;
-    public List<EntityData> enemies;
+    public List<EntityData> enemies = new();
+
+    [Signal] public delegate void NodeClickedEventHandler(MapNode node);
 
     public override void _Ready()
     {
@@ -28,6 +31,17 @@ public partial class MapNode : Control
         if (type == NodeType.Boss)
         {
             enemies.Add(new EntityData("Enemy#3", 50));
+        }
+    }
+
+    public override void _GuiInput(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton eventMouseButton)
+        {
+            if (eventMouseButton.Pressed)
+            {
+                EmitSignal(SignalName.NodeClicked, this);
+            }
         }
     }
 }

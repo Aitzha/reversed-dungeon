@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class Map : Control
 {
@@ -17,6 +18,12 @@ public partial class Map : Control
         ChoosePaths(BuildMap());
     }
 
+    private void OnNodeClick(MapNode node)
+    {
+        if (curNode.children.Contains(node))
+            curNode = node;
+    }
+    
     private List<MapNode> BuildMap()
     {
         List<MapNode> nodes = new List<MapNode>();
@@ -105,7 +112,7 @@ public partial class Map : Control
     private void ChoosePaths(List<MapNode> nodes)
     {
         curNode = nodes[0];
-        AddChild(nodes[0]);
+        AddMapNode(nodes[0]);
         
         for (int i = 0; i < 5; i++)
         {
@@ -117,7 +124,7 @@ public partial class Map : Control
                 CreateLine(parent, child);
                 
                 if (!GetChildren().Contains(child))
-                    AddChild(child);
+                    AddMapNode(child);
                 
                 if (child.children.Count > 0)
                     parent = child;
@@ -136,5 +143,11 @@ public partial class Map : Control
         line.AddPoint(child.GlobalPosition + child.Size / 2);
         line.ZIndex = -1;
         AddChild(line);
+    }
+
+    private void AddMapNode(MapNode node)
+    {
+        AddChild(node);
+        node.NodeClicked += OnNodeClick;
     }
 }

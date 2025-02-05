@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://lc4inwj8ppc4"]
 
 [ext_resource type="Script" path="res://Scripts/Map/MapNode.cs" id="1_pikd1"]
-[ext_resource type="Texture2D" uid="uid://belatfq7jug3y" path="res://Sprites/UI/Map/start_pos.png" id="2_5xou0"]
+[ext_resource type="Texture2D" uid="uid://belatfq7jug3y" path="res://Sprites/UI/Map/selected.png" id="2_5xou0"]
 
 [node name="StartLoc" type="Control"]
 layout_mode = 3
