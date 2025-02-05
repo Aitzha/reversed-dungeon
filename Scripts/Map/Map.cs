@@ -2,15 +2,16 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 public partial class Map : Control
 {
-    [Export] private PackedScene startNodeScene;
-    [Export] private PackedScene bossNodeScene;
-    [Export] private PackedScene enemyNodeScene;
-    [Export] private PackedScene eliteEnemyNodeScene;
+    [Export] private PackedScene mapNodeScene;
     
-    private Dictionary<MapNode, Dictionary<MapNode, Line2D>> linesDict = new();
+    // mapRows must be odd number
+    public int mapRows = 7; 
+    public int mapCols = 8;
+    
     private MapNode curNode;
     
     public override void _Ready()
@@ -21,32 +22,26 @@ public partial class Map : Control
     private void OnNodeClick(MapNode node)
     {
         if (curNode.children.Contains(node))
+        {
+            curNode.Unselect();
+            node.Select();
+            RepositionMapNode(curNode);
+            RepositionMapNode(node);
             curNode = node;
+        }
     }
     
     private List<MapNode> BuildMap()
     {
         List<MapNode> nodes = new List<MapNode>();
         
-        // mapRows must be odd number
-        int mapRows = 7; 
-        int mapCols = 8;
-        int borderX = 50;
-        int borderY = 60;
-        int distX = (GameSettings.windowWidth - borderX * 2) / (mapCols - 1);
-        int distY = (GameSettings.windowHeight - borderY * 2) / (mapRows - 1);
-        
         Dictionary<int, Dictionary<int, MapNode>> nodesDict = new(); // <Row, Col> = Node
         for (int i = 0; i < mapRows; i++)
             nodesDict.Add(i, new Dictionary<int, MapNode>());
     
-        MapNode startNode = (MapNode)startNodeScene.Instantiate();
-        startNode.col = 0;
-        startNode.row = (mapRows - 1) / 2;
-        startNode.type = NodeType.Start;
+        MapNode startNode = CreateMapNode(0, (mapRows - 1) / 2, MapNodeType.Start);
         nodesDict[startNode.row].Add(startNode.col, startNode);
         nodes.Add(startNode);
-        startNode.Position = new Vector2(borderX, borderY + distY * startNode.row) - startNode.Size / 2;
 
         Queue<MapNode> q = new Queue<MapNode>();
         q.Enqueue(startNode);
@@ -69,33 +64,20 @@ public partial class Map : Control
                 else
                 {
                     // Instantiate node
-                    MapNode child;
+                    MapNodeType type;
                     if (parent.col == mapCols - 2)
-                    {
-                        child = (MapNode) bossNodeScene.Instantiate();
-                        child.type = NodeType.Boss;
-                    }
+                        type = MapNodeType.Boss;
                     else
                     {
                         float randNum = GD.Randf();
                         if (randNum < 0.95 - parent.col * 0.05)
-                        {
-                            child = (MapNode)enemyNodeScene.Instantiate();
-                            child.type = NodeType.Enemy;
-                        }
+                            type = MapNodeType.Enemy;
                         else
-                        {
-                            child = (MapNode)eliteEnemyNodeScene.Instantiate();
-                            child.type = NodeType.EliteEnemy;
-                        }
+                            type = MapNodeType.EliteEnemy;
                     }
+
+                    MapNode child = CreateMapNode(parent.col + 1, parent.row + i, type);
                     
-                    // Setup node
-                    child.col = parent.col + 1;
-                    child.row = parent.row + i;
-                    child.Position = new Vector2(borderX + distX * child.col, borderY + distY * child.row) - child.Size / 2;
-                    
-                    // Save child node
                     nodesDict[child.row].Add(child.col, child);
                     parent.children.Add(child);
                     nodes.Add(child);
@@ -109,9 +91,32 @@ public partial class Map : Control
         return nodes;
     }
 
-    private void ChoosePaths(List<MapNode> nodes)
+    private MapNode CreateMapNode(int col, int row, MapNodeType type)
     {
+        MapNode node = (MapNode)mapNodeScene.Instantiate();
+        node.col = col;
+        node.row = row;
+        node.SetType(type);
+        RepositionMapNode(node);
+
+        return node;
+    }
+
+    private void RepositionMapNode(MapNode node)
+    {
+        int borderX = 50;
+        int borderY = 60;
+        int distX = (GameSettings.windowWidth - borderX * 2) / (mapCols - 1);
+        int distY = (GameSettings.windowHeight - borderY * 2) / (mapRows - 1);
+        node.Position = new Vector2(borderX + distX * node.col, borderY + distY * node.row) - node.Size / 2;
+    }
+
+    private void ChoosePaths(List<MapNode> nodes)
+    { 
+        Dictionary<MapNode, List<MapNode>> newChildren = new();
+        
         curNode = nodes[0];
+        curNode.Select();
         AddMapNode(nodes[0]);
         
         for (int i = 0; i < 5; i++)
@@ -120,8 +125,12 @@ public partial class Map : Control
             
             while (parent != null)
             {
+                if (!newChildren.ContainsKey(parent))
+                    newChildren.Add(parent, new List<MapNode>());
+                
                 MapNode child = parent.children[GD.RandRange(0, parent.children.Count - 1)];
                 CreateLine(parent, child);
+                newChildren[parent].Add(child);
                 
                 if (!GetChildren().Contains(child))
                     AddMapNode(child);
@@ -132,6 +141,10 @@ public partial class Map : Control
                     parent = null;
             }
         }
+
+        foreach (MapNode parent in GetChildren().OfType<MapNode>())
+            if (newChildren.ContainsKey(parent))
+                parent.children = newChildren[parent];
     }
 
     private void CreateLine(MapNode parent, MapNode child)

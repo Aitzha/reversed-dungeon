@@ -1,10 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://csqalwjy8nrbf"]
+[gd_scene load_steps=4 format=3 uid="uid://csqalwjy8nrbf"]
 
 [ext_resource type="Script" path="res://Scripts/Map/Map.cs" id="1_b16i6"]
-[ext_resource type="PackedScene" uid="uid://lc4inwj8ppc4" path="res://Scenes/Map/StartNode.tscn" id="2_t4t2n"]
-[ext_resource type="PackedScene" uid="uid://16jiqlocfuml" path="res://Scenes/Map/BossNode.tscn" id="3_qmyka"]
-[ext_resource type="PackedScene" uid="uid://c5lwgxj3napab" path="res://Scenes/Map/EnemyNode.tscn" id="4_s5ffj"]
-[ext_resource type="PackedScene" uid="uid://3g03301iejwv" path="res://Scenes/Map/EliteEnemyNode.tscn" id="5_8iq7a"]
+[ext_resource type="PackedScene" uid="uid://cb77h85j1mkkb" path="res://Scenes/Map/MapNode.tscn" id="2_fs6vj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwv6o"]
 bg_color = Color(0.654902, 0.541176, 0.27451, 1)
@@ -13,10 +10,7 @@ bg_color = Color(0.654902, 0.541176, 0.27451, 1)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_b16i6")
-startNodeScene = ExtResource("2_t4t2n")
-bossNodeScene = ExtResource("3_qmyka")
-enemyNodeScene = ExtResource("4_s5ffj")
-eliteEnemyNodeScene = ExtResource("5_8iq7a")
+mapNodeScene = ExtResource("2_fs6vj")
 
 [node name="Background" type="Panel" parent="."]
 z_index = -10
