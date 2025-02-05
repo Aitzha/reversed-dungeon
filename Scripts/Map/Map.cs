@@ -9,27 +9,26 @@ public partial class Map : Control
     [Export] private PackedScene enemyNodeScene;
     [Export] private PackedScene eliteEnemyNodeScene;
     
-    // mapRows must be odd number
-    private int mapRows = 7;
-    private int mapCols = 8;
-    private int borderX = 50;
-    private int borderY = 60;
-    private int distX;
-    private int distY;
-    
-    private Dictionary<MapNode, Dictionary<MapNode, Line2D>> linesDict = new(); 
+    private Dictionary<MapNode, Dictionary<MapNode, Line2D>> linesDict = new();
+    private MapNode curNode;
     
     public override void _Ready()
     {
-        distX = (GameSettings.windowWidth - borderX * 2) / (mapCols - 1);
-        distY = (GameSettings.windowHeight - borderY * 2) / (mapRows - 1);
-        
         ChoosePaths(BuildMap());
     }
 
     private List<MapNode> BuildMap()
     {
         List<MapNode> nodes = new List<MapNode>();
+        
+        // mapRows must be odd number
+        int mapRows = 7; 
+        int mapCols = 8;
+        int borderX = 50;
+        int borderY = 60;
+        int distX = (GameSettings.windowWidth - borderX * 2) / (mapCols - 1);
+        int distY = (GameSettings.windowHeight - borderY * 2) / (mapRows - 1);
+        
         Dictionary<int, Dictionary<int, MapNode>> nodesDict = new(); // <Row, Col> = Node
         for (int i = 0; i < mapRows; i++)
             nodesDict.Add(i, new Dictionary<int, MapNode>());
@@ -37,6 +36,7 @@ public partial class Map : Control
         MapNode startNode = (MapNode)startNodeScene.Instantiate();
         startNode.col = 0;
         startNode.row = (mapRows - 1) / 2;
+        startNode.type = NodeType.Start;
         nodesDict[startNode.row].Add(startNode.col, startNode);
         nodes.Add(startNode);
         startNode.Position = new Vector2(borderX, borderY + distY * startNode.row) - startNode.Size / 2;
@@ -64,14 +64,23 @@ public partial class Map : Control
                     // Instantiate node
                     MapNode child;
                     if (parent.col == mapCols - 2)
+                    {
                         child = (MapNode) bossNodeScene.Instantiate();
+                        child.type = NodeType.Boss;
+                    }
                     else
                     {
                         float randNum = GD.Randf();
-                        if (randNum < 0.95 - (parent.col * 0.05))
+                        if (randNum < 0.95 - parent.col * 0.05)
+                        {
                             child = (MapNode)enemyNodeScene.Instantiate();
+                            child.type = NodeType.Enemy;
+                        }
                         else
+                        {
                             child = (MapNode)eliteEnemyNodeScene.Instantiate();
+                            child.type = NodeType.EliteEnemy;
+                        }
                     }
                     
                     // Setup node
@@ -95,6 +104,7 @@ public partial class Map : Control
 
     private void ChoosePaths(List<MapNode> nodes)
     {
+        curNode = nodes[0];
         AddChild(nodes[0]);
         
         for (int i = 0; i < 5; i++)
@@ -109,7 +119,7 @@ public partial class Map : Control
                 if (!GetChildren().Contains(child))
                     AddChild(child);
                 
-                if (child.col < mapCols - 1)
+                if (child.children.Count > 0)
                     parent = child;
                 else
                     parent = null;
