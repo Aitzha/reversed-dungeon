@@ -8,11 +8,10 @@ public partial class Map : Control
     [Export] private PackedScene bossNodeScene;
     [Export] private PackedScene enemyNodeScene;
     [Export] private PackedScene eliteEnemyNodeScene;
-
-    // rows can only be odd number
-    private int mapRows = 5;
-    // col must be over or equal to 2
-    private int mapCols = 6;
+    
+    // mapRows must be odd number
+    private int mapRows = 7;
+    private int mapCols = 8;
     private int borderX = 50;
     private int borderY = 60;
     private int distX;
@@ -60,12 +59,20 @@ public partial class Map : Control
                 }
                 else
                 {
+                    
                     // Instantiate node
                     MapNode child;
                     if (parent.col == mapCols - 2)
                         child = (MapNode) bossNodeScene.Instantiate();
-                    else 
-                        child = (MapNode) enemyNodeScene.Instantiate();
+                    else
+                    {
+                        float randNum = GD.Randf();
+                        if (randNum < 0.95 - (parent.col * 0.05))
+                            child = (MapNode)enemyNodeScene.Instantiate();
+                        else
+                            child = (MapNode)eliteEnemyNodeScene.Instantiate();
+                    }
+                        
                     
                     // Setup node
                     child.col = parent.col + 1;
