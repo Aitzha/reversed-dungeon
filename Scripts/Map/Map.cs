@@ -16,28 +16,30 @@ public partial class Map : Control
     private int borderY = 60;
     private int distX;
     private int distY;
-
-    private Dictionary<int, Dictionary<int, MapNode>> nodesDict = new();
+    
+    private Dictionary<MapNode, Dictionary<MapNode, Line2D>> linesDict = new(); 
     
     public override void _Ready()
     {
         distX = (GameSettings.windowWidth - borderX * 2) / (mapCols - 1);
         distY = (GameSettings.windowHeight - borderY * 2) / (mapRows - 1);
         
-        for (int i = 0; i < mapRows; i++)
-            nodesDict.Add(i, new Dictionary<int, MapNode>());
-        
-        BuildMap();
+        ChoosePaths(BuildMap());
     }
 
-    private void BuildMap()
+    private List<MapNode> BuildMap()
     {
+        List<MapNode> nodes = new List<MapNode>();
+        Dictionary<int, Dictionary<int, MapNode>> nodesDict = new(); // <Row, Col> = Node
+        for (int i = 0; i < mapRows; i++)
+            nodesDict.Add(i, new Dictionary<int, MapNode>());
+    
         MapNode startNode = (MapNode)startNodeScene.Instantiate();
         startNode.col = 0;
         startNode.row = (mapRows - 1) / 2;
         nodesDict[startNode.row].Add(startNode.col, startNode);
-        AddChild(startNode);
-        startNode.Position = new Vector2(borderX - startNode.Size.X / 2, borderY + distY * startNode.row - startNode.Size.Y / 2);;
+        nodes.Add(startNode);
+        startNode.Position = new Vector2(borderX, borderY + distY * startNode.row) - startNode.Size / 2;
 
         Queue<MapNode> q = new Queue<MapNode>();
         q.Enqueue(startNode);
@@ -59,7 +61,6 @@ public partial class Map : Control
                 }
                 else
                 {
-                    
                     // Instantiate node
                     MapNode child;
                     if (parent.col == mapCols - 2)
@@ -72,34 +73,58 @@ public partial class Map : Control
                         else
                             child = (MapNode)eliteEnemyNodeScene.Instantiate();
                     }
-                        
                     
                     // Setup node
                     child.col = parent.col + 1;
                     child.row = parent.row + i;
-                    Vector2 offset = -child.Size / 2;
-                    child.Position = new Vector2(borderX + distX * child.col, borderY + distY * child.row) + offset;
+                    child.Position = new Vector2(borderX + distX * child.col, borderY + distY * child.row) - child.Size / 2;
                     
                     // Save child node
                     nodesDict[child.row].Add(child.col, child);
                     parent.children.Add(child);
-                    AddChild(child);
+                    nodes.Add(child);
                     
                     if (child.col < mapCols - 1)
                         q.Enqueue(child);
                 }
             }
         }
+
+        return nodes;
     }
 
-    private void AddChildNode(MapNode parent, int row, MapNode child)
+    private void ChoosePaths(List<MapNode> nodes)
     {
-        child.col = parent.col + 1;
-        child.row = row;
-        nodesDict[child.row].Add(child.col, child);
-        parent.children.Add(child);
-        AddChild(child);
-        Vector2 offset = -child.Size / 2;
-        child.Position = new Vector2(borderX + distX * child.col, borderY + distY * child.row) + offset;
+        AddChild(nodes[0]);
+        
+        for (int i = 0; i < 5; i++)
+        {
+            MapNode parent = nodes[0];
+            
+            while (parent != null)
+            {
+                MapNode child = parent.children[GD.RandRange(0, parent.children.Count - 1)];
+                CreateLine(parent, child);
+                
+                if (!GetChildren().Contains(child))
+                    AddChild(child);
+                
+                if (child.col < mapCols - 1)
+                    parent = child;
+                else
+                    parent = null;
+            }
+        }
+    }
+
+    private void CreateLine(MapNode parent, MapNode child)
+    {
+        Line2D line = new Line2D();
+        line.Width = 3;
+        line.DefaultColor = new Color(0, 0, 0);
+        line.AddPoint(parent.GlobalPosition + parent.Size / 2);
+        line.AddPoint(child.GlobalPosition + child.Size / 2);
+        line.ZIndex = -1;
+        AddChild(line);
     }
 }
