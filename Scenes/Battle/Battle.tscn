@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://bojskrvl7l4k0"]
+[gd_scene load_steps=6 format=3 uid="uid://bojskrvl7l4k0"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/BattleManager.cs" id="1_hl268"]
 [ext_resource type="PackedScene" uid="uid://ck7uno6uy51w1" path="res://Scenes/UI/EndScreen.tscn" id="2_fhev0"]
 [ext_resource type="Texture2D" uid="uid://w0x3hujnaafh" path="res://Sprites/Background/#3.jpg" id="2_iabmh"]
 [ext_resource type="PackedScene" uid="uid://dtsk4v2gl60gd" path="res://Scenes/Battle/UI/BattleInterface.tscn" id="3_d76qx"]
+[ext_resource type="PackedScene" uid="uid://blx3b6khqrhql" path="res://Scenes/UI/TutorialScreen.tscn" id="3_daklo"]
 
 [node name="Battle" type="Node2D" node_paths=PackedStringArray("battleInterface")]
 script = ExtResource("1_hl268")
 battleInterface = NodePath("Interface")
 endScreen = ExtResource("2_fhev0")
+tutorialScreenScene = ExtResource("3_daklo")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(320, 180)

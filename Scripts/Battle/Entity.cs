@@ -40,6 +40,7 @@ public partial class Entity : Node2D
     {
         entityData.guard = 0;
         entityData.attackPower = 0;
+        entityData.isParalyzed = false;
         
         List<StatusEffect> expiredEffects = new List<StatusEffect>();
         
@@ -104,27 +105,9 @@ public partial class Entity : Node2D
     
     public void ApplyEffects(Card card, Entity caster)
     {
-        int previousHealth = entityData.health;
-        
         foreach (BaseEffect effect in card.cardData.effects)
         {
             ApplyEffect(effect, caster);
-        }
-        
-        if (previousHealth > entityData.health)
-        {
-            PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/SlashFX.tscn");
-            BattleFX slashInstance = (BattleFX)slashPackedScene.Instantiate();
-            Node node = GetParent().GetNode<Node>("FXStorage");
-            slashInstance.Play(node, GlobalPosition);
-            Shake();
-        }
-        else if (previousHealth < entityData.health)
-        {
-            PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/HealFX.tscn");
-            BattleFX healInstance = (BattleFX)healPackedScene.Instantiate();
-            Node node = GetParent().GetNode<Node>("FXStorage");
-            healInstance.PlayParticles(node, GlobalPosition);
         }
         
         entityUI.UpdateUI(entityData);
@@ -135,6 +118,23 @@ public partial class Entity : Node2D
     public void ToggleGlow()
     {
         glowSprite.Visible = !glowSprite.Visible;
+    }
+
+    public void damageFX()
+    {
+        PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/SlashFX.tscn");
+        BattleFX slashInstance = (BattleFX)slashPackedScene.Instantiate();
+        Node node = GetParent().GetNode<Node>("FXStorage");
+        slashInstance.Play(node, GlobalPosition);
+        Shake();
+    }
+
+    public void healFX()
+    {
+        PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/HealFX.tscn");
+        BattleFX healInstance = (BattleFX)healPackedScene.Instantiate();
+        Node node = GetParent().GetNode<Node>("FXStorage");
+        healInstance.PlayParticles(node, GlobalPosition);
     }
 
     private async void Shake()

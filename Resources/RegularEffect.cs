@@ -31,12 +31,14 @@ public partial class RegularEffect : BaseEffect
                 int damageOnGuard = Math.Min(target.entityData.guard, casterAttack);
                 target.entityData.guard -= damageOnGuard;
                 target.entityData.health -= (casterAttack - damageOnGuard);
+                target.damageFX();
                 break;
             case RegularEffectType.Guard:
                 target.entityData.guard += magnitude;
                 break;
             case RegularEffectType.Heal:
                 target.entityData.health = Math.Min(target.entityData.health + magnitude, target.entityData.maxHealth);
+                target.healFX();
                 break;
         }
     }

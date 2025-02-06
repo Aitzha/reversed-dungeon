@@ -8,4 +8,6 @@ public partial class GameSettings : Node
     
     public static int windowWidth = 640;
     public static int windowHeight = 360;
+
+    public static bool watchedTutorial = false;
 }

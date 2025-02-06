@@ -6,6 +6,7 @@ public partial class BattleManager : Node
 {
     [Export] private BattleInterface battleInterface;
     [Export] private PackedScene endScreen;
+    [Export] private PackedScene tutorialScreenScene;
 
     [Signal] public delegate void BattleWonEventHandler();
     
@@ -30,6 +31,8 @@ public partial class BattleManager : Node
         new Vector2(570, 270),
         new Vector2(360, 140),
     };
+
+    private Node tutorialScreen;
 
     public void Setup(Array<CardData> playerCards, List<EntityData> playerTeamData, List<EntityData> enemyTeamData)
     {
@@ -65,6 +68,13 @@ public partial class BattleManager : Node
 
     public override void _Ready()
     {
+        if (!GameSettings.watchedTutorial)
+        {
+            GameSettings.watchedTutorial = true;
+            tutorialScreen = tutorialScreenScene.Instantiate();
+            AddChild(tutorialScreen);
+        }
+        
         foreach (Entity playerTeamMember in playerTeam)
             AddChild(playerTeamMember);
         
@@ -72,6 +82,14 @@ public partial class BattleManager : Node
             AddChild(enemyTeamMember);
         
         battleInterface.FillHand();
+    }
+    
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey && eventKey.Pressed && eventKey.Keycode == Key.Space)
+        {
+            RemoveChild(tutorialScreen);
+        }
     }
     
     public void EndPlayerTurn()
