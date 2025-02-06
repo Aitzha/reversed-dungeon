@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cb77h85j1mkkb"]
 
 [ext_resource type="Script" path="res://Scripts/Map/MapNode.cs" id="1_3tsv2"]
-[ext_resource type="Texture2D" uid="uid://belatfq7jug3y" path="res://Sprites/UI/Map/Icons/Selected.png" id="1_rlmhc"]
+[ext_resource type="Texture2D" uid="uid://belatfq7jug3y" path="res://Sprites/UI/Map/Icons/selected.png" id="1_rlmhc"]
 
 [node name="MapNode" type="Control" node_paths=PackedStringArray("sprite")]
 layout_mode = 3

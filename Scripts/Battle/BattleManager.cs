@@ -16,15 +16,15 @@ public partial class BattleManager : Node
     public Entity player;
 
     private bool playerTurn = true;
-    private List<Entity> playerTeam = new List<Entity>();
-    private List<Entity> enemyTeam = new List<Entity>();
+    private List<Entity> playerTeam = new();
+    private List<Entity> enemyTeam = new();
     
-    private List<Vector2> playerTeamPositions = new List<Vector2>
+    private List<Vector2> playerTeamPositions = new()
     {
         new Vector2(110, 220)
     };
 
-    private List<Vector2> enemyTeamPositions = new List<Vector2>
+    private List<Vector2> enemyTeamPositions = new()
     {
         new Vector2(465, 205),
         new Vector2(570, 270),
@@ -38,7 +38,7 @@ public partial class BattleManager : Node
         
         for (int i = 0; i < playerTeamData.Count; i++) 
         {
-            PackedScene packedPlayerScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Player/" + playerTeamData[i].entityName + ".tscn");
+            PackedScene packedPlayerScene = ResourceLoader.Load<PackedScene>("res://Scenes/Battle/Characters/Player/" + playerTeamData[i].entityName + ".tscn");
 
             Entity playerTeamMember = (Entity)packedPlayerScene.Instantiate();
             playerTeamMember.entityData = playerTeamData[i];
@@ -52,7 +52,7 @@ public partial class BattleManager : Node
         
         for (int i = 0; i < enemyTeamData.Count; i++) 
         {
-            PackedScene packedEnemyScene = ResourceLoader.Load<PackedScene>("res://Scenes/BattleScenes/Characters/Enemies/" + enemyTeamData[i].entityName + ".tscn");
+            PackedScene packedEnemyScene = ResourceLoader.Load<PackedScene>("res://Scenes/Battle/Characters/Enemies/" + enemyTeamData[i].entityName + ".tscn");
 
             Entity enemyTeamMember = (Entity)packedEnemyScene.Instantiate();
             enemyTeamMember.entityData = enemyTeamData[i];

@@ -77,16 +77,16 @@ public partial class Entity : Node2D
         
         if (previousHealth > entityData.health)
         {
-            PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/SlashFX.tscn");
-            DigitalEffect slashInstance = (DigitalEffect)slashPackedScene.Instantiate();
+            PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/SlashFX.tscn");
+            BattleFX slashInstance = (BattleFX)slashPackedScene.Instantiate();
             Node node = GetParent().GetNode<Node>("FXStorage");
             slashInstance.Play(node, GlobalPosition);
             Shake();
         }
         else if (previousHealth < entityData.health)
         {
-            PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/BattleScenes/FX/HealFX.tscn");
-            DigitalEffect healInstance = (DigitalEffect)healPackedScene.Instantiate();
+            PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/HealFX.tscn");
+            BattleFX healInstance = (BattleFX)healPackedScene.Instantiate();
             Node node = GetParent().GetNode<Node>("FXStorage");
             healInstance.PlayParticles(node, GlobalPosition);
         }

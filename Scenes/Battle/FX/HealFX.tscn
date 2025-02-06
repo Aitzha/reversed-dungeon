@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=3 uid="uid://dikkth2px88yd"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/DigitalEffect.cs" id="1_n8wwg"]
+[ext_resource type="Script" path="res://Scripts/Battle/BattleFX.cs" id="1_n8wwg"]
 [ext_resource type="Texture2D" uid="uid://cqwhgg27pswal" path="res://Sprites/VFX/slash_animation.png" id="2_qy8ol"]
 [ext_resource type="Texture2D" uid="uid://biuc2ykkx5p7n" path="res://Sprites/VFX/healing_animation.png" id="2_wj2xu"]
 [ext_resource type="AudioStream" uid="uid://b4wd7k5fpyvv4" path="res://Sound/healing.wav" id="4_fdfgq"]

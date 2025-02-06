@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://cskmi5tvqft6t"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/Entity/Entity.cs" id="1_r5jvg"]
+[ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_r5jvg"]
 [ext_resource type="Texture2D" uid="uid://dr3emf61xavpx" path="res://Sprites/Characters/enemy#1_glow.png" id="2_8h8or"]
 [ext_resource type="Texture2D" uid="uid://cevaw1yd11gmh" path="res://Sprites/Characters/enemy#1.png" id="3_x1cf0"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_5egv4"]
-[ext_resource type="Script" path="res://Scripts/Battle/Interface/EntityUI.cs" id="4_wftwj"]
-[ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/guard_icon.png" id="5_cycjq"]
+[ext_resource type="Script" path="res://Scripts/Battle/UI/EntityUI.cs" id="4_wftwj"]
+[ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/Battle/guard_icon.png" id="5_cycjq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
 size = Vector2(89, 48.2188)

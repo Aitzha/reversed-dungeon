@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w0x3hujnaafh"
-path="res://.godot/imported/Cave-Horizontal-RPG-Battle-Backgrounds3.jpg-412a5bc573a0ca0dcab7a647c0f917fd.ctex"
+uid="uid://eaxntapcvr0f"
+path="res://.godot/imported/elite_enemy.png-6fb0b59fab9ce66e8805b0cc5023c28e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Background/Cave-Horizontal-RPG-Battle-Backgrounds3.jpg"
-dest_files=["res://.godot/imported/Cave-Horizontal-RPG-Battle-Backgrounds3.jpg-412a5bc573a0ca0dcab7a647c0f917fd.ctex"]
+source_file="res://Sprites/UI/Map/Icons/elite_enemy.png"
+dest_files=["res://.godot/imported/elite_enemy.png-6fb0b59fab9ce66e8805b0cc5023c28e.ctex"]
 
 [params]
 

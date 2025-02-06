@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpg2c8fv2xsnu"
-path="res://.godot/imported/CardBase.png-5829b019afd905bd7bf54ddd89a79538.ctex"
+uid="uid://bnemtvmhnvu4w"
+path="res://.godot/imported/mana_pool.png-2418e3e5242d18c37fe8167897729332.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/Base/CardBase.png"
-dest_files=["res://.godot/imported/CardBase.png-5829b019afd905bd7bf54ddd89a79538.ctex"]
+source_file="res://Sprites/UI/Battle/mana_pool.png"
+dest_files=["res://.godot/imported/mana_pool.png-2418e3e5242d18c37fe8167897729332.ctex"]
 
 [params]
 

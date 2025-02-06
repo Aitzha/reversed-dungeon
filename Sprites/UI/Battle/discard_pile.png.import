@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cctsb0sfcn6y2"
-path="res://.godot/imported/25.png-19f747a3088afdc7ebd22b096fb4e532.ctex"
+uid="uid://btho5t5mea7dc"
+path="res://.godot/imported/discard_pile.png-144b300077d86dc02becaa27b451f7fc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Background/25.png"
-dest_files=["res://.godot/imported/25.png-19f747a3088afdc7ebd22b096fb4e532.ctex"]
+source_file="res://Sprites/UI/Battle/discard_pile.png"
+dest_files=["res://.godot/imported/discard_pile.png-144b300077d86dc02becaa27b451f7fc.ctex"]
 
 [params]
 

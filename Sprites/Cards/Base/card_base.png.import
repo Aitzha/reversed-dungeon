@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6ju5oauxu71q"
-path="res://.godot/imported/draw_pile.png-4e823a0e214d8870aeab8c8b9470e4ef.ctex"
+uid="uid://cpg2c8fv2xsnu"
+path="res://.godot/imported/card_base.png-50b7189a0e9a9aa8e328460817a05311.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/draw_pile.png"
-dest_files=["res://.godot/imported/draw_pile.png-4e823a0e214d8870aeab8c8b9470e4ef.ctex"]
+source_file="res://Sprites/Cards/Base/card_base.png"
+dest_files=["res://.godot/imported/card_base.png-50b7189a0e9a9aa8e328460817a05311.ctex"]
 
 [params]
 

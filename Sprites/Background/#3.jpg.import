@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dud1m352m8cwf"
-path="res://.godot/imported/CostArea.png-ce28a3ec5338798fe868a8330a95b074.ctex"
+uid="uid://w0x3hujnaafh"
+path="res://.godot/imported/#3.jpg-9b5ac7656ab05822346c841f56a6f533.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/Base/CostArea.png"
-dest_files=["res://.godot/imported/CostArea.png-ce28a3ec5338798fe868a8330a95b074.ctex"]
+source_file="res://Sprites/Background/#3.jpg"
+dest_files=["res://.godot/imported/#3.jpg-9b5ac7656ab05822346c841f56a6f533.ctex"]
 
 [params]
 

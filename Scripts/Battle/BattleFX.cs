@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Godot;
 
-public partial class DigitalEffect : Node2D
+public partial class BattleFX : Node2D
 {
     [Export] private AnimatedSprite2D visualEffect;
     [Export] private AudioStreamPlayer2D audioEffect;

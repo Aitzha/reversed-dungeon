@@ -15,12 +15,11 @@ public partial class GameManager : Node2D
 	[Export] private PackedScene battleScene;
 
 	private MainMenu mainMenu;
-	private PauseMenuScript pauseMenu;
+	private PauseMenu pauseMenu;
 	private Map map;
 	private BattleManager battleManager;
 	
 	public List<CardData> PlayerCards = new();
-	
 	
 	public override void _Ready()
 	{
@@ -28,15 +27,15 @@ public partial class GameManager : Node2D
 		PlayerCards = CardLoader.LoadCards();
 		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
 		
-		// Instance the pause menu, script and add to Main
-		pauseMenu = (PauseMenuScript)pauseMenuScene.Instantiate();
+		// Instance, Add and Hide the pause menu
+		pauseMenu = (PauseMenu) pauseMenuScene.Instantiate();
 		AddChild(pauseMenu);
 		pauseMenu.Visible = false;
 		pauseMenu.ProcessMode = ProcessModeEnum.WhenPaused;
 		pauseMenu.ResumeGame += UnpauseGame;
 		pauseMenu.ResolutionSelected += ChangeResolution;
 		
-		// Instantiate MainMenu
+		// Instantiate and Add MainMenu
 		mainMenu = (MainMenu) mainMenuScene.Instantiate();
 		AddChild(mainMenu);
 		mainMenu.startButton.Pressed += StartGame;
@@ -93,24 +92,11 @@ public partial class GameManager : Node2D
 		return playerTeam;
 	}
 
-	private List<EntityData> loadEnemyTeam()
-	{
-		List<EntityData> enemyTeam = new List<EntityData>();
-
-		EntityData enemy1 = new EntityData("Enemy#1", 20);
-		EntityData enemy2 = new EntityData("Enemy#2", 20);
-		EntityData enemy3 = new EntityData("Enemy#3", 20);
-		enemyTeam.Add(enemy1);
-		enemyTeam.Add(enemy2);
-		enemyTeam.Add(enemy3);
-		return enemyTeam;
-	}
-
 	private void StartGame()
 	{
 		RemoveChild(mainMenu);
 
-		map = (Map)mapScene.Instantiate();
+		map = (Map) mapScene.Instantiate();
 		AddChild(map);
 		map.NodeClicked += StartBattle;
 	}

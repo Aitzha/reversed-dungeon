@@ -1,18 +1,16 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 public partial class MapNode : Control
 {
     [Export] private Sprite2D sprite;
     [Signal] public delegate void NodeClickedEventHandler(MapNode node);
     
-    public List<MapNode> children = new();
     public int row;
     public int col;
     public MapNodeType type;
     public List<EntityData> enemies = new();
+    public List<MapNode> children = new();
     
 
     public override void _Ready()
@@ -50,15 +48,14 @@ public partial class MapNode : Control
     public void SetType(MapNodeType type)
     {
         this.type = type;
-        sprite.Texture = GD.Load<Texture2D>("res://Sprites/UI/Map/Icons/" + type + ".png");
+        sprite.Texture = GD.Load<Texture2D>("res://Sprites/UI/Map/Icons/" + Utils.ToSnakeCase(type) + ".png");
         sprite.Position = sprite.Texture.GetSize() / 2;
         Size = sprite.Texture.GetSize();
-        
     }
 
     public void Select()
     {
-        sprite.Texture = GD.Load<Texture2D>("res://Sprites/UI/Map/Icons/Selected.png");
+        sprite.Texture = GD.Load<Texture2D>("res://Sprites/UI/Map/Icons/selected.png");
         sprite.Position = sprite.Texture.GetSize() / 2;
         Size = sprite.Texture.GetSize();
     }
@@ -75,4 +72,8 @@ public enum MapNodeType
     Enemy,
     EliteEnemy,
     Boss
+    
+    
 }
+
+

@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://dtsk4v2gl60gd"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/Interface/BattleInterface.cs" id="1_xchf7"]
-[ext_resource type="PackedScene" uid="uid://b1ipsvab0ffmy" path="res://Scenes/BattleScenes/BattleInterface/Card.tscn" id="2_yv712"]
+[ext_resource type="Script" path="res://Scripts/Battle/UI/BattleInterface.cs" id="1_xchf7"]
+[ext_resource type="PackedScene" uid="uid://b1ipsvab0ffmy" path="res://Scenes/Battle/UI/Card.tscn" id="2_yv712"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="3_an37h"]
-[ext_resource type="Script" path="res://Scripts/Battle/Interface/CardHolder.cs" id="4_hgb5d"]
-[ext_resource type="Texture2D" uid="uid://btho5t5mea7dc" path="res://Sprites/UI/discard_pile.png" id="5_aynih"]
-[ext_resource type="Texture2D" uid="uid://bnemtvmhnvu4w" path="res://Sprites/UI/mana_pool.png" id="6_ygar7"]
-[ext_resource type="Texture2D" uid="uid://c6ju5oauxu71q" path="res://Sprites/UI/draw_pile.png" id="7_ty10j"]
+[ext_resource type="Script" path="res://Scripts/Battle/UI/CardHolder.cs" id="4_hgb5d"]
+[ext_resource type="Texture2D" uid="uid://btho5t5mea7dc" path="res://Sprites/UI/Battle/discard_pile.png" id="5_aynih"]
+[ext_resource type="Texture2D" uid="uid://bnemtvmhnvu4w" path="res://Sprites/UI/Battle/mana_pool.png" id="6_ygar7"]
+[ext_resource type="Texture2D" uid="uid://c6ju5oauxu71q" path="res://Sprites/UI/Battle/draw_pile.png" id="7_ty10j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_opdgp"]
 radius = 41.0488

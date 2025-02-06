@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnemtvmhnvu4w"
-path="res://.godot/imported/mana_pool.png-54b989cea6fe89aeb65de4a3cabc8972.ctex"
+uid="uid://c6ju5oauxu71q"
+path="res://.godot/imported/draw_pile.png-b473212ed36620a60e7f05f63be794cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/mana_pool.png"
-dest_files=["res://.godot/imported/mana_pool.png-54b989cea6fe89aeb65de4a3cabc8972.ctex"]
+source_file="res://Sprites/UI/Battle/draw_pile.png"
+dest_files=["res://.godot/imported/draw_pile.png-b473212ed36620a60e7f05f63be794cc.ctex"]
 
 [params]
 

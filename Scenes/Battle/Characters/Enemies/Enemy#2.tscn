@@ -1,46 +1,46 @@
-[gd_scene load_steps=10 format=3 uid="uid://5wjv748brgfr"]
+[gd_scene load_steps=10 format=3 uid="uid://bt3qyjevy7rqm"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/Entity/Entity.cs" id="1_pkv1l"]
-[ext_resource type="Texture2D" uid="uid://swwh011v2tgg" path="res://Sprites/Characters/enemy#3_glow.png" id="2_6yrbn"]
-[ext_resource type="Texture2D" uid="uid://die8c8iu4x5ps" path="res://Sprites/Characters/enemy#3.png" id="3_650o4"]
-[ext_resource type="Script" path="res://Scripts/Battle/Interface/EntityUI.cs" id="4_lyg6u"]
-[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_s4tru"]
-[ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/guard_icon.png" id="5_ib0w8"]
+[ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_s3y3e"]
+[ext_resource type="Texture2D" uid="uid://b51vafhwjabs5" path="res://Sprites/Characters/enemy#2_glow.png" id="2_ex3my"]
+[ext_resource type="Texture2D" uid="uid://dh362rtivr8uv" path="res://Sprites/Characters/enemy#2.png" id="3_dnb10"]
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_2dx5h"]
+[ext_resource type="Script" path="res://Scripts/Battle/UI/EntityUI.cs" id="4_n3qm0"]
+[ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/Battle/guard_icon.png" id="5_ab60m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
-size = Vector2(48, 99)
+size = Vector2(102, 66)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x6ndd"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_irpae"]
 bg_color = Color(0.0521015, 0.0675027, 0.109463, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8aks6"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sha2r"]
 bg_color = Color(0.858198, 0.186618, 0.282483, 1)
 
-[node name="Enemy#3" type="CharacterBody2D" node_paths=PackedStringArray("glowSprite", "entityUI")]
+[node name="Enemy#2" type="CharacterBody2D" node_paths=PackedStringArray("glowSprite", "entityUI")]
 collision_layer = 2
 collision_mask = 2
-script = ExtResource("1_pkv1l")
+script = ExtResource("1_s3y3e")
 glowSprite = NodePath("Glow")
 entityUI = NodePath("EntityUI")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3, -50)
+position = Vector2(-7, -37)
 shape = SubResource("RectangleShape2D_p1ljr")
 
 [node name="Glow" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, -55)
+position = Vector2(0, -37)
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("2_6yrbn")
+texture = ExtResource("2_ex3my")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -55)
+position = Vector2(0, -37)
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("3_650o4")
+texture = ExtResource("3_dnb10")
 
 [node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel")]
-position = Vector2(-40, 5)
-script = ExtResource("4_lyg6u")
+position = Vector2(-40, 6)
+script = ExtResource("4_n3qm0")
 healthBar = NodePath("Health/HealthBar")
 healthLabel = NodePath("Health/HealthLabel")
 guardLabel = NodePath("Guard/GuardLabel")
@@ -50,8 +50,8 @@ guardLabel = NodePath("Guard/GuardLabel")
 [node name="HealthBar" type="ProgressBar" parent="EntityUI/Health"]
 offset_right = 80.0
 offset_bottom = 6.0
-theme_override_styles/background = SubResource("StyleBoxFlat_x6ndd")
-theme_override_styles/fill = SubResource("StyleBoxFlat_8aks6")
+theme_override_styles/background = SubResource("StyleBoxFlat_irpae")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sha2r")
 step = 1.0
 value = 50.0
 show_percentage = false
@@ -61,7 +61,7 @@ offset_left = 12.0
 offset_top = -1.0
 offset_right = 68.0
 offset_bottom = 7.0
-theme_override_fonts/font = ExtResource("4_s4tru")
+theme_override_fonts/font = ExtResource("4_2dx5h")
 theme_override_font_sizes/font_size = 8
 text = "100/100"
 horizontal_alignment = 1
@@ -71,13 +71,13 @@ vertical_alignment = 1
 
 [node name="GuardIcon" type="Sprite2D" parent="EntityUI/Guard"]
 position = Vector2(-8, 3)
-texture = ExtResource("5_ib0w8")
+texture = ExtResource("5_ab60m")
 
 [node name="GuardLabel" type="Label" parent="EntityUI/Guard"]
 offset_left = -16.0
 offset_top = -1.0
 offset_bottom = 7.0
-theme_override_fonts/font = ExtResource("4_s4tru")
+theme_override_fonts/font = ExtResource("4_2dx5h")
 theme_override_font_sizes/font_size = 8
 text = "15"
 horizontal_alignment = 1

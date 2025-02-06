@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class PauseMenuScript : Control
+public partial class PauseMenu : Control
 {
 	[Export] public Button ResumeButton;
 	[Export] public OptionButton ResolutionButton;
