@@ -26,7 +26,21 @@ public partial class StatusEffect : BaseEffect
     
     public override void ApplyEffect()
     {
-        
+        switch (type)
+        {
+            case StatusEffectType.Bleed:
+                target.entityData.health -= magnitude;
+                break;
+            case StatusEffectType.Regeneration:
+                target.entityData.health = Math.Min(target.entityData.maxHealth, target.entityData.health + magnitude);
+                break;
+            case StatusEffectType.AttackBuff:
+                target.entityData.attackPower += magnitude;
+                break;
+            case StatusEffectType.AttackDebuff:
+                target.entityData.attackPower -= magnitude;
+                break;
+        }
     }
 
     public override BaseEffect Clone(Entity target, Entity caster)
