@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c14otk0mcpu25"]
+
+[ext_resource type="Texture2D" uid="uid://8s2wgo3jepm2" path="res://Sprites/UI/Battle/bleed.png" id="2_72dge"]
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="3_0rjua"]
+
+[node name="StatusEffect" type="Control"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(7, 7)
+texture = ExtResource("2_72dge")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 7.0
+offset_right = 8.0
+offset_bottom = 15.0
+theme_override_fonts/font = ExtResource("3_0rjua")
+theme_override_font_sizes/font_size = 8
+text = "1"

@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Godot;
-using FileAccess = Godot.FileAccess;
+using Godot.Collections;
 
 public partial class GameManager : Node2D
 {
@@ -19,12 +15,17 @@ public partial class GameManager : Node2D
 	private Map map;
 	private BattleManager battleManager;
 	
-	public List<CardData> PlayerCards = new();
+	public Array<CardData> PlayerCards = new();
 	
 	public override void _Ready()
 	{
 		// Load master card
-		PlayerCards = CardLoader.LoadCards();
+		CardDatabase cardDatabase = ResourceLoader.Load<CardDatabase>("res://Data/card_database.tres");
+		if (cardDatabase != null)
+			PlayerCards = cardDatabase.allCards;
+		else
+			Debug.Print("Couldn't load card database");
+		
 		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
 		
 		// Instance, Add and Hide the pause menu
@@ -118,17 +119,6 @@ public partial class GameManager : Node2D
 		battleManager = null;
 		
 		AddChild(map);
-	}
-}
-
-public static class CardLoader
-{
-	public static List<CardData> LoadCards()
-	{
-		string json = FileAccess.GetFileAsString("res://Data/master_cards.json");
-
-		List<CardData> cards = JsonSerializer.Deserialize<List<CardData>>(json);
-		return cards;
 	}
 }
 

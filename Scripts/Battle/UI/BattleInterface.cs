@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Godot;
+using Godot.Collections;
 
 public partial class BattleInterface : Control
 {
@@ -11,7 +11,7 @@ public partial class BattleInterface : Control
 	[Export] private Button endTurnButton;
 	[Export] private Label manaLabel;
 
-	public List<CardData> playerCards {get; set;}
+	public Array<CardData> playerCards {get; set;}
 
 	private Queue<Card> drawPile = new Queue<Card>();
 	private List<Card> handPile = new List<Card>();

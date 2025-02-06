@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardDatabase" load_steps=9 format=3 uid="uid://blfodro4rmcba"]
+
+[ext_resource type="Resource" uid="uid://dmeuba4vxpkml" path="res://Data/Cards/meteor_punch.tres" id="1_1bj6a"]
+[ext_resource type="Resource" uid="uid://ds28n7m1atp53" path="res://Data/Cards/claw_slash.tres" id="1_4jeix"]
+[ext_resource type="Resource" uid="uid://b8xedpr05cdqu" path="res://Data/Cards/rage.tres" id="2_du5n1"]
+[ext_resource type="Script" path="res://Resources/CardDatabase.cs" id="2_qv6yc"]
+[ext_resource type="Resource" uid="uid://gu7gq6e6kh0g" path="res://Data/Cards/guard.tres" id="3_bqn73"]
+[ext_resource type="Resource" uid="uid://coiiye3ew33lf" path="res://Data/Cards/heal.tres" id="5_mhuuj"]
+[ext_resource type="Resource" uid="uid://t3e5por3474d" path="res://Data/Cards/fear.tres" id="6_lwegj"]
+[ext_resource type="Resource" uid="uid://dqnqwlb7gdbek" path="res://Data/Cards/regeneration.tres" id="7_rf184"]
+
+[resource]
+script = ExtResource("2_qv6yc")
+allCards = [ExtResource("1_1bj6a"), ExtResource("2_du5n1"), ExtResource("3_bqn73"), ExtResource("1_4jeix"), ExtResource("5_mhuuj"), ExtResource("6_lwegj"), ExtResource("7_rf184")]

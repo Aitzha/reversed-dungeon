@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=4 format=3 uid="uid://b8xedpr05cdqu"]
+
+[ext_resource type="Script" path="res://Resources/StatusEffect.cs" id="1_0wfsu"]
+[ext_resource type="Script" path="res://Resources/CardData.cs" id="2_typr0"]
+
+[sub_resource type="Resource" id="Resource_8fogu"]
+script = ExtResource("1_0wfsu")
+type = 2
+turnsLeft = 3
+magnitude = 3
+
+[resource]
+script = ExtResource("2_typr0")
+id = "rage"
+name = "Rage"
+descriptionTemplate = "Gains {amount_0} Attack power for {duration_0} turns"
+cost = 1
+tier = 0
+progress = 0
+targetType = 0
+targetFaction = 0
+effects = [SubResource("Resource_8fogu")]

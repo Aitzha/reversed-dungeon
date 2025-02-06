@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bt3qyjevy7rqm"]
+[gd_scene load_steps=11 format=3 uid="uid://bt3qyjevy7rqm"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_s3y3e"]
 [ext_resource type="Texture2D" uid="uid://b51vafhwjabs5" path="res://Sprites/Characters/enemy#2_glow.png" id="2_ex3my"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_2dx5h"]
 [ext_resource type="Script" path="res://Scripts/Battle/UI/EntityUI.cs" id="4_n3qm0"]
 [ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/Battle/guard_icon.png" id="5_ab60m"]
+[ext_resource type="PackedScene" uid="uid://c14otk0mcpu25" path="res://Scenes/Battle/UI/StatusEffect.tscn" id="5_ajxx1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
 size = Vector2(102, 66)
@@ -38,12 +39,14 @@ position = Vector2(0, -37)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_dnb10")
 
-[node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel")]
+[node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel", "statusEffectList")]
 position = Vector2(-40, 6)
 script = ExtResource("4_n3qm0")
 healthBar = NodePath("Health/HealthBar")
 healthLabel = NodePath("Health/HealthLabel")
 guardLabel = NodePath("Guard/GuardLabel")
+statusEffectList = NodePath("StatusEffectList")
+statusEffectScene = ExtResource("5_ajxx1")
 
 [node name="Health" type="Node2D" parent="EntityUI"]
 
@@ -81,3 +84,9 @@ theme_override_fonts/font = ExtResource("4_2dx5h")
 theme_override_font_sizes/font_size = 8
 text = "15"
 horizontal_alignment = 1
+
+[node name="StatusEffectList" type="HBoxContainer" parent="EntityUI"]
+offset_left = -15.0
+offset_top = 15.0
+offset_right = 90.0
+offset_bottom = 30.0

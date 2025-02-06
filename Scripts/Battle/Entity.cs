@@ -1,9 +1,30 @@
 using Godot;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 public partial class Entity : Node2D
 {
+    private static Dictionary<StatusEffectType, TriggerType> triggerType = new()
+    {
+        {StatusEffectType.Poison, TriggerType.NextTurn},
+        {StatusEffectType.Bleed, TriggerType.NextTurn},
+        {StatusEffectType.AttackBuff, TriggerType.Instant},
+        {StatusEffectType.AttackDebuff, TriggerType.NextTurn},
+        {StatusEffectType.Paralyze, TriggerType.NextTurn},
+        {StatusEffectType.Regeneration, TriggerType.NextTurn}
+    };
+    
+    private static Dictionary<StatusEffectType, EffectDuration> effectDuration = new()
+    {
+        {StatusEffectType.Poison, EffectDuration.OnApply},
+        {StatusEffectType.Bleed, EffectDuration.OnApply},
+        {StatusEffectType.AttackBuff, EffectDuration.OnTurnEnd},
+        {StatusEffectType.AttackDebuff, EffectDuration.OnTurnEnd},
+        {StatusEffectType.Paralyze, EffectDuration.OnTurnEnd},
+        {StatusEffectType.Regeneration, EffectDuration.OnApply}
+    };
+    
     [Export] private Sprite2D glowSprite;
     [Export] private EntityUI entityUI;
     
@@ -20,17 +41,20 @@ public partial class Entity : Node2D
         entityData.guard = 0;
         entityData.attackPower = 0;
         
-        List<Effect> expiredEffects = new List<Effect>();
+        List<StatusEffect> expiredEffects = new List<StatusEffect>();
         
-        foreach (Effect effect in entityData.appliedEffects)
+        foreach (StatusEffect effect in entityData.appliedEffects)
         {
             effect.ApplyEffect();
+
+            if (effectDuration[effect.type] == EffectDuration.OnApply)
+                effect.turnsLeft--;
             
-            if (effect.duration <= 0)
+            if (effect.turnsLeft <= 0)
                 expiredEffects.Add(effect);
         }
 
-        foreach (Effect effect in expiredEffects)
+        foreach (StatusEffect effect in expiredEffects)
             entityData.appliedEffects.Remove(effect);
         
         entityUI.UpdateUI(entityData);
@@ -40,37 +64,49 @@ public partial class Entity : Node2D
 
     public void FinishTurn()
     {
-        List<Effect> expiredEffects = new List<Effect>();
+        List<StatusEffect> expiredEffects = new List<StatusEffect>();
         
-        foreach (Effect effect in entityData.appliedEffects)
+        foreach (StatusEffect effect in entityData.appliedEffects)
         {
-            if (effect.durationReductionTiming == DurationReductionTiming.OnTurnEnd)
-                effect.duration--;
+            if (effectDuration[effect.type] == EffectDuration.OnTurnEnd)
+                effect.turnsLeft--;
             
-            if (effect.duration <= 0)
+            if (effect.turnsLeft <= 0)
                 expiredEffects.Add(effect);
         }
         
-        foreach (Effect effect in expiredEffects)
+        foreach (StatusEffect effect in expiredEffects)
             entityData.appliedEffects.Remove(effect);
+        
+        entityUI.UpdateUI(entityData);
     }
 
-    public void ApplyEffect(Effect effect, Entity caster)
+    public void ApplyEffect(BaseEffect effect, Entity caster)
     {
-        Effect effectCopy = effect.Clone(this, caster);
+        BaseEffect effectCopy = effect.Clone(this, caster);
         
-        if (effectCopy.firstTriggerTiming == FirstTriggerTiming.Immediate)
+        if (effectCopy is RegularEffect || 
+            (effectCopy is StatusEffect statusEffect && triggerType[statusEffect.type] == TriggerType.Instant))
             effectCopy.ApplyEffect();
-        
-        if (effectCopy.duration > 0)
-            entityData.appliedEffects.Add(effectCopy);
+
+        if (effectCopy is StatusEffect newStatusEffect)
+        {
+            // Increase duration of already existing effect with similar parameters or add new effect if none is found
+            StatusEffect oldStatusEffect = entityData.appliedEffects.FirstOrDefault(appliedEffect =>
+                appliedEffect.magnitude == newStatusEffect.magnitude && appliedEffect.type == newStatusEffect.type);
+
+            if (oldStatusEffect == null)
+                entityData.appliedEffects.Add(newStatusEffect);
+            else 
+                oldStatusEffect.turnsLeft += newStatusEffect.turnsLeft;
+        } 
     }
     
     public void ApplyEffects(Card card, Entity caster)
     {
         int previousHealth = entityData.health;
         
-        foreach (Effect effect in card.cardData.Effects)
+        foreach (BaseEffect effect in card.cardData.effects)
         {
             ApplyEffect(effect, caster);
         }
@@ -127,7 +163,8 @@ public class EntityData
     public int guard { get; set; }
     public int attackPower { get; set; }
     public bool isParalyzed { get; set; }
-    public List<Effect> appliedEffects { get; set; }
+    public List<StatusEffect> appliedEffects { get; set; }
+    
     
     public EntityData(string entityName, int maxHealth)
     {
@@ -137,10 +174,22 @@ public class EntityData
         guard = 0;
         attackPower = 0;
         isParalyzed = false;
-        appliedEffects = new List<Effect>();
+        appliedEffects = new List<StatusEffect>();
     }
 
     public EntityData() {}
+}
+
+public enum TriggerType
+{
+    Instant,
+    NextTurn
+}
+
+public enum EffectDuration
+{
+    OnApply,
+    OnTurnEnd
 }
 
 

@@ -1,6 +1,6 @@
 using Godot;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Godot.Collections;
 
 public partial class BattleManager : Node
 {
@@ -31,7 +31,7 @@ public partial class BattleManager : Node
         new Vector2(360, 140),
     };
 
-    public void Setup(List<CardData> playerCards, List<EntityData> playerTeamData, List<EntityData> enemyTeamData)
+    public void Setup(Array<CardData> playerCards, List<EntityData> playerTeamData, List<EntityData> enemyTeamData)
     {
         instance = this;
         battleInterface.playerCards = playerCards;
@@ -65,7 +65,12 @@ public partial class BattleManager : Node
 
     public override void _Ready()
     {
-        LoadEntities();
+        foreach (Entity playerTeamMember in playerTeam)
+            AddChild(playerTeamMember);
+        
+        foreach (Entity enemyTeamMember in enemyTeam)
+            AddChild(enemyTeamMember);
+        
         battleInterface.FillHand();
     }
     
@@ -113,18 +118,9 @@ public partial class BattleManager : Node
         }
     }
 
-    private void LoadEntities()
-    {
-        foreach (Entity player in playerTeam)
-            AddChild(player);
-        
-        foreach (Entity enemy in enemyTeam)
-            AddChild(enemy);
-    }
-
     private void EnemyTeamPerformAction()
     {
-        Effect effect = new Effect(EffectType.Attack, EffectSubtype.None, FirstTriggerTiming.Immediate, DurationReductionTiming.OnEffectApply, 1, 1);
+        RegularEffect effect = new RegularEffect(3, RegularEffectType.Attack);
         foreach (Entity enemy in enemyTeam)
         {
             enemy.StartTurn();

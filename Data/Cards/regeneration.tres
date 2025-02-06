@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=4 format=3 uid="uid://dqnqwlb7gdbek"]
+
+[ext_resource type="Script" path="res://Resources/StatusEffect.cs" id="1_koknp"]
+[ext_resource type="Script" path="res://Resources/CardData.cs" id="2_aktpa"]
+
+[sub_resource type="Resource" id="Resource_4ldxn"]
+script = ExtResource("1_koknp")
+type = 5
+turnsLeft = 2
+magnitude = 2
+
+[resource]
+script = ExtResource("2_aktpa")
+id = "heal"
+name = "Regeneration"
+descriptionTemplate = "Restores {amount_0} HP per turn for {duration_0} turns"
+cost = 1
+tier = 0
+progress = 0
+targetType = 0
+targetFaction = 0
+effects = [SubResource("Resource_4ldxn")]

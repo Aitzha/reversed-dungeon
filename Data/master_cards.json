@@ -31,8 +31,8 @@
 		"subtype": "Bleed",
 		"firstTriggerTiming": "NextTurnStart",
 		"durationReductionTiming": "OnEffectApply",
-		"amount": 1,
-		"duration": 2
+		"amount": 3,
+		"duration": 3
 	  }
 	]
   },
@@ -50,8 +50,8 @@
 		"subtype": "AttackBuff",
 		"firstTriggerTiming": "Immediate",
 		"durationReductionTiming": "OnTurnEnd",
-		"amount": 1,
-		"duration": 2
+		"amount": 3,
+		"duration": 3
 	  }
 	]
   },
@@ -69,8 +69,8 @@
 		"subtype": "AttackDebuff",
 		"firstTriggerTiming": "NextTurnStart",
 		"durationReductionTiming": "OnTurnEnd",
-		"amount": 1,
-		"duration": 2
+		"amount": 3,
+		"duration": 3
 	  }
 	]
   },
@@ -121,10 +121,10 @@
 	"effects": [
 	  {
 		"type": "Heal",
-		"subtype": "None",
+		"subtype": "Regeneration",
 		"firstTriggerTiming": "NextTurnStart",
 		"durationReductionTiming": "OnEffectApply",
-		"amount": 1,
+		"amount": 2,
 		"duration": 2
 	  }
 	]
