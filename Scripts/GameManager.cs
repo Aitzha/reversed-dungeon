@@ -9,11 +9,15 @@ using FileAccess = Godot.FileAccess;
 
 public partial class GameManager : Node2D
 {
-	[Export] public PackedScene PauseMenuScene;
-	[Export] public PackedScene BattleScene;
-	
-	private Control _pauseMenu;
-	private PauseMenuScript _pauseMenuScript;
+	[Export] private PackedScene mainMenuScene;
+	[Export] private PackedScene pauseMenuScene;
+	[Export] private PackedScene mapScene;
+	[Export] private PackedScene battleScene;
+
+	private MainMenu mainMenu;
+	private PauseMenuScript pauseMenu;
+	private Map map;
+	private BattleManager battleManager;
 	
 	public List<CardData> PlayerCards = new();
 	
@@ -23,30 +27,19 @@ public partial class GameManager : Node2D
 		// Load master card
 		PlayerCards = CardLoader.LoadCards();
 		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
-
-		
-		BattleManager battleScene = (BattleManager) BattleScene.Instantiate();
-		battleScene.Setup(PlayerCards, loadPlayerTeam(), loadEnemyTeam());
-		AddChild(battleScene);
-		
 		
 		// Instance the pause menu, script and add to Main
-		_pauseMenu = (Control)PauseMenuScene.Instantiate();
-		_pauseMenuScript = _pauseMenu as PauseMenuScript;
-		AddChild(_pauseMenu);
+		pauseMenu = (PauseMenuScript)pauseMenuScene.Instantiate();
+		AddChild(pauseMenu);
+		pauseMenu.Visible = false;
+		pauseMenu.ProcessMode = ProcessModeEnum.WhenPaused;
+		pauseMenu.ResumeGame += UnpauseGame;
+		pauseMenu.ResolutionSelected += ChangeResolution;
 		
-		// Hide it initially
-		_pauseMenu.Visible = false;
-		
-		// Change process mode to "When Paused"
-		_pauseMenu.ProcessMode = ProcessModeEnum.WhenPaused;
-
-		// Add function to the signals
-		if (_pauseMenuScript != null)
-		{
-			_pauseMenuScript.ResumeGame += UnpauseGame;
-			_pauseMenuScript.ResolutionSelected += ChangeResolution;
-		}
+		// Instantiate MainMenu
+		mainMenu = (MainMenu) mainMenuScene.Instantiate();
+		AddChild(mainMenu);
+		mainMenu.startButton.Pressed += StartGame;
 	}
 
 	public override void _Input(InputEvent @event)
@@ -62,14 +55,14 @@ public partial class GameManager : Node2D
 
 	private void PauseGame()
 	{
-		_pauseMenu.Visible = true;
+		pauseMenu.Visible = true;
 		GetTree().Paused = true;
 	}
 
 	private void UnpauseGame()
 	{
 		GetTree().Paused = false;
-		_pauseMenu.Visible = false;
+		pauseMenu.Visible = false;
 	}
 
 	private void ChangeResolution(long index)
@@ -111,6 +104,34 @@ public partial class GameManager : Node2D
 		enemyTeam.Add(enemy2);
 		enemyTeam.Add(enemy3);
 		return enemyTeam;
+	}
+
+	private void StartGame()
+	{
+		RemoveChild(mainMenu);
+
+		map = (Map)mapScene.Instantiate();
+		AddChild(map);
+		map.NodeClicked += StartBattle;
+	}
+
+	private void StartBattle(MapNode node)
+	{
+		RemoveChild(map);
+		
+		battleManager = (BattleManager) battleScene.Instantiate();
+		battleManager.Setup(PlayerCards, loadPlayerTeam(), node.enemies);
+		AddChild(battleManager);
+		battleManager.BattleWon += FinishBattle;
+	}
+
+	private void FinishBattle()
+	{
+		RemoveChild(battleManager);
+		battleManager.QueueFree();
+		battleManager = null;
+		
+		AddChild(map);
 	}
 }
 

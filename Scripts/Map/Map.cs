@@ -7,6 +7,8 @@ using System.Linq;
 public partial class Map : Control
 {
     [Export] private PackedScene mapNodeScene;
+
+    [Signal] public delegate void NodeClickedEventHandler(MapNode node);
     
     // mapRows must be odd number
     public int mapRows = 7; 
@@ -28,6 +30,8 @@ public partial class Map : Control
             RepositionMapNode(curNode);
             RepositionMapNode(node);
             curNode = node;
+
+            EmitSignal(SignalName.NodeClicked, curNode);
         }
     }
     

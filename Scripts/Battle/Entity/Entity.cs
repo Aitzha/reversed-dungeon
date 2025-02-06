@@ -59,11 +59,6 @@ public partial class Entity : Node2D
     {
         Effect effectCopy = effect.Clone(this, caster);
         
-        Debug.Print(effectCopy.type.ToString());
-        Debug.Print(effectCopy.subtype.ToString());
-        Debug.Print(effectCopy.amount.ToString());
-        Debug.Print(effectCopy.duration.ToString());
-        
         if (effectCopy.firstTriggerTiming == FirstTriggerTiming.Immediate)
             effectCopy.ApplyEffect();
         

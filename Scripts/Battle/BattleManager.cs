@@ -6,6 +6,8 @@ public partial class BattleManager : Node
 {
     [Export] private BattleInterface battleInterface;
     [Export] private PackedScene endScreen;
+
+    [Signal] public delegate void BattleWonEventHandler();
     
     public static BattleManager instance;
     public int playerMana = 2;
@@ -106,9 +108,7 @@ public partial class BattleManager : Node
 
             if (enemyTeam.Count == 0)
             {
-                Node endScreenInstance = endScreen.Instantiate();
-                endScreenInstance.GetNode<Label>("Text").Text = "You Win!";
-                AddChild(endScreenInstance);
+                EmitSignal(SignalName.BattleWon);
             }
         }
     }

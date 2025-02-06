@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://cu87sido3ns11"]
+
+[ext_resource type="Script" path="res://Scripts/UI/MainMenu.cs" id="1_av62h"]
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="1_wsjam"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2ygq"]
+bg_color = Color(0.464194, 0.764853, 0.379916, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kyr1p"]
+bg_color = Color(0.337916, 0.604839, 0.955048, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="Theme" id="Theme_mvgit"]
+Button/styles/normal = SubResource("StyleBoxFlat_kyr1p")
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("startButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_av62h")
+startButton = NodePath("Button")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = -1
+custom_minimum_size = Vector2(640, 360)
+layout_direction = 3
+layout_mode = 2
+offset_right = 640.0
+offset_bottom = 360.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_d2ygq")
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 2
+offset_top = 55.0
+offset_right = 640.0
+offset_bottom = 87.0
+theme_override_fonts/font = ExtResource("1_wsjam")
+theme_override_font_sizes/font_size = 32
+text = "Reversed Dungeon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 195.0
+offset_top = 120.0
+offset_right = 445.0
+offset_bottom = 155.0
+theme = SubResource("Theme_mvgit")
+theme_override_fonts/font = ExtResource("1_wsjam")
+theme_override_font_sizes/font_size = 16
+text = "Start the Game"
