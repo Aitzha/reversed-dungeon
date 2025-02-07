@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Godot.Collections;
 
 public partial class BattleManager : Node
@@ -81,7 +82,7 @@ public partial class BattleManager : Node
         foreach (Entity enemyTeamMember in enemyTeam)
             AddChild(enemyTeamMember);
         
-        battleInterface.FillHand();
+        StartPlayerTurn();
     }
     
     public override void _Input(InputEvent @event)
@@ -98,7 +99,10 @@ public partial class BattleManager : Node
         
         playerTurn = false;
         EnemyTeamPerformAction();
-        
+    }
+
+    public void StartPlayerTurn()
+    {
         playerTurn = true;
         player.StartTurn();
         playerMana = playerManaCapacity;
@@ -136,19 +140,54 @@ public partial class BattleManager : Node
         }
     }
 
-    private void EnemyTeamPerformAction()
+    private async void EnemyTeamPerformAction()
     {
-        RegularEffect effect = new RegularEffect(3, RegularEffectType.Attack);
+        Card card = (Card) GD.Load<PackedScene>("res://Scenes/Battle/UI/Card.tscn").Instantiate();
+        CardData cardData = ResourceLoader.Load<CardData>("res://Data/Cards/EnemyCards/claw_attack.tres");
+        card.cardData = cardData;
+        card.playerCard = false;
+        
+        Tween tweenPos;
+        Tween tweenScale;
         foreach (Entity enemy in enemyTeam)
         {
             enemy.StartTurn();
+            
+            await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+
+            tweenPos = GetTree().CreateTween();
+            tweenScale = GetTree().CreateTween();
+            
+            tweenPos.SetTrans(Tween.TransitionType.Quad);
+            tweenPos.SetEase(Tween.EaseType.InOut);
+            
+            tweenScale.SetTrans(Tween.TransitionType.Linear);
+            tweenScale.SetParallel();
+            
+            card.Scale = Vector2.Zero;
+            card.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            card.Position = enemy.Position + new Vector2(0, -64);
+            
+            Vector2 targetPos = player.Position + new Vector2(-GameSettings.cardWidth / 2, -128);
+            Vector2 finalScale = new Vector2(1, 1);
+            
+            AddChild(card);
+            tweenScale.TweenProperty(card, "scale", finalScale, 1.0f);
+            tweenScale.TweenProperty(card, "modulate", new Color(1f, 1f, 1f, 0.7f), 1.0f);
+            tweenPos.TweenProperty(card, "position", targetPos, 1.0f);
+            
+            await ToSignal(GetTree().CreateTimer(2f), "timeout");
+            RemoveChild(card);
+            
+            player.ApplyEffects(card, enemy);
+            
             if (player.entityData.health <= 0)
                 return;
-            
-            player.ApplyEffect(effect, enemy);
         }
         
         foreach (Entity enemy in enemyTeam)
             enemy.FinishTurn();
+        
+        StartPlayerTurn();
     }
 }

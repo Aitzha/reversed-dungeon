@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Godot;
 
 public partial class Card : Control
@@ -13,6 +14,7 @@ public partial class Card : Control
 
 	private CardHolder cardHolder;
 	private Node2D cardVisualCopy;
+	public bool playerCard = true;
 	
     public override void _Ready()
     {
@@ -20,16 +22,21 @@ public partial class Card : Control
 	    cardName.Text = cardData.name;
 	    cardDescription.Text = cardData.GetDescription();
 	    cardCost.Text = cardData.cost.ToString();
-	    
-        MouseEntered += OnMouseEnter;
-        MouseExited += OnMouseExit;
 
-        cardHolder = (CardHolder) GetParent().GetNode<Area2D>("CardHolder");
-        cardVisualCopy = (Node2D) GetNode<Node2D>("CardVisual").Duplicate();
+	    if (playerCard)
+	    {
+            MouseEntered += OnMouseEnter;
+            MouseExited += OnMouseExit;
+            cardHolder = (CardHolder) GetParent().GetNode<Area2D>("CardHolder");
+            cardVisualCopy = (Node2D) GetNode<Node2D>("CardVisual").Duplicate();
+	    }
     }
 
     public override void _GuiInput(InputEvent @event)
     {
+	    if (!playerCard)
+		    return;
+	    
 	    if (@event is InputEventMouseButton eventMouseButton)
 	    {
 		    if (eventMouseButton.Pressed)
