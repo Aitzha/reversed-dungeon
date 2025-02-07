@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhbswuwwpcryg"]
+[gd_scene load_steps=7 format=3 uid="uid://dhbswuwwpcryg"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_to2p7"]
 [ext_resource type="PackedScene" uid="uid://cu87sido3ns11" path="res://Scenes/UI/MainMenu.tscn" id="2_xllcf"]
 [ext_resource type="PackedScene" uid="uid://2bu28qo0sms1" path="res://Scenes/UI/PauseMenu.tscn" id="3_m4t4u"]
 [ext_resource type="PackedScene" uid="uid://csqalwjy8nrbf" path="res://Scenes/Map/Map.tscn" id="4_rxmqk"]
 [ext_resource type="PackedScene" uid="uid://bojskrvl7l4k0" path="res://Scenes/Battle/Battle.tscn" id="5_2aug2"]
+[ext_resource type="PackedScene" uid="uid://blx3b6khqrhql" path="res://Scenes/UI/TutorialScreen.tscn" id="6_sc8v8"]
 
 [node name="Root" type="Node2D"]
 process_mode = 3
@@ -13,3 +14,4 @@ mainMenuScene = ExtResource("2_xllcf")
 pauseMenuScene = ExtResource("3_m4t4u")
 mapScene = ExtResource("4_rxmqk")
 battleScene = ExtResource("5_2aug2")
+tutorialScreenScene = ExtResource("6_sc8v8")

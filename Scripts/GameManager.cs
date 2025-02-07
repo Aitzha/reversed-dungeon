@@ -9,11 +9,13 @@ public partial class GameManager : Node2D
 	[Export] private PackedScene pauseMenuScene;
 	[Export] private PackedScene mapScene;
 	[Export] private PackedScene battleScene;
+	[Export] private PackedScene tutorialScreenScene;
 
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
 	private Map map;
 	private BattleManager battleManager;
+	private TutorialScreen tutorialScreen;
 	
 	public Array<CardData> PlayerCards = new();
 	
@@ -39,7 +41,10 @@ public partial class GameManager : Node2D
 		// Instantiate and Add MainMenu
 		mainMenu = (MainMenu) mainMenuScene.Instantiate();
 		AddChild(mainMenu);
-		mainMenu.startButton.Pressed += StartGame;
+		if (GameSettings.watchedTutorial)
+			mainMenu.startButton.Pressed += StartGame;
+		else
+			mainMenu.startButton.Pressed += OpenTutorial;
 	}
 
 	public override void _Input(InputEvent @event)
@@ -51,6 +56,25 @@ public partial class GameManager : Node2D
 			else
 				PauseGame();
 		}
+		
+		if (@event is InputEventKey eventKey && eventKey.Pressed && eventKey.Keycode == Key.Space)
+		{
+			tutorialScreen.ChangePage();
+		}
+	}
+
+	private void OpenTutorial()
+	{
+		mainMenu.Hide();
+		tutorialScreen = (TutorialScreen)tutorialScreenScene.Instantiate();
+		AddChild(tutorialScreen);
+	}
+
+	public void CloseTutorial()
+	{
+		tutorialScreen.QueueFree();
+		RemoveChild(tutorialScreen);
+		StartGame();
 	}
 
 	private void PauseGame()
@@ -95,8 +119,9 @@ public partial class GameManager : Node2D
 
 	private void StartGame()
 	{
-		RemoveChild(mainMenu);
-
+		if (GetChildren().Contains(mainMenu))
+			RemoveChild(mainMenu);
+		
 		map = (Map) mapScene.Instantiate();
 		AddChild(map);
 		map.NodeClicked += StartBattle;
