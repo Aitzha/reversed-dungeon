@@ -43,17 +43,19 @@ public partial class Map : Control
         for (int i = 0; i < mapRows; i++)
             nodesDict.Add(i, new Dictionary<int, MapNode>());
     
+        // Create start node
         MapNode startNode = CreateMapNode(0, (mapRows - 1) / 2, MapNodeType.Start);
         nodesDict[startNode.row].Add(startNode.col, startNode);
         nodes.Add(startNode);
 
+        // Start map creation from first node
         Queue<MapNode> q = new Queue<MapNode>();
         q.Enqueue(startNode);
         while (q.Count > 0)
         {
             MapNode parent = q.Dequeue();
 
-            // Don't ask me how I calculated it. Just made this formula and it works but I can't prove it :P
+            // Calculate upper and lower limit for child nodes
             int upperLimit = Math.Max(0, parent.col + 1 - (mapCols - 1 - (mapRows - 1) / 2));
             int lowerLimit = mapRows - 1 - upperLimit;
             for (int i = -1; i < 2; i++)
@@ -61,13 +63,14 @@ public partial class Map : Control
                 if (parent.row + i < upperLimit || parent.row + i > lowerLimit)
                     continue;
                 
+                // if node already exist save it to parent
                 if (nodesDict[parent.row + i].ContainsKey(parent.col + 1))
                 {
                     parent.children.Add(nodesDict[parent.row + i][parent.col + 1]);
                 }
                 else
                 {
-                    // Instantiate node
+                    // Randomly choose node type
                     MapNodeType type;
                     if (parent.col == mapCols - 2)
                         type = MapNodeType.Boss;
@@ -80,8 +83,8 @@ public partial class Map : Control
                             type = MapNodeType.EliteEnemy;
                     }
 
+                    // Create, Setup and Save new node
                     MapNode child = CreateMapNode(parent.col + 1, parent.row + i, type);
-                    
                     nodesDict[child.row].Add(child.col, child);
                     parent.children.Add(child);
                     nodes.Add(child);
