@@ -8,16 +8,16 @@ public partial class StatusEffect : BaseEffect
 
     public StatusEffect() {}
 
-    public StatusEffect(int turnsLeft, int magnitude, StatusEffectType type)
+    public StatusEffect(int duration, int magnitude, StatusEffectType type)
     {
-        this.turnsLeft = turnsLeft;
+        this.duration = duration;
         this.magnitude = magnitude;
         this.type = type;
     }
     
-    public StatusEffect(int turnsLeft, int magnitude, Entity target, Entity caster, StatusEffectType type)
+    public StatusEffect(int duration, int magnitude, Entity target, Entity caster, StatusEffectType type)
     {
-        this.turnsLeft = turnsLeft;
+        this.duration = duration;
         this.magnitude = magnitude;
         this.target = target;
         this.caster = caster;
@@ -54,7 +54,7 @@ public partial class StatusEffect : BaseEffect
 
     public override BaseEffect Clone(Entity target, Entity caster)
     {
-        return new StatusEffect(turnsLeft, magnitude, target, caster, type);
+        return new StatusEffect(duration, magnitude, target, caster, type);
     }
 }
 

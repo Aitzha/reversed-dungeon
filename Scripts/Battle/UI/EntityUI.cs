@@ -26,7 +26,7 @@ public partial class EntityUI : Node2D
         {
             Node node = statusEffectScene.Instantiate();
             node.GetNode<Sprite2D>("Sprite").Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/" + Utils.ToSnakeCase(statusEffect.type) + ".png");
-            node.GetNode<Label>("Label").Text = statusEffect.turnsLeft.ToString();
+            node.GetNode<Label>("Label").Text = statusEffect.duration.ToString();
             statusEffectList.AddChild(node);
         }
     }

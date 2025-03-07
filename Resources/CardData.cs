@@ -25,7 +25,7 @@ public partial class CardData : Resource
 			
             BaseEffect effect = effects[effectIndex];
             if (key == "amount") return effect.magnitude.ToString();
-            if (key == "duration") return effect.turnsLeft.ToString();
+            if (key == "duration") return effect.duration.ToString();
 
             // Return placeholder if no match found
             return match.Value;
@@ -36,8 +36,9 @@ public partial class CardData : Resource
 [GlobalClass]
 public partial class BaseEffect : Resource
 {
-    [Export] public int turnsLeft = 0;
+    [Export] public int duration = 0;
     [Export] public int magnitude = 0;
+    public virtual bool IsStatusEffect { get; } = false;
     public Entity target;
     public Entity caster;
     

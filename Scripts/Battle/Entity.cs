@@ -49,9 +49,9 @@ public partial class Entity : Node2D
             effect.ApplyEffect();
 
             if (effectDuration[effect.type] == EffectDuration.OnApply)
-                effect.turnsLeft--;
+                effect.duration--;
             
-            if (effect.turnsLeft <= 0)
+            if (effect.duration <= 0)
                 expiredEffects.Add(effect);
         }
 
@@ -70,9 +70,9 @@ public partial class Entity : Node2D
         foreach (StatusEffect effect in entityData.appliedEffects)
         {
             if (effectDuration[effect.type] == EffectDuration.OnTurnEnd)
-                effect.turnsLeft--;
+                effect.duration--;
             
-            if (effect.turnsLeft <= 0)
+            if (effect.duration <= 0)
                 expiredEffects.Add(effect);
         }
         
@@ -99,7 +99,7 @@ public partial class Entity : Node2D
             if (oldStatusEffect == null)
                 entityData.appliedEffects.Add(newStatusEffect);
             else 
-                oldStatusEffect.turnsLeft += newStatusEffect.turnsLeft;
+                oldStatusEffect.duration += newStatusEffect.duration;
         } 
     }
     
