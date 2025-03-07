@@ -22,10 +22,10 @@ public partial class EntityUI : Node2D
         
         statusEffectList.GetChildren().Clear();
 
-        foreach (StatusEffect statusEffect in entityData.appliedEffects)
+        foreach (BaseEffect statusEffect in entityData.statusEffects)
         {
             Node node = statusEffectScene.Instantiate();
-            node.GetNode<Sprite2D>("Sprite").Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/" + Utils.ToSnakeCase(statusEffect.type) + ".png");
+            node.GetNode<Sprite2D>("Sprite").Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/" + Utils.ToSnakeCase(statusEffect.GetType()) + ".png");
             node.GetNode<Label>("Label").Text = statusEffect.duration.ToString();
             statusEffectList.AddChild(node);
         }

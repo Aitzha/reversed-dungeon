@@ -1,12 +1,11 @@
 [gd_resource type="Resource" script_class="CardData" load_steps=4 format=3 uid="uid://coiiye3ew33lf"]
 
-[ext_resource type="Script" path="res://Resources/RegularEffect.cs" id="1_yk5hu"]
+[ext_resource type="Script" path="res://Resources/Heal.cs" id="1_m85yn"]
 [ext_resource type="Script" path="res://Resources/CardData.cs" id="2_h78e3"]
 
-[sub_resource type="Resource" id="Resource_hw02x"]
-script = ExtResource("1_yk5hu")
-type = 2
-turnsLeft = 0
+[sub_resource type="Resource" id="Resource_kua4b"]
+script = ExtResource("1_m85yn")
+duration = 0
 magnitude = 3
 
 [resource]
@@ -19,4 +18,4 @@ tier = 0
 progress = 0
 targetType = 0
 targetFaction = 0
-effects = [SubResource("Resource_hw02x")]
+effects = [SubResource("Resource_kua4b")]

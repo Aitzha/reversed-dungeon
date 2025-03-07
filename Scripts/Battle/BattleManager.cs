@@ -80,12 +80,14 @@ public partial class BattleManager : Node
         player.FinishTurn();
         
         playerTurn = false;
+        player.isActive = false;
         EnemyTeamPerformAction();
     }
 
     public void StartPlayerTurn()
     {
         playerTurn = true;
+        player.isActive = true;
         player.StartTurn();
         playerMana = playerManaCapacity;
         battleInterface.FillHand();
@@ -133,6 +135,7 @@ public partial class BattleManager : Node
         Tween tweenScale;
         foreach (Entity enemy in enemyTeam)
         {
+            enemy.isActive = true;
             enemy.StartTurn();
             
             await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
@@ -162,13 +165,13 @@ public partial class BattleManager : Node
             RemoveChild(card);
             
             player.ApplyEffects(card, enemy);
+            enemy.FinishTurn();
+            enemy.isActive = false;
             
             if (player.entityData.health <= 0)
                 return;
         }
-        
-        foreach (Entity enemy in enemyTeam)
-            enemy.FinishTurn();
+            
         
         StartPlayerTurn();
     }
