@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 public partial class Entity : Node2D
 {
@@ -18,8 +19,9 @@ public partial class Entity : Node2D
         entityUI.UpdateUI(entityData);
     }
 
-    public void StartTurn()
+    public async Task StartTurn()
     {
+        isActive = true;
         entityData.guard = 0;
         entityData.attackPower = 0;
         entityData.isParalyzed = false;
@@ -39,7 +41,43 @@ public partial class Entity : Node2D
         
         entityUI.UpdateUI(entityData);
         if (entityData.health <= 0)
-            BattleManager.instance.DestroyEntity(this);
+            BattleManager.instance.KillEntity(this);
+    }
+
+    public async Task PerformAction(List<Entity> targets) // only for AI (both ally and enemy)
+    {
+        Card card = (Card) GD.Load<PackedScene>("res://Scenes/Battle/UI/Card.tscn").Instantiate();
+        CardData cardData = ResourceLoader.Load<CardData>("res://Data/Cards/EnemyCards/claw_attack.tres");
+        card.cardData = cardData;
+        card.playerCard = false;
+        
+        Tween tweenPos;
+        Tween tweenScale;
+        tweenPos = GetTree().CreateTween();
+        tweenScale = GetTree().CreateTween();
+            
+        tweenPos.SetTrans(Tween.TransitionType.Quad);
+        tweenPos.SetEase(Tween.EaseType.InOut);
+            
+        tweenScale.SetTrans(Tween.TransitionType.Linear);
+        tweenScale.SetParallel();
+            
+        card.Scale = Vector2.Zero;
+        card.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        card.Position = Position + new Vector2(0, -64);
+            
+        Vector2 targetPos = targets[0].Position + new Vector2(-GameSettings.cardWidth / 2, -128);
+        Vector2 finalScale = new Vector2(1, 1);
+            
+        BattleManager.instance.AddChild(card);
+        tweenScale.TweenProperty(card, "scale", finalScale, 1.0f);
+        tweenScale.TweenProperty(card, "modulate", new Color(1f, 1f, 1f, 0.7f), 1.0f);
+        tweenPos.TweenProperty(card, "position", targetPos, 1.0f);
+            
+        await ToSignal(GetTree().CreateTimer(1.1f), "timeout");
+        BattleManager.instance.RemoveChild(card);
+            
+        targets[0].ApplyEffects(card, this);
     }
 
     public void FinishTurn()
@@ -58,9 +96,9 @@ public partial class Entity : Node2D
 
         foreach (BaseEffect effect in expiredEffects)
             entityData.statusEffects.Remove(effect);
-            
         
         entityUI.UpdateUI(entityData);
+        isActive = false;
     }
 
     public void ApplyEffect(BaseEffect effect, Entity caster)
@@ -90,7 +128,7 @@ public partial class Entity : Node2D
         
         entityUI.UpdateUI(entityData);
         if (entityData.health <= 0)
-            BattleManager.instance.DestroyEntity(this);
+            BattleManager.instance.KillEntity(this);
     }
 
     public void ToggleGlow()

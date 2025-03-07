@@ -108,13 +108,13 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	private List<EntityData> loadPlayerTeam()
+	private EntityData loadPlayerTeam()
 	{
 		List<EntityData> playerTeam = new List<EntityData>();
 		
 		EntityData player = new EntityData("Player", 20);
 		playerTeam.Add(player);
-		return playerTeam;
+		return player;
 	}
 
 	private void StartGame()

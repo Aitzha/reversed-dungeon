@@ -14,51 +14,42 @@ public partial class BattleManager : Node
     public int playerMana = 2;
     public int playerHandCapacity = 3;
     public int playerManaCapacity = 2;
-    public Entity player;
-
-    private bool playerTurn = true;
-    private List<Entity> playerTeam = new();
-    private List<Entity> enemyTeam = new();
     
-    private List<Vector2> playerTeamPositions = new()
-    {
-        new Vector2(110, 220)
-    };
+    public Entity player;
+    private List<Entity> enemyTeam = new();
+    private Queue<Entity> turnQueue = new();
+    private int enemyCount = 0;
 
-    private List<Vector2> enemyTeamPositions = new()
+    private Vector2 playerPos = new(110, 220);
+    private List<Vector2> enemyTeamPos = new()
     {
         new Vector2(465, 205),
         new Vector2(570, 270),
         new Vector2(360, 140),
     };
 
-    public void Setup(Array<CardData> playerCards, List<EntityData> playerTeamData, List<EntityData> enemyTeamData)
+    
+
+    public void Setup(Array<CardData> playerCards, EntityData playerData, List<EntityData> enemyTeamData)
     {
         instance = this;
         battleInterface.playerCards = playerCards;
         
-        for (int i = 0; i < playerTeamData.Count; i++) 
-        {
-            PackedScene packedPlayerScene = ResourceLoader.Load<PackedScene>("res://Scenes/Battle/Characters/Player/" + playerTeamData[i].entityName + ".tscn");
+        PackedScene packedPlayerScene = ResourceLoader.Load<PackedScene>("res://Scenes/Battle/Characters/Player/" + playerData.entityName + ".tscn");
+        player = (Entity)packedPlayerScene.Instantiate();
+        player.entityData = playerData;
+        player.Position = playerPos;
+        player.isPlayerAlly = true;
 
-            Entity playerTeamMember = (Entity)packedPlayerScene.Instantiate();
-            playerTeamMember.entityData = playerTeamData[i];
-            
-            playerTeamMember.Position = playerTeamPositions[i];
-            playerTeamMember.isPlayerAlly = true;
-            playerTeam.Add(playerTeamMember);
-        }
-        
-        player = playerTeam[0];
-        
-        for (int i = 0; i < enemyTeamData.Count; i++) 
+        enemyCount = enemyTeamData.Count;
+        for (int i = 0; i < enemyCount; i++) 
         {
             PackedScene packedEnemyScene = ResourceLoader.Load<PackedScene>("res://Scenes/Battle/Characters/Enemies/" + enemyTeamData[i].entityName + ".tscn");
 
             Entity enemyTeamMember = (Entity)packedEnemyScene.Instantiate();
             enemyTeamMember.entityData = enemyTeamData[i];
 
-            enemyTeamMember.Position = enemyTeamPositions[i];
+            enemyTeamMember.Position = enemyTeamPos[i];
             enemyTeamMember.isPlayerAlly = false;
             enemyTeam.Add(enemyTeamMember);
         }
@@ -66,43 +57,66 @@ public partial class BattleManager : Node
 
     public override void _Ready()
     {
-        foreach (Entity playerTeamMember in playerTeam)
-            AddChild(playerTeamMember);
-        
+        AddChild(player);
+        turnQueue.Enqueue(player);
+
         foreach (Entity enemyTeamMember in enemyTeam)
+        {
             AddChild(enemyTeamMember);
+            turnQueue.Enqueue(enemyTeamMember);
+        }
         
-        StartPlayerTurn();
+        StartBattle();
     }
     
-    public void EndPlayerTurn()
+    public async void StartBattle()
     {
-        player.FinishTurn();
-        
-        playerTurn = false;
-        player.isActive = false;
-        EnemyTeamPerformAction();
-    }
+        while (turnQueue.Count > 0)
+        {
+            Entity entity = turnQueue.Dequeue();
+            if (entity.isDead)
+            {
+                DestroyEntity(entity);
+                continue;
+            }
+            
+            await entity.StartTurn();
+            
+            if (entity.isDead)
+            {
+                DestroyEntity(entity);
+                continue;
+            }
 
-    public void StartPlayerTurn()
-    {
-        playerTurn = true;
-        player.isActive = true;
-        player.StartTurn();
-        playerMana = playerManaCapacity;
-        battleInterface.FillHand();
+            if (entity == player)
+            {
+                playerMana = playerManaCapacity;
+                battleInterface.FillHand();
+                await ToSignal(battleInterface, nameof(BattleInterface.PlayerEndedTurn));
+            }
+            else
+            {
+                if (entity.isPlayerAlly)
+                    await entity.PerformAction(enemyTeam);
+                else
+                    await entity.PerformAction(new List<Entity> {player});
+            }
+            
+            entity.FinishTurn();
+            turnQueue.Enqueue(entity);
+        }
     }
+    
 
-    public void DestroyEntity(Entity entity)
+    public void KillEntity(Entity entity)
     {
         if (entity.entityData.health > 0)
             return;
         
-        if (entity.isPlayerAlly)
+        if (entity == player)
         {
-            playerTeam.Remove(entity);
+            entity.isDead = true;
             RemoveChild(entity);
-            entity.QueueFree();
 
             if (entity == player)
             {
@@ -113,66 +127,34 @@ public partial class BattleManager : Node
         }
         else
         {
-            enemyTeam.Remove(entity);
+            entity.isDead = true;
             RemoveChild(entity);
-            entity.QueueFree();
+            enemyCount--;
 
-            if (enemyTeam.Count == 0)
+            if (enemyCount == 0)
             {
                 EmitSignal(SignalName.BattleWon);
             }
         }
     }
 
-    private async void EnemyTeamPerformAction()
+    private void DestroyEntity(Entity entity)
     {
-        Card card = (Card) GD.Load<PackedScene>("res://Scenes/Battle/UI/Card.tscn").Instantiate();
-        CardData cardData = ResourceLoader.Load<CardData>("res://Data/Cards/EnemyCards/claw_attack.tres");
-        card.cardData = cardData;
-        card.playerCard = false;
-        
-        Tween tweenPos;
-        Tween tweenScale;
-        foreach (Entity enemy in enemyTeam)
-        {
-            enemy.isActive = true;
-            enemy.StartTurn();
-            
-            await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+        if (!entity.isDead)
+            return;
 
-            tweenPos = GetTree().CreateTween();
-            tweenScale = GetTree().CreateTween();
-            
-            tweenPos.SetTrans(Tween.TransitionType.Quad);
-            tweenPos.SetEase(Tween.EaseType.InOut);
-            
-            tweenScale.SetTrans(Tween.TransitionType.Linear);
-            tweenScale.SetParallel();
-            
-            card.Scale = Vector2.Zero;
-            card.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-            card.Position = enemy.Position + new Vector2(0, -64);
-            
-            Vector2 targetPos = player.Position + new Vector2(-GameSettings.cardWidth / 2, -128);
-            Vector2 finalScale = new Vector2(1, 1);
-            
-            AddChild(card);
-            tweenScale.TweenProperty(card, "scale", finalScale, 1.0f);
-            tweenScale.TweenProperty(card, "modulate", new Color(1f, 1f, 1f, 0.7f), 1.0f);
-            tweenPos.TweenProperty(card, "position", targetPos, 1.0f);
-            
-            await ToSignal(GetTree().CreateTimer(2f), "timeout");
-            RemoveChild(card);
-            
-            player.ApplyEffects(card, enemy);
-            enemy.FinishTurn();
-            enemy.isActive = false;
-            
-            if (player.entityData.health <= 0)
-                return;
+        if (!entity.isPlayerAlly)
+        {
+            enemyTeam.Remove(entity);
+            entity.QueueFree();
         }
-            
-        
-        StartPlayerTurn();
     }
+
+    // private async void EnemyTeamPerformAction()
+    // {
+    //
+    //         
+    //     
+    //     StartBattle();
+    // }
 }

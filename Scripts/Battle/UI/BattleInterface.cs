@@ -19,6 +19,8 @@ public partial class BattleInterface : Control
 	private BattleManager battleManager;
 	private Vector2 handPosition;
 	
+	[Signal] public delegate void PlayerEndedTurnEventHandler();
+	
 	public override void _Ready()
 	{
 		battleManager = BattleManager.instance;
@@ -93,7 +95,7 @@ public partial class BattleInterface : Control
 			RemoveCardFromHand(card);
 		}
 		
-		battleManager.EndPlayerTurn();
+		EmitSignal(SignalName.PlayerEndedTurn);
 	}
 
 	private void AddCardToHand(Card card)
