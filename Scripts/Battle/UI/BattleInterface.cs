@@ -32,6 +32,7 @@ public partial class BattleInterface : Control
 	
 	public void FillHand()
 	{
+		endTurnButton.Disabled = false;
 		if (drawPile.Count < battleManager.playerHandCapacity)
 		{
 			while (discardPile.Count > 0)
@@ -94,7 +95,8 @@ public partial class BattleInterface : Control
 			discardPile.Enqueue(card);
 			RemoveCardFromHand(card);
 		}
-		
+
+		endTurnButton.Disabled = true;
 		EmitSignal(SignalName.PlayerEndedTurn);
 	}
 
