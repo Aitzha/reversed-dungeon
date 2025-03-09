@@ -22,7 +22,7 @@ public partial class Bleed : BaseEffect
             return;
         
         duration--;
-        target.entityData.health -= magnitude;
+        target.entityData.health = Mathf.Max(target.entityData.health - magnitude, 0);
         target.damageFX();
     }
 

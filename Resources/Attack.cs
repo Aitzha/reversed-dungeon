@@ -21,7 +21,7 @@ public partial class Attack : BaseEffect
         int casterAttack = Math.Max(0, magnitude + caster.entityData.attackPower);
         int damageOnGuard = Math.Min(target.entityData.guard, casterAttack);
         target.entityData.guard -= damageOnGuard;
-        target.entityData.health -= (casterAttack - damageOnGuard);
+        target.entityData.health = Mathf.Max(target.entityData.health - (casterAttack - damageOnGuard), 0);
         target.damageFX();
     }
 

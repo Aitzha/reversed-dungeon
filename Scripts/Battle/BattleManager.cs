@@ -113,22 +113,21 @@ public partial class BattleManager : Node
         if (entity.entityData.health > 0)
             return;
         
+        entity.isDead = true;
+        
+        Tween tween;
+        tween = GetTree().CreateTween();
+        tween.SetTrans(Tween.TransitionType.Linear);
+        tween.TweenProperty(entity, "modulate", new Color(1f, 1f, 1f, 0.0f), 1.0f);
+        
         if (entity == player)
         {
-            entity.isDead = true;
-            RemoveChild(entity);
-
-            if (entity == player)
-            {
-                Node endScreenInstance = endScreen.Instantiate();
-                endScreenInstance.GetNode<Label>("Text").Text = "You Lose";
-                AddChild(endScreenInstance);
-            }
+            Node endScreenInstance = endScreen.Instantiate();
+            endScreenInstance.GetNode<Label>("Text").Text = "You Lose";
+            AddChild(endScreenInstance);
         }
         else
         {
-            entity.isDead = true;
-            RemoveChild(entity);
             enemyCount--;
 
             if (enemyCount == 0)
@@ -145,16 +144,9 @@ public partial class BattleManager : Node
 
         if (!entity.isPlayerAlly)
         {
+            RemoveChild(entity);
             enemyTeam.Remove(entity);
             entity.QueueFree();
         }
     }
-
-    // private async void EnemyTeamPerformAction()
-    // {
-    //
-    //         
-    //     
-    //     StartBattle();
-    // }
 }

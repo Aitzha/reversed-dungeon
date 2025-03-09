@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://61tky5urmyph"]
+
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="1_8xedj"]
+
+[node name="NumberLabel" type="Label"]
+theme_override_fonts/font = ExtResource("1_8xedj")
+theme_override_font_sizes/font_size = 16
+text = "-5"
