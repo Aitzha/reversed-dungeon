@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://bw1sx4k1ev4ee"
-path="res://.godot/imported/slash-rpg.wav-97a223d9f61bf8014cd3fefedb993408.sample"
+uid="uid://b4wd7k5fpyvv4"
+path="res://.godot/imported/heal.wav-b3bb51f1cdacec4c029fab16f4dc4d5b.sample"
 
 [deps]
 
-source_file="res://Sound/slash-rpg.wav"
-dest_files=["res://.godot/imported/slash-rpg.wav-97a223d9f61bf8014cd3fefedb993408.sample"]
+source_file="res://Sound/heal.wav"
+dest_files=["res://.godot/imported/heal.wav-b3bb51f1cdacec4c029fab16f4dc4d5b.sample"]
 
 [params]
 

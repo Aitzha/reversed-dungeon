@@ -14,6 +14,10 @@ public partial class Attack : BaseEffect
         this.magnitude = magnitude;
         this.target = target;
         this.caster = caster;
+        PackedScene packedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/BattleFX.tscn");
+        BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
+        fxInstance.Setup(FXType.Slash);
+        fx = fxInstance;
     }
 
     public override void ApplyEffect()
@@ -22,7 +26,8 @@ public partial class Attack : BaseEffect
         int damageOnGuard = Math.Min(target.entityData.guard, casterAttack);
         target.entityData.guard -= damageOnGuard;
         target.entityData.health = Mathf.Max(target.entityData.health - (casterAttack - damageOnGuard), 0);
-        target.damageFX();
+        fx.Play(target, casterAttack);
+        target.Shake();
     }
 
     public override BaseEffect Clone(Entity target, Entity caster)

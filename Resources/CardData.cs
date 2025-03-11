@@ -41,6 +41,7 @@ public partial class BaseEffect : Resource
     public virtual bool IsStatusEffect { get; } = false;
     public Entity target;
     public Entity caster;
+    protected BattleFX fx;
     
     public virtual void ApplyEffect() {}
     public virtual BaseEffect Clone(Entity target, Entity caster) {return new BaseEffect();}

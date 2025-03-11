@@ -14,6 +14,10 @@ public partial class Bleed : BaseEffect
         this.magnitude = magnitude;
         this.target = target;
         this.caster = caster;
+        PackedScene packedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/BattleFX.tscn");
+        BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
+        fxInstance.Setup(FXType.Slash);
+        fx = fxInstance;
     }
 
     public override void ApplyEffect()
@@ -23,7 +27,8 @@ public partial class Bleed : BaseEffect
         
         duration--;
         target.entityData.health = Mathf.Max(target.entityData.health - magnitude, 0);
-        target.damageFX();
+        fx.Play(target, magnitude);
+        target.Shake();
     }
 
     public override BaseEffect Clone(Entity target, Entity caster)

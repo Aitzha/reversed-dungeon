@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://st7yabwc2ecf"]
+
+[ext_resource type="Script" path="res://Scripts/Battle/BattleFX.cs" id="1_7d5yx"]
+[ext_resource type="SpriteFrames" uid="uid://d1xfy81b8dksj" path="res://Resources/BattleVFXs.tres" id="2_toe8o"]
+[ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_v1gwn"]
+
+[node name="BattleFX" type="Node2D" node_paths=PackedStringArray("visualEffect", "audioEffect", "numberLabel")]
+z_index = 10
+script = ExtResource("1_7d5yx")
+visualEffect = NodePath("AnimatedSprite2D")
+audioEffect = NodePath("AudioStreamPlayer2D")
+numberLabel = NodePath("Label")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+position = Vector2(0, -50)
+sprite_frames = ExtResource("2_toe8o")
+animation = &"Heal"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("4_v1gwn")
+theme_override_font_sizes/font_size = 16
+text = "-5"

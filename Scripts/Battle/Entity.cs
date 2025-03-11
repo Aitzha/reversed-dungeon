@@ -52,15 +52,15 @@ public partial class Entity : Node2D
         card.playerCard = false;
         
         Tween tweenPos;
-        Tween tweenScale;
+        Tween tweenScaleColor;
         tweenPos = GetTree().CreateTween();
-        tweenScale = GetTree().CreateTween();
+        tweenScaleColor = GetTree().CreateTween();
             
         tweenPos.SetTrans(Tween.TransitionType.Quad);
         tweenPos.SetEase(Tween.EaseType.InOut);
             
-        tweenScale.SetTrans(Tween.TransitionType.Linear);
-        tweenScale.SetParallel();
+        tweenScaleColor.SetTrans(Tween.TransitionType.Linear);
+        tweenScaleColor.SetParallel();
             
         card.Scale = Vector2.Zero;
         card.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
@@ -70,8 +70,8 @@ public partial class Entity : Node2D
         Vector2 finalScale = new Vector2(1, 1);
             
         BattleManager.instance.AddChild(card);
-        tweenScale.TweenProperty(card, "scale", finalScale, 1.0f);
-        tweenScale.TweenProperty(card, "modulate", new Color(1f, 1f, 1f, 0.7f), 1.0f);
+        tweenScaleColor.TweenProperty(card, "scale", finalScale, 1.0f);
+        tweenScaleColor.TweenProperty(card, "modulate", new Color(1f, 1f, 1f, 0.7f), 1.0f);
         tweenPos.TweenProperty(card, "position", targetPos, 1.0f);
             
         await ToSignal(GetTree().CreateTimer(1.1f), "timeout");
@@ -136,24 +136,7 @@ public partial class Entity : Node2D
         glowSprite.Visible = !glowSprite.Visible;
     }
 
-    public void damageFX()
-    {
-        PackedScene slashPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/SlashFX.tscn");
-        BattleFX slashInstance = (BattleFX)slashPackedScene.Instantiate();
-        Node node = GetParent().GetNode<Node>("FXStorage");
-        slashInstance.Play(node, GlobalPosition);
-        Shake();
-    }
-
-    public void healFX()
-    {
-        PackedScene healPackedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/HealFX.tscn");
-        BattleFX healInstance = (BattleFX)healPackedScene.Instantiate();
-        Node node = GetParent().GetNode<Node>("FXStorage");
-        healInstance.PlayParticles(node, GlobalPosition);
-    }
-
-    private async void Shake()
+    public async void Shake()
     {
         // length of effect in seconds
         double length = 0.2;

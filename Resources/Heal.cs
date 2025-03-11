@@ -14,12 +14,16 @@ public partial class Heal : BaseEffect
         this.magnitude = magnitude;
         this.target = target;
         this.caster = caster;
+        PackedScene packedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/BattleFX.tscn");
+        BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
+        fxInstance.Setup(FXType.Heal);
+        fx = fxInstance;
     }
 
     public override void ApplyEffect()
     {
         target.entityData.health = Math.Min(target.entityData.health + magnitude, target.entityData.maxHealth);
-        target.healFX();
+        fx.Play(target, magnitude);
     }
 
     public override BaseEffect Clone(Entity target, Entity caster)

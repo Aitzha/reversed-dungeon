@@ -14,6 +14,10 @@ public partial class AttackDebuff : BaseEffect
         this.magnitude = magnitude;
         this.target = target;
         this.caster = caster;
+        PackedScene packedScene = (PackedScene)ResourceLoader.Load("res://Scenes/Battle/FX/BattleFX.tscn");
+        BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
+        fxInstance.Setup(FXType.None);
+        fx = fxInstance;
     }
 
     public override void ApplyEffect()
