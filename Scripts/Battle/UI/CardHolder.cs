@@ -35,7 +35,7 @@ public partial class CardHolder : Area2D
     private void OnBodyEntered(Node2D body)
     {
         Entity entity = body as Entity;
-        if (entity != null)
+        if (entity != null && !entity.isDead)
         {
             targetList.Add(entity);
             if (currentTarget == null)
