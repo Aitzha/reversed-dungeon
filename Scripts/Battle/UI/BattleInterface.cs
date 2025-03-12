@@ -95,9 +95,10 @@ public partial class BattleInterface : Control
 				
 			tween.TweenCallback(Callable.From(() =>
 			{
+				RemoveChild(cardBackSprite);
+				cardBackSprite.QueueFree();
 				drawPile.Enqueue(card);
 				drawLabel.Text = drawPile.Count.ToString();
-					
 			}));
 
 			lastTween = tween;
