@@ -42,6 +42,7 @@ position = Vector2(24, 36)
 texture = ExtResource("7_ty10j")
 
 [node name="DrawPileCount" type="Label" parent="DrawPile"]
+custom_minimum_size = Vector2(48, 72)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_an37h")
 theme_override_font_sizes/font_size = 16
@@ -65,6 +66,7 @@ position = Vector2(24, 36)
 texture = ExtResource("5_aynih")
 
 [node name="DiscardPileCount" type="Label" parent="DiscardPile"]
+custom_minimum_size = Vector2(48, 72)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_an37h")
 theme_override_font_sizes/font_size = 16

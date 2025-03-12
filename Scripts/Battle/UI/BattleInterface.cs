@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 
@@ -13,11 +15,15 @@ public partial class BattleInterface : Control
 
 	public Array<CardData> playerCards {get; set;}
 
-	private Queue<Card> drawPile = new Queue<Card>();
-	private List<Card> handPile = new List<Card>();
-	private Queue<Card> discardPile = new Queue<Card>();
+	private Queue<Card> drawPile = new();
+	private List<Card> handPile = new();
+	private List<Card> discardPile = new();
 	private BattleManager battleManager;
 	private Vector2 handPosition;
+
+	private Sprite2D cardBack;
+
+	public bool areCardsPickable = false;
 	
 	[Signal] public delegate void PlayerEndedTurnEventHandler();
 	
@@ -28,19 +34,17 @@ public partial class BattleInterface : Control
 		UpdateLabels();
 		endTurnButton.Pressed += OnEndTurn;
 		handPosition = new Vector2(GameSettings.windowWidth / 2, GameSettings.windowHeight - GameSettings.cardHeight / 2);
+		endTurnButton.Disabled = true;
+		
+		cardBack = new Sprite2D();
+		cardBack.Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/card_back.png");
 	}
 	
-	public void FillHand()
+	public async void FillHand()
 	{
-		endTurnButton.Disabled = false;
 		if (drawPile.Count < battleManager.playerHandCapacity)
-		{
-			while (discardPile.Count > 0)
-				drawPile.Enqueue(discardPile.Dequeue());
+			await RefillDrawPile();
 			
-			discardPile.Clear();
-		}
-		
 		for (int i = 0; i < battleManager.playerHandCapacity; i++)
 		{
 			Card card = drawPile.Dequeue();
@@ -48,7 +52,62 @@ public partial class BattleInterface : Control
 		}
 		
 		UpdateLabels();
+		endTurnButton.Disabled = false;
 	}
+
+	private async Task RefillDrawPile()
+	{
+		Shuffle(discardPile);
+
+		// Animate card in arc shape path
+		Vector2 startPos = discardLabel.GlobalPosition + new Vector2(GameSettings.cardWidth / 4, GameSettings.cardHeight / 4);
+		Vector2 endPos = drawLabel.GlobalPosition + new Vector2(GameSettings.cardWidth / 4, GameSettings.cardHeight / 4);
+		float midX = GameSettings.windowWidth / 2; // Midpoint X for the peak
+		float peakY = startPos.Y - 30; // Arc Peak
+		float a = (startPos.Y - peakY) / Mathf.Pow(startPos.X - midX, 2); // Steepness
+
+		Tween lastTween = null;
+		
+		while (discardPile.Count > 0)
+		{
+			Card card = discardPile[0];
+			discardPile.RemoveAt(0);
+				
+			Sprite2D cardBackSprite = (Sprite2D)cardBack.Duplicate();
+			discardLabel.Text = discardPile.Count.ToString();
+				
+			cardBackSprite.Position = startPos;
+			cardBackSprite.ZIndex = -1;
+			AddChild(cardBackSprite);
+			Tween tween = GetTree().CreateTween();
+
+			tween.TweenMethod(Callable.From<float>(t =>
+			{
+				// Interpolate X linearly
+				float x = Mathf.Lerp(startPos.X, endPos.X, t);
+            
+				// Calculate Y using a parabolic equation
+				float y = a * Mathf.Pow(x - midX, 2) + peakY;
+            
+				// Apply new position
+				cardBackSprite.Position = new Vector2(x, y);
+			}), 0.0f, 1.0f, 0.7f);
+				
+			tween.TweenCallback(Callable.From(() =>
+			{
+				drawPile.Enqueue(card);
+				drawLabel.Text = drawPile.Count.ToString();
+					
+			}));
+
+			lastTween = tween;
+			await ToSignal(GetTree().CreateTimer(0.07f), "timeout");
+		}
+
+		if (lastTween != null)
+			await ToSignal(lastTween, "finished");
+	}
+	
 
 	private void LoadCards()
 	{
@@ -81,7 +140,7 @@ public partial class BattleInterface : Control
 		target.ApplyEffects(card, battleManager.player);
 		
 		RemoveCardFromHand(card);
-		discardPile.Enqueue(card);
+		discardPile.Add(card);
 		
 		UpdateLabels();
 	}
@@ -92,11 +151,12 @@ public partial class BattleInterface : Control
 		for (int i = 0; i < count; i++)
 		{
 			Card card = handPile[0];
-			discardPile.Enqueue(card);
+			discardPile.Add(card);
 			RemoveCardFromHand(card);
 		}
 
 		endTurnButton.Disabled = true;
+		UpdateLabels();
 		EmitSignal(SignalName.PlayerEndedTurn);
 	}
 
@@ -123,6 +183,18 @@ public partial class BattleInterface : Control
 		for (int i = 0; i < handPile.Count; i++)
 		{
 			handPile[i].Position = handPosition + new Vector2(startPos + i * spacing, 0);
+		}
+	}
+	
+	private void Shuffle<Card>(List<Card> list)
+	{
+		Random rng = new Random();
+		int n = list.Count;
+		while (n > 1)
+		{
+			n--;
+			int k = rng.Next(n + 1);
+			(list[n], list[k]) = (list[k], list[n]); // Swap elements
 		}
 	}
 }
