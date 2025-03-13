@@ -48,8 +48,14 @@ public partial class BattleInterface : Control
 		for (int i = 0; i < battleManager.playerHandCapacity; i++)
 		{
 			Card card = drawPile.Dequeue();
-			AddCardToHand(card);
+			AddChild(card);
+			handPile.Add(card);
+			
+			card.Scale = new Vector2(0.5f, 0.5f);
+			card.Position = drawLabel.GlobalPosition;
 		}
+		
+		DrawCards();
 		
 		UpdateLabels();
 		endTurnButton.Disabled = false;
@@ -161,16 +167,16 @@ public partial class BattleInterface : Control
 		EmitSignal(SignalName.PlayerEndedTurn);
 	}
 
-	private void AddCardToHand(Card card)
+	private void DrawCards()
 	{
-		handPile.Add(card);
-		AddChild(card);
-		
 		int startPos = (int)(-GameSettings.cardWidth * handPile.Count / 2 * 0.9);
 		int spacing = (int)(GameSettings.cardWidth * 0.9);
 		for (int i = 0; i < handPile.Count; i++)
 		{
-			handPile[i].Position = handPosition + new Vector2(startPos + i * spacing, 0);
+			// handPile[i].Position = handPosition + new Vector2(startPos + i * spacing, 0);
+			Vector2 finalPos = handPosition + new Vector2(startPos + i * spacing, 0);
+			handPile[i].QueueAnimation(Card.AnimationType.Move , finalPos, 0.3f + i * 0.07f);
+			handPile[i].QueueAnimation(Card.AnimationType.Scale , Vector2.One, 0.12f);
 		}
 	}
 

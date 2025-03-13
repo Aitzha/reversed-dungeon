@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Godot;
 
@@ -15,6 +17,12 @@ public partial class Card : Control
 	private CardHolder cardHolder;
 	private Node2D cardVisualCopy;
 	public bool playerCard = true;
+
+	public Tween tweenPos = null;
+	public Tween tweenScale = null;
+
+	private Queue<Action<Tween>> tweenPosQueue = new();
+	private Queue<Action<Tween>> tweenScaleQueue = new();
 	
     public override void _Ready()
     {
@@ -68,6 +76,54 @@ public partial class Card : Control
 	    }
     }
     
+    public void QueueAnimation(AnimationType type, Vector2 targetPos, float duration)
+    {
+	    if (type == AnimationType.Move)
+	    {
+	        tweenPosQueue.Enqueue(t => t.TweenProperty(this, "position", targetPos, duration));
+	        
+            if (tweenPos == null) 
+                ProcessNextTween(type);
+	    } 
+	    
+	    if (type == AnimationType.Scale)
+	    {
+		    tweenScaleQueue.Enqueue(t => t.TweenProperty(this, "scale", targetPos, duration));
+		    
+		    if (tweenScale == null) 
+			    ProcessNextTween(type);
+	    }
+    }
+    
+    private void ProcessNextTween(AnimationType type)
+    {
+	    if (type == AnimationType.Move && tweenPosQueue.Count > 0)
+	    {
+		    tweenPos = GetTree().CreateTween();
+		    var nextTask = tweenPosQueue.Dequeue();
+		    nextTask(tweenPos);
+
+		    tweenPos.Finished += () =>
+		    {
+			    tweenPos = null;
+			    ProcessNextTween(type);
+		    };
+	    }
+	    
+	    if (type == AnimationType.Scale && tweenScaleQueue.Count > 0)
+	    {
+		    tweenScale = GetTree().CreateTween();
+		    var nextTask = tweenScaleQueue.Dequeue();
+		    nextTask(tweenScale);
+		    
+		    tweenScale.Finished += () =>
+		    {
+			    tweenScale = null;
+			    ProcessNextTween(type);
+		    };
+	    }
+    }
+    
     private void OnMouseEnter()
     {
 	    GetNode<AnimationPlayer>("AnimationPlayer").Play("Select");
@@ -78,6 +134,12 @@ public partial class Card : Control
     {
 	    GetNode<AnimationPlayer>("AnimationPlayer").Play("Deselect");
 	    ZIndex = 0;
+    }
+    
+    public enum AnimationType
+    {
+	    Move,
+	    Scale
     }
 }
 
