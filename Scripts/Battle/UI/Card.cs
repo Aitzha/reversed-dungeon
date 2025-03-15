@@ -100,6 +100,8 @@ public partial class Card : Control
 	    if (type == AnimationType.Move && tweenPosQueue.Count > 0)
 	    {
 		    tweenPos = GetTree().CreateTween();
+		    tweenPos.SetTrans(Tween.TransitionType.Cubic);
+		    tweenPos.SetEase(Tween.EaseType.Out);
 		    var nextTask = tweenPosQueue.Dequeue();
 		    nextTask(tweenPos);
 

@@ -173,9 +173,8 @@ public partial class BattleInterface : Control
 		int spacing = (int)(GameSettings.cardWidth * 0.9);
 		for (int i = 0; i < handPile.Count; i++)
 		{
-			// handPile[i].Position = handPosition + new Vector2(startPos + i * spacing, 0);
 			Vector2 finalPos = handPosition + new Vector2(startPos + i * spacing, 0);
-			handPile[i].QueueAnimation(Card.AnimationType.Move , finalPos, 0.3f + i * 0.07f);
+			handPile[i].QueueAnimation(Card.AnimationType.Move , finalPos, 0.8f + i * 0.07f);
 			handPile[i].QueueAnimation(Card.AnimationType.Scale , Vector2.One, 0.12f);
 		}
 	}
