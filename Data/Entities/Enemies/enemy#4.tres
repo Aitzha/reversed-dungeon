@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="EntityData" load_steps=16 format=3 uid="uid://brr0c3epeks6j"]
+
+[ext_resource type="Script" path="res://Resources/Attack.cs" id="1_8qmhb"]
+[ext_resource type="Script" path="res://Resources/Bleed.cs" id="2_og81n"]
+[ext_resource type="Script" path="res://Resources/Guard.cs" id="3_uaeeu"]
+[ext_resource type="Script" path="res://Resources/Heal.cs" id="4_vmtgi"]
+[ext_resource type="Script" path="res://Resources/Regeneration.cs" id="5_5tqwl"]
+[ext_resource type="Script" path="res://Resources/AttackBuff.cs" id="6_fuxm2"]
+[ext_resource type="Script" path="res://Resources/AttackDebuff.cs" id="7_vcof1"]
+[ext_resource type="Script" path="res://Scripts/Battle/EntityData.cs" id="8_irr2o"]
+
+[sub_resource type="Resource" id="Resource_ojpnt"]
+script = ExtResource("1_8qmhb")
+duration = 0
+magnitude = 5
+
+[sub_resource type="Resource" id="Resource_3txh2"]
+script = ExtResource("2_og81n")
+duration = 0
+magnitude = 0
+
+[sub_resource type="Resource" id="Resource_6tqjs"]
+script = ExtResource("3_uaeeu")
+duration = 0
+magnitude = 0
+
+[sub_resource type="Resource" id="Resource_qys8r"]
+script = ExtResource("4_vmtgi")
+duration = 0
+magnitude = 0
+
+[sub_resource type="Resource" id="Resource_r4qe3"]
+script = ExtResource("5_5tqwl")
+duration = 0
+magnitude = 0
+
+[sub_resource type="Resource" id="Resource_6b4kd"]
+script = ExtResource("6_fuxm2")
+duration = 0
+magnitude = 0
+
+[sub_resource type="Resource" id="Resource_ml2vv"]
+script = ExtResource("7_vcof1")
+duration = 0
+magnitude = 0
+
+[resource]
+script = ExtResource("8_irr2o")
+entityName = "Enemy#3"
+health = 50
+maxHealth = 50
+possibleActions = [SubResource("Resource_ojpnt"), SubResource("Resource_3txh2"), SubResource("Resource_6tqjs"), SubResource("Resource_qys8r"), SubResource("Resource_r4qe3"), SubResource("Resource_6b4kd"), SubResource("Resource_ml2vv")]

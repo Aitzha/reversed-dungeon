@@ -131,6 +131,7 @@ public partial class GameManager : Node2D
 	{
 		RemoveChild(map);
 		
+		Debug.Print(node.enemies.Count.ToString());
 		battleManager = (BattleManager) battleScene.Instantiate();
 		battleManager.Setup(PlayerCards, loadPlayerTeam(), node.enemies);
 		AddChild(battleManager);

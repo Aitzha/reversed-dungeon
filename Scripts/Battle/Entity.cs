@@ -14,6 +14,8 @@ public partial class Entity : Node2D
     public bool isActive = false;
     public bool isDead = false;
 
+    public BaseEffect nextAction;
+
     public override void _Ready()
     {
         entityUI.UpdateUI(entityData);
@@ -44,7 +46,20 @@ public partial class Entity : Node2D
             BattleManager.instance.KillEntity(this);
     }
 
-    public async Task PerformAction(List<Entity> targets) // only for AI (both ally and enemy)
+    public void ChooseAction()
+    {
+        List<Entity> targets;
+    
+        if (isPlayerAlly)
+            targets = BattleManager.instance.enemyTeam;
+        else
+            targets = BattleManager.instance.playerTeam;
+        
+        // Perform some sort of logic to choose action
+        nextAction = entityData.possibleActions[0];
+    }
+
+    public async Task PerformAction(List<Entity> targets) // only for AI
     {
         Card card = (Card) GD.Load<PackedScene>("res://Scenes/Battle/UI/Card.tscn").Instantiate();
         CardData cardData = ResourceLoader.Load<CardData>("res://Data/Cards/EnemyCards/claw_attack.tres");
@@ -153,30 +168,3 @@ public partial class Entity : Node2D
         }
     }
 }
-
-public class EntityData
-{
-    public string entityName { get; set; }
-    public int health { get; set; }
-    public int maxHealth { get; set; }
-    public int guard { get; set; }
-    public int attackPower { get; set; }
-    public bool isParalyzed { get; set; }
-    public List<BaseEffect> statusEffects { get; set; }
-    public List<BaseEffect> effectsInAction { get; set; }
-    
-    public EntityData(string entityName, int maxHealth)
-    {
-        this.entityName = entityName;
-        this.maxHealth = maxHealth;
-        health = maxHealth;
-        guard = 0;
-        attackPower = 0;
-        isParalyzed = false;
-        statusEffects = new List<BaseEffect>();
-        effectsInAction = new List<BaseEffect>();
-    }
-
-    public EntityData() {}
-}
-

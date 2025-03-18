@@ -1,6 +1,6 @@
-using Godot;
-using System;
 using System.Text.RegularExpressions;
+using Godot;
+using Godot.Collections;
 
 [GlobalClass]
 public partial class CardData : Resource
@@ -14,7 +14,7 @@ public partial class CardData : Resource
     [Export] public TargetType targetType { get; set; }
     [Export] public TargetFaction targetFaction { get; set; }
 
-    [Export] public Godot.Collections.Array<BaseEffect> effects { get; set; } = new();
+    [Export] public Array<BaseEffect> effects { get; set; } = new();
 
     public string GetDescription()
     {

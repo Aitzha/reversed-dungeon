@@ -17,20 +17,20 @@ public partial class MapNode : Control
     {
         if (type == MapNodeType.Enemy)
         {
-            enemies.Add(new EntityData("Enemy#1", 20));
-            enemies.Add(new EntityData("Enemy#2", 20));
+            enemies.Add((EntityData)ResourceLoader.Load<EntityData>("res://Data/Entities/Enemies/enemy#1.tres").Duplicate());
+            enemies.Add((EntityData)ResourceLoader.Load<EntityData>("res://Data/Entities/Enemies/enemy#2.tres").Duplicate());
         }
 
         if (type == MapNodeType.EliteEnemy)
         {
-            enemies.Add(new EntityData("Enemy#1", 20));
-            enemies.Add(new EntityData("Enemy#2", 20));
-            enemies.Add(new EntityData("Enemy#3", 20));
+            enemies.Add((EntityData)ResourceLoader.Load<EntityData>("res://Data/Entities/Enemies/enemy#1.tres").Duplicate());
+            enemies.Add((EntityData)ResourceLoader.Load<EntityData>("res://Data/Entities/Enemies/enemy#2.tres").Duplicate());
+            enemies.Add((EntityData)ResourceLoader.Load<EntityData>("res://Data/Entities/Enemies/enemy#3.tres").Duplicate());
         }
 
         if (type == MapNodeType.Boss)
         {
-            enemies.Add(new EntityData("Enemy#3", 50));
+            enemies.Add((EntityData)ResourceLoader.Load<EntityData>("res://Data/Entities/Enemies/enemy#4.tres").Duplicate());
         }
     }
 

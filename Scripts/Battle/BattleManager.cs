@@ -16,7 +16,8 @@ public partial class BattleManager : Node
     public int playerManaCapacity = 2;
     
     public Entity player;
-    private List<Entity> enemyTeam = new();
+    public List<Entity> playerTeam = new();
+    public List<Entity> enemyTeam = new();
     private Queue<Entity> turnQueue = new();
     private int enemyCount = 0;
 
@@ -40,6 +41,7 @@ public partial class BattleManager : Node
         player.entityData = playerData;
         player.Position = playerPos;
         player.isPlayerAlly = true;
+        playerTeam.Add(player);
 
         enemyCount = enemyTeamData.Count;
         for (int i = 0; i < enemyCount; i++) 
