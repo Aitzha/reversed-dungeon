@@ -10,19 +10,19 @@ public partial class EntityUI : Node2D
     [Export] public HBoxContainer statusEffectList;
     [Export] public PackedScene statusEffectScene;
 
-    public void UpdateUI(EntityData entityData)
+    public void UpdateUI(Entity entity)
     {
-        healthBar.MaxValue = entityData.maxHealth;
-        healthBar.Value = entityData.health;
-        healthLabel.Text = entityData.health + " / " + entityData.maxHealth;
-        guardLabel.Text = entityData.guard.ToString();
+        healthBar.MaxValue = entity.entityData.maxHealth;
+        healthBar.Value = entity.entityData.health;
+        healthLabel.Text = entity.entityData.health + " / " + entity.entityData.maxHealth;
+        guardLabel.Text = entity.guard.ToString();
         
         foreach (Node node in statusEffectList.GetChildren())
             node.QueueFree();
         
         statusEffectList.GetChildren().Clear();
 
-        foreach (BaseEffect statusEffect in entityData.statusEffects)
+        foreach (BaseEffect statusEffect in entity.statusEffects)
         {
             Node node = statusEffectScene.Instantiate();
             node.GetNode<Sprite2D>("Sprite").Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/" + Utils.ToSnakeCase(statusEffect.GetType()) + ".png");

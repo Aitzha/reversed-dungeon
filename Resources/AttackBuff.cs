@@ -25,8 +25,8 @@ public partial class AttackBuff : BaseEffect
         if (!target.isActive)
             return;
         
-        target.entityData.attackPower += magnitude;
-        target.entityData.effectsInAction.Add(this);
+        target.attackPower += magnitude;
+        target.effectsInAction.Add(this);
     }
 
     public override BaseEffect Clone(Entity target, Entity caster)

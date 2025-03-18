@@ -13,24 +13,30 @@ public partial class Entity : Node2D
     public bool isPlayerAlly = false;
     public bool isActive = false;
     public bool isDead = false;
+    
+    public int guard { get; set; }
+    public int attackPower { get; set; }
+    public bool isParalyzed { get; set; }
+    public List<BaseEffect> statusEffects { get; set; } = new();
+    public List<BaseEffect> effectsInAction { get; set; } = new();
 
     public BaseEffect nextAction;
 
     public override void _Ready()
     {
-        entityUI.UpdateUI(entityData);
+        entityUI.UpdateUI(this);
     }
 
     public async Task StartTurn()
     {
         isActive = true;
-        entityData.guard = 0;
-        entityData.attackPower = 0;
-        entityData.isParalyzed = false;
+        guard = 0;
+        attackPower = 0;
+        isParalyzed = false;
         
         List<BaseEffect> expiredEffects = new List<BaseEffect>();
         
-        foreach (BaseEffect effect in entityData.statusEffects)
+        foreach (BaseEffect effect in statusEffects)
         {
             effect.ApplyEffect();
             
@@ -39,9 +45,9 @@ public partial class Entity : Node2D
         }
 
         foreach (BaseEffect effect in expiredEffects)
-            entityData.statusEffects.Remove(effect);
+            statusEffects.Remove(effect);
         
-        entityUI.UpdateUI(entityData);
+        entityUI.UpdateUI(this);
         if (entityData.health <= 0)
             BattleManager.instance.KillEntity(this);
     }
@@ -99,7 +105,7 @@ public partial class Entity : Node2D
     {
         List<BaseEffect> expiredEffects = new List<BaseEffect>();
 
-        foreach (BaseEffect effect in entityData.effectsInAction)
+        foreach (BaseEffect effect in effectsInAction)
         {
             effect.duration--;
             
@@ -107,12 +113,12 @@ public partial class Entity : Node2D
                 expiredEffects.Add(effect);
         }
         
-        entityData.effectsInAction.Clear();
+        effectsInAction.Clear();
 
         foreach (BaseEffect effect in expiredEffects)
-            entityData.statusEffects.Remove(effect);
+            statusEffects.Remove(effect);
         
-        entityUI.UpdateUI(entityData);
+        entityUI.UpdateUI(this);
         isActive = false;
     }
 
@@ -124,11 +130,11 @@ public partial class Entity : Node2D
         if (effectCopy.IsStatusEffect)
         {
             // Increase duration of already existing effect with similar parameters or add new effect if none is found
-            BaseEffect oldStatusEffect = entityData.statusEffects.FirstOrDefault(statusEffect =>
+            BaseEffect oldStatusEffect = statusEffects.FirstOrDefault(statusEffect =>
                 statusEffect.magnitude == effectCopy.magnitude && statusEffect.GetType() == effectCopy.GetType());
         
             if (oldStatusEffect == null)
-                entityData.statusEffects.Add(effectCopy);
+                statusEffects.Add(effectCopy);
             else 
                 oldStatusEffect.duration += effect.duration;
         } 
@@ -141,7 +147,7 @@ public partial class Entity : Node2D
             ApplyEffect(effect, caster);
         }
         
-        entityUI.UpdateUI(entityData);
+        entityUI.UpdateUI(this);
         if (entityData.health <= 0)
             BattleManager.instance.KillEntity(this);
     }

@@ -22,7 +22,7 @@ public partial class Guard : BaseEffect
 
     public override void ApplyEffect()
     {
-        target.entityData.guard += magnitude;
+        target.guard += magnitude;
     }
 
     public override BaseEffect Clone(Entity target, Entity caster)

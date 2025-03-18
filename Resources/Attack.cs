@@ -22,9 +22,9 @@ public partial class Attack : BaseEffect
 
     public override void ApplyEffect()
     {
-        int casterAttack = Math.Max(0, magnitude + caster.entityData.attackPower);
-        int damageOnGuard = Math.Min(target.entityData.guard, casterAttack);
-        target.entityData.guard -= damageOnGuard;
+        int casterAttack = Math.Max(0, magnitude + caster.attackPower);
+        int damageOnGuard = Math.Min(target.guard, casterAttack);
+        target.guard -= damageOnGuard;
         target.entityData.health = Mathf.Max(target.entityData.health - (casterAttack - damageOnGuard), 0);
         fx.Play(target, casterAttack);
         target.Shake();
