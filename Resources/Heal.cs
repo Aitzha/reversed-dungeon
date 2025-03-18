@@ -5,6 +5,7 @@ using System;
 public partial class Heal : BaseEffect
 {
     public override bool IsStatusEffect { get; } = false;
+    public override EffectType type { get; } = EffectType.Heal;
 
     public Heal() {}
     
@@ -18,7 +19,6 @@ public partial class Heal : BaseEffect
         BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
         fxInstance.Setup(FXType.Heal);
         fx = fxInstance;
-        type = EffectType.Heal;
     }
 
     public override void ApplyEffect()

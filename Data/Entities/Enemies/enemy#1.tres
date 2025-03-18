@@ -1,52 +1,28 @@
-[gd_resource type="Resource" script_class="EntityData" load_steps=16 format=3 uid="uid://dmviq583wgows"]
+[gd_resource type="Resource" script_class="EntityData" load_steps=8 format=3 uid="uid://dmviq583wgows"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/EntityData.cs" id="1_3w2tn"]
 [ext_resource type="Script" path="res://Resources/Attack.cs" id="1_yri0h"]
-[ext_resource type="Script" path="res://Resources/Bleed.cs" id="2_4uqot"]
 [ext_resource type="Script" path="res://Resources/Guard.cs" id="3_nva7k"]
 [ext_resource type="Script" path="res://Resources/Heal.cs" id="4_on4a7"]
-[ext_resource type="Script" path="res://Resources/Regeneration.cs" id="5_idx0j"]
-[ext_resource type="Script" path="res://Resources/AttackBuff.cs" id="6_qsu8s"]
-[ext_resource type="Script" path="res://Resources/AttackDebuff.cs" id="7_0h3fw"]
 
 [sub_resource type="Resource" id="Resource_ojpnt"]
 script = ExtResource("1_yri0h")
 duration = 0
 magnitude = 3
 
-[sub_resource type="Resource" id="Resource_3txh2"]
-script = ExtResource("2_4uqot")
-duration = 0
-magnitude = 0
-
 [sub_resource type="Resource" id="Resource_6tqjs"]
 script = ExtResource("3_nva7k")
 duration = 0
-magnitude = 0
+magnitude = 5
 
 [sub_resource type="Resource" id="Resource_qys8r"]
 script = ExtResource("4_on4a7")
 duration = 0
-magnitude = 0
-
-[sub_resource type="Resource" id="Resource_r4qe3"]
-script = ExtResource("5_idx0j")
-duration = 0
-magnitude = 0
-
-[sub_resource type="Resource" id="Resource_6b4kd"]
-script = ExtResource("6_qsu8s")
-duration = 0
-magnitude = 0
-
-[sub_resource type="Resource" id="Resource_ml2vv"]
-script = ExtResource("7_0h3fw")
-duration = 0
-magnitude = 0
+magnitude = 3
 
 [resource]
 script = ExtResource("1_3w2tn")
-entityName = "Enemy#2"
+entityName = "Enemy#1"
 health = 20
 maxHealth = 20
-possibleActions = [SubResource("Resource_ojpnt"), SubResource("Resource_3txh2"), SubResource("Resource_6tqjs"), SubResource("Resource_qys8r"), SubResource("Resource_r4qe3"), SubResource("Resource_6b4kd"), SubResource("Resource_ml2vv")]
+possibleActions = [SubResource("Resource_ojpnt"), SubResource("Resource_6tqjs"), SubResource("Resource_qys8r")]

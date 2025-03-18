@@ -39,10 +39,11 @@ public partial class BaseEffect : Resource
     [Export] public int duration = 0;
     [Export] public int magnitude = 0;
     public virtual bool IsStatusEffect { get; } = false;
+    public virtual EffectType type { get; } = EffectType.Attack;
     public Entity target;
     public Entity caster;
     protected BattleFX fx;
-    public EffectType type;
+    
     
     public virtual void ApplyEffect() {}
     public virtual BaseEffect Clone(Entity target, Entity caster) {return new BaseEffect();}

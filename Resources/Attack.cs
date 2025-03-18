@@ -5,6 +5,7 @@ using System;
 public partial class Attack : BaseEffect
 {
     public override bool IsStatusEffect { get; } = false;
+    public override EffectType type { get; } = EffectType.Attack;
     
     public Attack() {}
 
@@ -18,7 +19,6 @@ public partial class Attack : BaseEffect
         BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
         fxInstance.Setup(FXType.Slash);
         fx = fxInstance;
-        type = EffectType.Attack;
     }
 
     public override void ApplyEffect()

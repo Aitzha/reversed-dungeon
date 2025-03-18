@@ -18,7 +18,6 @@ public partial class AttackBuff : BaseEffect
         BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
         fxInstance.Setup(FXType.None);
         fx = fxInstance;
-        type = EffectType.Buff;
     }
 
     public override void ApplyEffect()
