@@ -18,6 +18,7 @@ public partial class Attack : BaseEffect
         BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
         fxInstance.Setup(FXType.Slash);
         fx = fxInstance;
+        type = EffectType.Attack;
     }
 
     public override void ApplyEffect()

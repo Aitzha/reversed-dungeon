@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b04d4hf3npyb6"]
+[gd_scene load_steps=12 format=3 uid="uid://b04d4hf3npyb6"]
 
 [ext_resource type="Texture2D" uid="uid://cnec2fedqvr2b" path="res://Sprites/Characters/player.png" id="1_k717n"]
 [ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_t1wp2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/Battle/guard_icon.png" id="4_vt4y4"]
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_wpg60"]
 [ext_resource type="PackedScene" uid="uid://c14otk0mcpu25" path="res://Scenes/Battle/UI/StatusEffect.tscn" id="5_l37wm"]
+[ext_resource type="FontFile" uid="uid://q6nr5vyo0t6q" path="res://Fonts/Minecraftia-Regular.ttf" id="8_kd88f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6f1cd"]
 size = Vector2(44, 82)
@@ -40,7 +41,7 @@ position = Vector2(0, -60)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_k717n")
 
-[node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel", "statusEffectList")]
+[node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel", "statusEffectList", "nextActionIcon", "nextActionText")]
 position = Vector2(-40, 5)
 script = ExtResource("4_3g2qk")
 healthBar = NodePath("Health/HealthBar")
@@ -48,6 +49,8 @@ healthLabel = NodePath("Health/HealthLabel")
 guardLabel = NodePath("Guard/GuardLabel")
 statusEffectList = NodePath("StatusEffectList")
 statusEffectScene = ExtResource("5_l37wm")
+nextActionIcon = NodePath("NextAction/NextActionIcon")
+nextActionText = NodePath("NextAction/NextActionMagnitude")
 
 [node name="Health" type="Node2D" parent="EntityUI"]
 
@@ -84,6 +87,21 @@ offset_bottom = 7.0
 theme_override_fonts/font = ExtResource("4_wpg60")
 theme_override_font_sizes/font_size = 8
 text = "15"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NextAction" type="Node2D" parent="EntityUI"]
+position = Vector2(40, -140)
+
+[node name="NextActionIcon" type="Sprite2D" parent="EntityUI/NextAction"]
+
+[node name="NextActionMagnitude" type="Label" parent="EntityUI/NextAction"]
+offset_top = 2.0
+offset_right = 12.0
+offset_bottom = 16.0
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("8_kd88f")
+theme_override_font_sizes/font_size = 8
 horizontal_alignment = 1
 vertical_alignment = 1
 

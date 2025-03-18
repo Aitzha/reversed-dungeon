@@ -18,6 +18,7 @@ public partial class Regeneration : BaseEffect
         BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
         fxInstance.Setup(FXType.Heal);
         fx = fxInstance;
+        type = EffectType.Heal;
     }
 
     public override void ApplyEffect()

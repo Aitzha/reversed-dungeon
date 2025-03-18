@@ -63,10 +63,13 @@ public partial class Entity : Node2D
         
         // Perform some sort of logic to choose action
         nextAction = entityData.possibleActions[0];
+        entityUI.DisplayAction(nextAction);
     }
 
     public async Task PerformAction(List<Entity> targets) // only for AI
     {
+        entityUI.HideAction();
+        
         Card card = (Card) GD.Load<PackedScene>("res://Scenes/Battle/UI/Card.tscn").Instantiate();
         CardData cardData = ResourceLoader.Load<CardData>("res://Data/Cards/EnemyCards/claw_attack.tres");
         card.cardData = cardData;

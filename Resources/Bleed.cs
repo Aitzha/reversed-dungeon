@@ -18,6 +18,7 @@ public partial class Bleed : BaseEffect
         BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
         fxInstance.Setup(FXType.Slash);
         fx = fxInstance;
+        type = EffectType.Bleed;
     }
 
     public override void ApplyEffect()

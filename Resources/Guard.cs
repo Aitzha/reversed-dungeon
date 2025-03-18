@@ -18,6 +18,7 @@ public partial class Guard : BaseEffect
         BattleFX fxInstance = (BattleFX)packedScene.Instantiate();
         fxInstance.Setup(FXType.None);
         fx = fxInstance;
+        type = EffectType.Guard;
     }
 
     public override void ApplyEffect()

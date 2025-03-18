@@ -92,6 +92,9 @@ public partial class BattleManager : Node
 
             if (entity == player)
             {
+                foreach (Entity enemy in enemyTeam)
+                    enemy.ChooseAction();
+                
                 playerMana = playerManaCapacity;
                 battleInterface.FillHand();
                 await ToSignal(battleInterface, nameof(BattleInterface.PlayerEndedTurn));

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://5wjv748brgfr"]
+[gd_scene load_steps=12 format=3 uid="uid://5wjv748brgfr"]
 
 [ext_resource type="Script" path="res://Scripts/Battle/Entity.cs" id="1_pkv1l"]
 [ext_resource type="Texture2D" uid="uid://swwh011v2tgg" path="res://Sprites/Characters/enemy#3_glow.png" id="2_6yrbn"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://16nxytcclxhr" path="res://Fonts/PressStart2P-Regular.ttf" id="4_s4tru"]
 [ext_resource type="PackedScene" uid="uid://c14otk0mcpu25" path="res://Scenes/Battle/UI/StatusEffect.tscn" id="5_aigj8"]
 [ext_resource type="Texture2D" uid="uid://bmx85asq1odjx" path="res://Sprites/UI/Battle/guard_icon.png" id="5_ib0w8"]
+[ext_resource type="FontFile" uid="uid://q6nr5vyo0t6q" path="res://Fonts/Minecraftia-Regular.ttf" id="9_o6elf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1ljr"]
 size = Vector2(48, 99)
@@ -39,7 +40,7 @@ position = Vector2(0, -55)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_650o4")
 
-[node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel", "statusEffectList")]
+[node name="EntityUI" type="Node2D" parent="." node_paths=PackedStringArray("healthBar", "healthLabel", "guardLabel", "statusEffectList", "nextActionIcon", "nextActionText")]
 position = Vector2(-40, 5)
 script = ExtResource("4_lyg6u")
 healthBar = NodePath("Health/HealthBar")
@@ -47,6 +48,8 @@ healthLabel = NodePath("Health/HealthLabel")
 guardLabel = NodePath("Guard/GuardLabel")
 statusEffectList = NodePath("StatusEffectList")
 statusEffectScene = ExtResource("5_aigj8")
+nextActionIcon = NodePath("NextAction/NextActionIcon")
+nextActionText = NodePath("NextAction/NextActionMagnitude")
 
 [node name="Health" type="Node2D" parent="EntityUI"]
 
@@ -90,3 +93,20 @@ offset_left = -15.0
 offset_top = 15.0
 offset_right = 90.0
 offset_bottom = 30.0
+
+[node name="NextAction" type="Node2D" parent="EntityUI"]
+position = Vector2(40, -120)
+
+[node name="NextActionIcon" type="Sprite2D" parent="EntityUI/NextAction"]
+
+[node name="NextActionMagnitude" type="Label" parent="EntityUI/NextAction"]
+offset_top = 2.0
+offset_right = 12.0
+offset_bottom = 16.0
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("9_o6elf")
+theme_override_font_sizes/font_size = 8
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1

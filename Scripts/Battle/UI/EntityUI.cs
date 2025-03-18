@@ -9,6 +9,8 @@ public partial class EntityUI : Node2D
     [Export] private Label guardLabel;
     [Export] public HBoxContainer statusEffectList;
     [Export] public PackedScene statusEffectScene;
+    [Export] public Sprite2D nextActionIcon;
+    [Export] public Label nextActionText;
 
     public void UpdateUI(Entity entity)
     {
@@ -29,6 +31,18 @@ public partial class EntityUI : Node2D
             node.GetNode<Label>("Label").Text = statusEffect.duration.ToString();
             statusEffectList.AddChild(node);
         }
+    }
+
+    public void DisplayAction(BaseEffect effect)
+    {
+        nextActionIcon.Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/NextAction/" + Utils.ToSnakeCase(effect.type) + "_action.png");
+        nextActionText.Text = effect.magnitude.ToString();
+    }
+
+    public void HideAction()
+    {
+        nextActionIcon.Texture = null;
+        nextActionText.Text = "";
     }
     
     public void UpdateHealthBar(int currentHealth, int maxHealth)
