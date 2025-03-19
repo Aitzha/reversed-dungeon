@@ -39,6 +39,7 @@ public partial class Entity : Node2D
         foreach (BaseEffect effect in statusEffects)
         {
             effect.ApplyEffect();
+            await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
             
             if (effect.duration <= 0)
                 expiredEffects.Add(effect);
@@ -179,6 +180,8 @@ public partial class Entity : Node2D
             else 
                 oldStatusEffect.duration += effect.duration;
         } 
+        
+        entityUI.UpdateUI(this);
     }
     
     public void ApplyEffects(Card card, Entity caster)
@@ -188,7 +191,6 @@ public partial class Entity : Node2D
             ApplyEffect(effect, caster);
         }
         
-        entityUI.UpdateUI(this);
         if (entityData.health <= 0)
             BattleManager.instance.KillEntity(this);
     }

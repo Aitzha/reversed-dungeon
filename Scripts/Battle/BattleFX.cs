@@ -103,7 +103,6 @@ public partial class BattleFX : Node2D
         
         await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
         BattleManager.instance.RemoveChild(this);
-        QueueFree();
     }
 }
 
