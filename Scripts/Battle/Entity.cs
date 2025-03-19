@@ -80,44 +80,67 @@ public partial class Entity : Node2D
         
         entityUI.DisplayAction(nextAction);
     }
-
+    
     public async Task PerformAction(List<Entity> targets) // only for AI
     {
         entityUI.HideAction();
+
+        if (nextAction is Attack)
+        {
+            Tween tween = GetTree().CreateTween();
+            Vector2 startPos = Position;
+            Vector2 targetPos = Position + new Vector2(-50, 0);
+            tween.TweenProperty(this, "position", targetPos, 0.3f);
+            tween.TweenProperty(this, "position", startPos, 0.3f);
+                
+            await ToSignal(GetTree().CreateTimer(0.25f), "timeout");
+            targets[0].ApplyEffect(nextAction, this);
+        }
+        else
+        {
+            ApplyEffect(nextAction, this);
+        }
         
-        Card card = (Card) GD.Load<PackedScene>("res://Scenes/Battle/UI/Card.tscn").Instantiate();
-        CardData cardData = ResourceLoader.Load<CardData>("res://Data/Cards/EnemyCards/claw_attack.tres");
-        card.cardData = cardData;
-        card.playerCard = false;
-        
-        Tween tweenPos;
-        Tween tweenScaleColor;
-        tweenPos = GetTree().CreateTween();
-        tweenScaleColor = GetTree().CreateTween();
-            
-        tweenPos.SetTrans(Tween.TransitionType.Quad);
-        tweenPos.SetEase(Tween.EaseType.InOut);
-            
-        tweenScaleColor.SetTrans(Tween.TransitionType.Linear);
-        tweenScaleColor.SetParallel();
-            
-        card.Scale = Vector2.Zero;
-        card.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-        card.Position = Position + new Vector2(0, -64);
-            
-        Vector2 targetPos = targets[0].Position + new Vector2(-GameSettings.cardWidth / 2, -128);
-        Vector2 finalScale = new Vector2(1, 1);
-            
-        BattleManager.instance.AddChild(card);
-        tweenScaleColor.TweenProperty(card, "scale", finalScale, 1.0f);
-        tweenScaleColor.TweenProperty(card, "modulate", new Color(1f, 1f, 1f, 0.7f), 1.0f);
-        tweenPos.TweenProperty(card, "position", targetPos, 1.0f);
-            
-        await ToSignal(GetTree().CreateTimer(1.1f), "timeout");
-        BattleManager.instance.RemoveChild(card);
-            
-        targets[0].ApplyEffects(card, this);
+        await ToSignal(GetTree().CreateTimer(0.75f), "timeout");
     }
+
+    // public async Task PerformAction(List<Entity> targets) // only for AI
+    // {
+    //     entityUI.HideAction();
+    //     
+    //     Card card = (Card) GD.Load<PackedScene>("res://Scenes/Battle/UI/Card.tscn").Instantiate();
+    //     CardData cardData = ResourceLoader.Load<CardData>("res://Data/Cards/EnemyCards/claw_attack.tres");
+    //     card.cardData = cardData;
+    //     card.playerCard = false;
+    //     
+    //     Tween tweenPos;
+    //     Tween tweenScaleColor;
+    //     tweenPos = GetTree().CreateTween();
+    //     tweenScaleColor = GetTree().CreateTween();
+    //         
+    //     tweenPos.SetTrans(Tween.TransitionType.Quad);
+    //     tweenPos.SetEase(Tween.EaseType.InOut);
+    //         
+    //     tweenScaleColor.SetTrans(Tween.TransitionType.Linear);
+    //     tweenScaleColor.SetParallel();
+    //         
+    //     card.Scale = Vector2.Zero;
+    //     card.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+    //     card.Position = Position + new Vector2(0, -64);
+    //         
+    //     Vector2 targetPos = targets[0].Position + new Vector2(-GameSettings.cardWidth / 2, -128);
+    //     Vector2 finalScale = new Vector2(1, 1);
+    //         
+    //     BattleManager.instance.AddChild(card);
+    //     tweenScaleColor.TweenProperty(card, "scale", finalScale, 1.0f);
+    //     tweenScaleColor.TweenProperty(card, "modulate", new Color(1f, 1f, 1f, 0.7f), 1.0f);
+    //     tweenPos.TweenProperty(card, "position", targetPos, 1.0f);
+    //         
+    //     await ToSignal(GetTree().CreateTimer(1.1f), "timeout");
+    //     BattleManager.instance.RemoveChild(card);
+    //         
+    //     targets[0].ApplyEffects(card, this);
+    // }
 
     public void FinishTurn()
     {
