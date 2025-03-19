@@ -47,7 +47,7 @@ public partial class Card : Control
 	    
 	    if (@event is InputEventMouseButton eventMouseButton)
 	    {
-		    if (eventMouseButton.Pressed)
+		    if (eventMouseButton.Pressed && BattleInterface.instance.areCardsPickable)
 		    {
 			    cardHolder.AddChild(cardVisualCopy);
 			    cardVisualCopy.GlobalPosition = cardHolder.GlobalPosition + new Vector2(-GameSettings.cardWidth / 2, -GameSettings.cardHeight / 2);

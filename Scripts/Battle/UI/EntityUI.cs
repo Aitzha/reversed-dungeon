@@ -35,7 +35,6 @@ public partial class EntityUI : Node2D
 
     public void DisplayAction(BaseEffect effect)
     {
-        Debug.Print(effect.type.ToString());
         nextActionIcon.Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/NextAction/" + Utils.ToSnakeCase(effect.type) + "_action.png");
         nextActionText.Text = effect.magnitude.ToString();
     }

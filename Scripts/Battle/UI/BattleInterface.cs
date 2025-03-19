@@ -7,6 +7,8 @@ using Godot.Collections;
 
 public partial class BattleInterface : Control
 {
+	public static BattleInterface instance;
+	
 	[Export] private Label drawLabel;
 	[Export] private Label discardLabel;
 	[Export] private PackedScene cardScene;
@@ -23,7 +25,7 @@ public partial class BattleInterface : Control
 
 	private Sprite2D cardBack;
 
-	public bool areCardsPickable = false;
+	public bool areCardsPickable = true;
 	
 	[Signal] public delegate void PlayerEndedTurnEventHandler();
 	
@@ -38,6 +40,7 @@ public partial class BattleInterface : Control
 		
 		cardBack = new Sprite2D();
 		cardBack.Texture = GD.Load<Texture2D>("res://Sprites/UI/Battle/card_back.png");
+		instance = this;
 	}
 	
 	public async void FillHand()
@@ -114,7 +117,12 @@ public partial class BattleInterface : Control
 		if (lastTween != null)
 			await ToSignal(lastTween, "finished");
 	}
-	
+
+	public void BlockInteraction()
+	{
+		areCardsPickable = false;
+		endTurnButton.Disabled = true;
+	}
 
 	private void LoadCards()
 	{

@@ -68,7 +68,7 @@ public partial class Entity : Node2D
         Heal healAction = entityData.possibleActions.Where(effect => effect is Heal).Cast<Heal>().ToList()[0];
         
         float attackScore = attackPower * 2f + attackAction.magnitude * 3f - player.guard;
-        float guardScore = player.attackPower * 2f + (float)entityData.health / entityData.maxHealth * guardAction.magnitude * 0.3f;
+        float guardScore = player.attackPower * 2f + (float)entityData.health / entityData.maxHealth * guardAction.magnitude * 0.3f + attackPower * -2;
         float healScore = healAction.magnitude / ((float)entityData.health / entityData.maxHealth * healAction.magnitude) - 1 + player.attackPower * 2f;
 
         if (attackScore >= guardScore && attackScore >= healScore)

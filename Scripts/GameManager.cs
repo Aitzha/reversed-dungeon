@@ -131,15 +131,15 @@ public partial class GameManager : Node2D
 	{
 		RemoveChild(map);
 		
-		Debug.Print(node.enemies.Count.ToString());
 		battleManager = (BattleManager) battleScene.Instantiate();
 		battleManager.Setup(PlayerCards, loadPlayerTeam(), node.enemies);
 		AddChild(battleManager);
 		battleManager.BattleWon += FinishBattle;
 	}
 
-	private void FinishBattle()
+	private async void FinishBattle()
 	{
+		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
 		RemoveChild(battleManager);
 		battleManager.QueueFree();
 		battleManager = null;
