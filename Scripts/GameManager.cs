@@ -16,6 +16,7 @@ public partial class GameManager : Node2D
 	private Map map;
 	private BattleManager battleManager;
 	private TutorialScreen tutorialScreen;
+	private EntityData playerData;
 	
 	public Array<CardData> PlayerCards = new();
 	
@@ -29,6 +30,10 @@ public partial class GameManager : Node2D
 			Debug.Print("Couldn't load card database");
 		
 		Debug.Print("Player Cards Loaded: " + PlayerCards.Count);
+		
+		// Load Player data
+		playerData =
+			(EntityData)ResourceLoader.Load<EntityData>("res://Data/Entities/player.tres").Duplicate();
 		
 		// Instance, Add and Hide the pause menu
 		pauseMenu = (PauseMenu) pauseMenuScene.Instantiate();
@@ -108,15 +113,6 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	private EntityData loadPlayerTeam()
-	{
-		List<EntityData> playerTeam = new List<EntityData>();
-		
-		EntityData player = new EntityData("Player", 20);
-		playerTeam.Add(player);
-		return player;
-	}
-
 	private void StartGame()
 	{
 		if (GetChildren().Contains(mainMenu))
@@ -132,7 +128,7 @@ public partial class GameManager : Node2D
 		RemoveChild(map);
 		
 		battleManager = (BattleManager) battleScene.Instantiate();
-		battleManager.Setup(PlayerCards, loadPlayerTeam(), node.enemies);
+		battleManager.Setup(PlayerCards, playerData, node.enemies);
 		AddChild(battleManager);
 		battleManager.BattleWon += FinishBattle;
 	}

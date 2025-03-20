@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EntityData" load_steps=2 format=3 uid="uid://cl80ea2wxrq15"]
+
+[ext_resource type="Script" path="res://Scripts/Battle/EntityData.cs" id="1_itwe5"]
+
+[resource]
+script = ExtResource("1_itwe5")
+entityName = "Player"
+health = 20
+maxHealth = 20
+possibleActions = []
