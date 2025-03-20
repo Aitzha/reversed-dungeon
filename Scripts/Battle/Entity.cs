@@ -1,6 +1,5 @@
 using Godot;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,6 +38,7 @@ public partial class Entity : Node2D
         foreach (BaseEffect effect in statusEffects)
         {
             effect.ApplyEffect();
+            entityUI.UpdateUI(this);
             await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
             
             if (effect.duration <= 0)
